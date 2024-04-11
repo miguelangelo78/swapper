@@ -5,7 +5,7 @@ import { createUser, getUser } from 'app/db';
 import { SubmitButton } from 'app/submit-button';
 
 export default function Login() {
-  async function register(formData: FormData) {
+  async function signup(formData: FormData) {
     'use server';
     let email = formData.get('email') as string;
     let password = formData.get('password') as string;
@@ -28,7 +28,7 @@ export default function Login() {
             Create an account with your email and password
           </p>
         </div>
-        <Form action={register}>
+        <Form action={signup}>
           <SubmitButton>Sign Up</SubmitButton>
           <p className="text-center text-sm text-gray-600">
             {'Already have an account? '}
