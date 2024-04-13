@@ -17,3 +17,8 @@
 .default {
   background: #FFFFFF;
 }
+
+.hero-image {
+  width: 351px;
+  height: 813px;
+}

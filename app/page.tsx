@@ -28,15 +28,15 @@ const Home: NextPage = () => {
 
       <Separator />
 
-      <section className="primary text-center p-8">
+      <section id="learnmore" className="primary text-center p-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-4">What is Swapper</h2>
-          <p className="text-lg">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">What is Swapper</h2>
+          <p className="text-lg text-white ">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
         </div>
 
         <div>
-          <h2 className="text-3xl font-bold mb-4">How It Works</h2>
-          <p className="text-lg">Create an account, browse teacher profiles, and start connecting to plan your next move.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">How It Works</h2>
+          <p className="text-lg text-white ">Create an account, browse teacher profiles, and start connecting to plan your next move.</p>
         </div>
       </section>
 
