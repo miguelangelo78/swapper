@@ -21,7 +21,7 @@ npx create-next-app nextjs-typescript-starter --example "https://github.com/verc
 First, run the development server:
 
 ```bash
-pnpm dev
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
