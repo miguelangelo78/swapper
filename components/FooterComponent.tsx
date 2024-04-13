@@ -1,0 +1,7 @@
+export default function Footer() {
+ return (
+  <footer className="primary p-4 text-center">
+    <p className="text-lg">&copy; 2024 Swapper. All rights reserved.</p>
+  </footer>
+ ) 
+}
