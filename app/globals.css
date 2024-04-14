@@ -9,6 +9,13 @@
   --tertiary: #FFF3DA;
 }
 
+body {
+  background: linear-gradient(to bottom, #FFFFFF, #DFCCFB);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .default {
   background: #FFFFFF;
 }
