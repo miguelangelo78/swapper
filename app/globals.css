@@ -28,4 +28,25 @@
   font-family: "Lobster", sans-serif;
   font-weight: 400;
   font-style: normal;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero {
+  background: linear-gradient(to top, #FFF3DA, #6D3AFA);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-top: 5rem;
+  }
+
+  .hero-header {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 4rem;
+  }
 }

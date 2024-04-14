@@ -3,6 +3,7 @@ import Layout from '@/components/Layout';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import smartphoneMockup from './resources/images/mockup/smartphone_mockup.png'
+import Separator from '@/components/SeparatorComponent';
 
 const Home: NextPage = () => {
   return (
@@ -14,32 +15,34 @@ const Home: NextPage = () => {
           {
             buttonText: 'Get started',
             buttonLink: '/signup',
-            buttonStyle: 'mr-4 p-2 primary text-white rounded-lg text-lg font-medium'
+            buttonStyle: 'mr-4 p-2 primary text-[#FFF3DA] rounded-lg text-lg font-medium'
           },
           {
             buttonText: 'Learn more',
             buttonLink: '#learnmore',
-            buttonStyle: 'mr-4 p-2 bg-white rounded-lg text-lg font-medium'
+            buttonStyle: 'mr-4 p-2 tertiary text-black rounded-lg text-lg font-medium'
           },
         ]}
         imageUrl={smartphoneMockup.src}
       />
 
-      <section id="learnmore" className="primary text-center p-8">
+      <Separator />
+
+      <section id="learnmore" className="primary text-center text-[#FFF3DA] p-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-white mb-4">What is Swapper</h2>
-          <p className="text-lg text-white ">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
+          <h2 className="text-4xl font-bold mb-4">What is Swapper</h2>
+          <p className="text-lg">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
         </div>
 
-        <div>
-          <h2 className="text-3xl font-bold text-white mb-4">How It Works</h2>
-          <p className="text-lg text-white ">Create an account, browse teacher profiles, and start connecting to plan your next move.</p>
+        <div className="mb-8">
+          <h2 className="text-4xl font-bold mb-4">How it Works</h2>
+          <p className="text-lg">Create an account, browse teacher profiles, and start connecting to plan your next move.</p>
         </div>
       </section>
 
       <section className="flex-grow tertiary text-center p-8 flex flex-col justify-center">
         <div>
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+          <h2 className="text-4xl font-bold mb-4">Ready to Get Started?</h2>
           <div className="flex justify-center">
             <Link href="/signup" className="mr-4 p-2 primary text-white rounded-lg text-lg font-medium">Signup</Link>
             <Link href="/login" className="mr-4 p-2 primary text-white rounded-lg text-lg font-medium">Login</Link>

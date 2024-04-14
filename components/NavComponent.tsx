@@ -16,8 +16,8 @@ export default function Nav({ goHome = false }: { goHome?: boolean }) {
             }
           </div>
           <div>
-            <Button href="/login" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md shadow-md">Login</Button>
-            <Button href="/signup" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md shadow-md">Signup</Button>
+            <Button href="/login" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md text-[#6D3AFA] font-medium shadow-md">Login</Button>
+            <Button href="/signup" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md text-[#6D3AFA] font-medium shadow-md">Signup</Button>
           </div>
         </div>
       </nav>
