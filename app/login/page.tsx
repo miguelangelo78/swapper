@@ -26,9 +26,7 @@ export default function Login() {
               });
             }}
           >
-            <div className='bg-primary text-white font-medium rounded-lg'>
-              <SubmitButton className='h-10'>Sign in</SubmitButton>
-            </div>
+            <SubmitButton className='h-10 bg-primary text-white font-medium rounded-lg'>Sign in</SubmitButton>
             <p className="text-center text-sm text-gray-600">
               {"Don't have an account? "}
               <Link href="/signup" className="font-semibold text-gray-800">

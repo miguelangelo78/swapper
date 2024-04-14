@@ -8,7 +8,7 @@ export function Form({
   return (
     <form
       action={action}
-      className="flex flex-col space-y-4 bg-tertiary px-4 py-8 sm:px-16"
+      className="flex flex-col space-y-4 bg-tertiary px-4 py-4 sm:px-16"
     >
       <div>
         <label

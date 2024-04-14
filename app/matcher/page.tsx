@@ -1,27 +1,28 @@
-import { auth, signOut } from 'app/auth';
+import Layout from '@/components/Layout';
+import { auth } from 'app/auth';
 
 export default async function MatcherPage() {
   let session = await auth();
 
-  return (
-    <div className="flex h-screen bg-black">
-      <div className="w-screen h-screen flex flex-col space-y-5 justify-center items-center text-white">
-        You are logged in as {session?.user?.email}
-        <SignOut />
-      </div>
-    </div>
-  );
-}
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
 
-function SignOut() {
+  const user  = session.user!;
+
   return (
-    <form
-      action={async () => {
-        'use server';
-        await signOut();
-      }}
-    >
-      <button type="submit">Sign out</button>
-    </form>
+    <Layout user={user}>
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <div className="text-4xl font-bold mb-20">Welcome, {user.name}!</div>
+        <div className="text-2xl mb-10 text-primary font-medium">Start matching now!</div>
+        <div className="flex flex-wrap justify-center">
+        </div>
+      </div>
+    </Layout>
   );
 }
