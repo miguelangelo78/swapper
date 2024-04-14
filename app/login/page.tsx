@@ -19,7 +19,7 @@ export default function Login() {
             action={async (formData: FormData) => {
               'use server';
               await signIn('credentials', {
-                redirectTo: '/protected',
+                redirectTo: '/matcher',
                 email: formData.get('email') as string,
                 password: formData.get('password') as string,
               });
