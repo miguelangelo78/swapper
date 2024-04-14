@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -18,7 +19,13 @@
   background: #FFFFFF;
 }
 
-.hero-image {
-  width: 351px;
-  height: 813px;
+.hero-image > img {
+  width: auto;
+  height: 600px;
+}
+
+.logo {
+  font-family: "Lobster", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

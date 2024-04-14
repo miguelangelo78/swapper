@@ -3,7 +3,6 @@ import Layout from '@/components/Layout';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import smartphoneMockup from './resources/images/mockup/smartphone_mockup.png'
-import Separator from '@/components/SeparatorComponent';
 
 const Home: NextPage = () => {
   return (
@@ -26,8 +25,6 @@ const Home: NextPage = () => {
         imageUrl={smartphoneMockup.src}
       />
 
-      <Separator />
-
       <section id="learnmore" className="primary text-center p-8">
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-white mb-4">What is Swapper</h2>
@@ -44,8 +41,8 @@ const Home: NextPage = () => {
         <div>
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <div className="flex justify-center">
-            <Link href="/signup" className="mr-4 p-2 bg-white rounded-lg text-lg font-medium">Signup</Link>
-            <Link href="/login" className="mr-4 p-2 bg-white rounded-lg text-lg font-medium">Login</Link>
+            <Link href="/signup" className="mr-4 p-2 primary text-white rounded-lg text-lg font-medium">Signup</Link>
+            <Link href="/login" className="mr-4 p-2 primary text-white rounded-lg text-lg font-medium">Login</Link>
           </div>
         </div>
       </section>

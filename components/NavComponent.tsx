@@ -1,4 +1,5 @@
 import { APP_NAME } from '@/lib/models/globals';
+import { Button } from '@nextui-org/button';
 import Link from 'next/link';
 
 export default function Nav({ goHome = false }: { goHome?: boolean }) {
@@ -7,7 +8,7 @@ export default function Nav({ goHome = false }: { goHome?: boolean }) {
       <nav className="p-4 primary shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <div>
-            <a href="/" className="text-3xl text-white font-bold mr-4">{APP_NAME}</a>
+            <a href="/" className="text-4xl text-white font-bold mr-4 logo">{APP_NAME}</a>
             {
               goHome ? (
                 <Link href="/" className="p-2 primary rounded-lg">Home</Link>
@@ -15,8 +16,8 @@ export default function Nav({ goHome = false }: { goHome?: boolean }) {
             }
           </div>
           <div>
-            <Link href="/login" className="mr-4 p-2 tertiary rounded-lg">Login</Link>
-            <Link href="/signup" className="mr-4 p-2 tertiary rounded-lg">Signup</Link>
+            <Button href="/login" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md shadow-md">Login</Button>
+            <Button href="/signup" as={Link} className="mr-4 p-2 tertiary rounded-lg text-md shadow-md">Signup</Button>
           </div>
         </div>
       </nav>

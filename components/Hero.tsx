@@ -8,7 +8,7 @@ export type ButtonType = {
 
 export const Hero = ({ title, description, buttons, imageUrl }: { title: string, description: string, buttons: ButtonType[], imageUrl: string }) => {
   return (
-    <section className="container mx-auto flex flex-col md:flex-row items-center justify-center min-h-screen p-4">
+    <section className="container mx-auto flex flex-col md:flex-row items-center justify-center min-h-screen p-4 sm:mt-20 md:mt-0">
       <div className="flex-1 text-left md:text-center mb-8 md:mb-0">
         <div className="text-3xl font-bold mb-4">{title}</div>
         <p className="text-xl mb-4">{description}</p>
@@ -27,7 +27,7 @@ export const Hero = ({ title, description, buttons, imageUrl }: { title: string,
       </div>
       <div className="flex-1 flex justify-center items-center">
         <div className="relative hero-image">
-          <Image src={imageUrl} alt={title} layout='fill' />
+          <Image src={imageUrl} alt={title} width={500} height={600} />
         </div>
       </div>
     </section>
