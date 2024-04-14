@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { getUser } from 'app/db';
 import { authConfig } from 'app/auth.config';
@@ -19,6 +20,10 @@ export const {
         let passwordsMatch = await compare(password, user[0].password!);
         if (passwordsMatch) return user[0] as any;
       },
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
 });

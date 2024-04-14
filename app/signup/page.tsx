@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { createUser, getUser } from 'app/db';
 import { SubmitButton } from 'app/submit-button';
 import Layout from '@/components/Layout';
+import SocialSign from '@/components/SocialSign';
 
 export default function Login() {
   async function signup(formData: FormData) {
@@ -22,8 +23,8 @@ export default function Login() {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 px-4 py-6 pt-8 text-center sm:px-16">
-        <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl">
+      <div className="flex flex-col items-center justify-center space-y-3 px-4 py-6 pt-8 text-center sm:px-16">
+        <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-primary shadow-xl">
           <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-tertiary px-4 py-6 pt-8 text-center sm:px-16">
             <h3 className="text-xl font-semibold">Sign Up to Swapper</h3>
             <p className="text-sm text-gray-500">
@@ -32,7 +33,7 @@ export default function Login() {
           </div>
           <Form action={signup}>
             <div className='bg-primary text-white font-medium rounded-lg'>
-              <SubmitButton>Sign Up</SubmitButton>
+              <SubmitButton className='h-10'>Sign Up</SubmitButton>
             </div>
             <p className="text-center text-sm text-gray-600">
               {'Already have an account? '}
@@ -42,6 +43,8 @@ export default function Login() {
               {' instead.'}
             </p>
           </Form>
+
+          <SocialSign />
         </div>
       </div>
     </Layout>
