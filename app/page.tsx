@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 
       <section id="learnmore" className="bg-primary text-center text-tertiary p-8">
         <div className="mb-16">
-          <h2 className="text-4xl font-bold p-10">What is Swapper</h2>
+          <h2 className="text-4xl font-bold pt-4 pb-10">What is Swapper</h2>
           <p className="text-lg">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
         </div>
 
