@@ -26,26 +26,26 @@ const Home: NextPage = () => {
       />
 
       <section id="learnmore" className="bg-primary text-center text-tertiary p-8">
-        <div className="mb-8">
+        <div className="mb-16">
           <h2 className="text-4xl font-bold p-10">What is Swapper</h2>
           <p className="text-lg">Swapper helps teachers in Thailand connect with each other to share details on moving schools.</p>
         </div>
 
-        <div className="mb-4 p-10">
+        <div className="mb-10">
           <h2 className="text-4xl font-bold mb-4">How it Works</h2>
           <div>
-            <div className="container mx-auto flex justify-between items-center">
-              <div className="flex-1 p-4">
+            <div className="flex space-x-3">
+              <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-4 border-b border-secondary pb-2">Step 1</h3>
-                <p className="text-lg">Create an account and fill in your details.</p>
+                <p className="text-base">Create an account and fill in your details.</p>
               </div>
-              <div className="flex-1 p-4">
+              <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-4 border-b border-secondary pb-2">Step 2</h3>
-                <p className="text-lg">Find teachers in your area and connect with them.</p>
+                <p className="text-base">Find teachers in your area and connect with them.</p>
               </div>
-              <div className="flex-1 p-4">
+              <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-4 border-b border-secondary pb-2">Step 3</h3>
-                <p className="text-lg">Share details on your school and help each other out.</p>
+                <p className="text-base">Share details on your school and help each other out.</p>
               </div>
             </div>
           </div>
