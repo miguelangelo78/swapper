@@ -1,10 +1,13 @@
 import { APP_NAME } from '@/lib/models/globals';
 import { Button } from '@nextui-org/button';
-import { User } from 'next-auth';
 import Link from 'next/link';
 import SignOutComponent from './SignOutComponent';
+import { useSession } from 'next-auth/react';
 
-export default async function Nav({ user }: { user?: User }) {
+export default function Nav() {
+  const { data: session, status } = useSession();
+
+  const user = session?.user!;
   const isLoggedIn = !!user;
 
   return (
