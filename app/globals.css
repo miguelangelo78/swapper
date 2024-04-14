@@ -20,11 +20,6 @@ body {
   background: #FFFFFF;
 }
 
-.hero-image > img {
-  width: auto;
-  height: 600px;
-}
-
 .logo {
   font-family: "Lobster", sans-serif;
   font-weight: 400;
@@ -38,6 +33,16 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   color: white;
+}
+
+.hero-image > img {
+  width: auto;
+  height: 600px;
+}
+
+.hero-title {
+  text-shadow: 2px 2px 4px #6D3AFA;
+
 }
 
 @media (max-width: 640px) {
