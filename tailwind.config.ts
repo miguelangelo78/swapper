@@ -9,7 +9,15 @@ export default {
     './public/**/*.svg',
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        primary: '#6D3AFA',
+        secondary: '#DFCCFB',
+        tertiary: '#FFF3DA',
+      },
+    },
+  },
   future: {
     hoverOnlyWhenSupported: true,
   },

@@ -3,16 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-.primary {
-  background: #6D3AFA;
-}
-
-.secondary {
-  background: #DFCCFB;
-}
-
-.tertiary {
-  background: #FFF3DA;
+:root {
+  --primary: #6D3AFA;
+  --secondary: #DFCCFB;
+  --tertiary: #FFF3DA;
 }
 
 .default {
