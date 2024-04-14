@@ -2,16 +2,18 @@
 import { NextUIProvider } from '@nextui-org/react';
 import Footer from './FooterComponent';
 import Nav from './NavComponent';
-import { User } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 
-export default function Layout({ user, children }: { user?: User, children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <NextUIProvider>
-      <div className="flex flex-col min-h-screen">
-        <Nav user={user} />
-        <main className="flex flex-col flex-grow">{children}</main>
-        <Footer />
-      </div>
+      <SessionProvider>
+        <div className="flex flex-col min-h-screen">
+          <Nav />
+          <main className="flex flex-col flex-grow">{children}</main>
+          <Footer />
+        </div>
+      </SessionProvider>
     </NextUIProvider>
   );
 }
