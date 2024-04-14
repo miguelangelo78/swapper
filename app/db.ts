@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { pgTable, serial, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, boolean } from 'drizzle-orm/pg-core';
 import { eq } from 'drizzle-orm';
 import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
@@ -14,6 +14,7 @@ let users = pgTable('User', {
   id: serial('id').primaryKey(),
   email: varchar('email', { length: 64 }),
   password: varchar('password', { length: 64 }),
+  setupComplete: boolean('setup_complete'),
 });
 
 export async function getUser(email: string) {
@@ -25,4 +26,9 @@ export async function createUser(email: string, password: string) {
   let hash = hashSync(password, salt);
 
   return await db.insert(users).values({ email, password: hash });
+}
+
+export async function checkUserSetup(email: string) {
+  let user = (await getUser(email))[0];
+  return user.setupComplete;
 }

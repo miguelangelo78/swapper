@@ -1,4 +1,4 @@
-import { NextAuthConfig } from 'next-auth';
+import { NextAuthConfig, Session } from 'next-auth';
 
 export const authConfig: NextAuthConfig = {
   pages: {
@@ -10,17 +10,23 @@ export const authConfig: NextAuthConfig = {
     // while this file is also used in non-Node.js environments
   ],
   callbacks: {
-    authorized({ auth, request: { nextUrl } }): boolean | Response {
+    async authorized({ auth, request: { nextUrl } }): Promise<boolean | Response> {
       let isLoggedIn = !!auth?.user;
-      let isOnDashboard = nextUrl.pathname.startsWith('/matcher');
+      let isOnSetup = nextUrl.pathname.startsWith('/setup');
+      let isOnMatcher = nextUrl.pathname.startsWith('/matcher');
       let isOnSignUp = nextUrl.pathname.startsWith('/signup');
+
+      if (isOnSetup) {
+        if (isLoggedIn) return true;
+        return Response.redirect(new URL('/setup', nextUrl));
+      }
 
       if (isOnSignUp) {
         if (isLoggedIn) return Response.redirect(new URL('/matcher', nextUrl));
         return true;
       }
 
-      if (isOnDashboard) {
+      if (isOnMatcher) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       } else if (isLoggedIn) {

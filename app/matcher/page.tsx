@@ -1,9 +1,17 @@
 import Layout from '@/components/Layout';
-import { auth } from 'app/auth';
+import { sessionUser } from '@/lib/utils';
+import { checkUserSetup } from '../db';
+import { redirect } from 'next/navigation'
 
 export default async function MatcherPage() {
-  const session = await auth();
-  const user = session!.user!;
+  const user = await sessionUser();
+
+  const setupComplete = await checkUserSetup(user.email!);
+
+  if (!setupComplete) {
+    // Redirect to setup page if user has not completed setup
+    redirect('/setup');
+  }
 
   return (
     <Layout>
