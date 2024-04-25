@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
-import { createUser, getUser } from 'app/db';
 import { authConfig } from 'app/auth.config';
+import { createUser, getUser, getUserBase } from './db/db';
 
 export const {
   handlers: { GET, POST },
@@ -16,9 +16,9 @@ export const {
     Credentials({
       async authorize({ email, password }: any) {
         let user = await getUser(email);
-        if (user.length === 0) return null;
-        let passwordsMatch = await compare(password, user[0].password!);
-        if (passwordsMatch) return user[0] as any;
+        if (!user) return null;
+        let passwordsMatch = await compare(password, user.password!);
+        if (passwordsMatch) return user as any;
       },
     }),
     GoogleProvider({
@@ -30,12 +30,12 @@ export const {
     async signIn({ user }) {
       // If user does not exist, create a new user
       if (user.email) {
-        const dbUser = await getUser(user.email);
-        if (dbUser.length === 0) {
-          await createUser(user.email, '');
+        const dbUser = await getUserBase(user.email);
+        if (!dbUser) {
+          await createUser(user, '');
         }
       } else {
-        console.error('No email provided for user:', user);
+        throw new Error(`No email provided for user: ${JSON.stringify(user)}`);
       }
     },
     async signOut(event) {

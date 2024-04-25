@@ -2,6 +2,7 @@
 import { BaseSyntheticEvent, useState } from 'react';
 import SetupFormStep1Component from './SetupFormStep1Component';
 import { SwapperUser } from '@/lib/models/SwapperUserBase';
+import SetupFormStep2Component from './SetupFormStep2Component';
 
 export default function SetupFormWizardComponent({ user }: { user: SwapperUser }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -39,14 +40,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
 
   switch (currentStep) {
     case 1: return <SetupFormStep1Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
-    case 2: return <>
-      <div className="flex flex-col items-center justify-center py-2">
-        <div className="text-4xl font-bold mb-5 mt-5">You are on step 2!</div>
-        <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
-          TODO
-        </div>
-      </div>
-    </>
+    case 2: return <SetupFormStep2Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
   }
 
   return null;

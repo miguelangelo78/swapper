@@ -1,17 +1,14 @@
 import Layout from '@/components/Layout';
-import { sessionUser } from '@/lib/utils';
-import { checkUserSetup } from '../db';
+import { checkUserSetup, getSwapperUser } from '@/lib/services/user.service';
 import { redirect } from 'next/navigation'
 
 export default async function MatcherPage() {
-  const user = await sessionUser();
-
-  const setupComplete = await checkUserSetup(user.email!);
-
-  if (!setupComplete) {
+  if (!await checkUserSetup()) {
     // Redirect to setup page if user has not completed setup
     redirect('/setup');
   }
+
+  const user = await getSwapperUser();
 
   return (
     <Layout>

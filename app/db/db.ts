@@ -1,0 +1,133 @@
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { pgTable, serial, varchar, boolean, text, integer } from 'drizzle-orm/pg-core';
+import postgres from 'postgres';
+import { genSaltSync, hashSync } from 'bcrypt-ts';
+import { SwapperUser, SwapperUserBase } from '@/lib/models/SwapperUserBase';
+import { eq } from 'drizzle-orm';
+import { User } from 'next-auth';
+
+const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
+const db = drizzle(client);
+
+const swapperUserBase = pgTable('swapper_user_base', {
+  id: serial('id').primaryKey(),
+  email: varchar('email', { length: 255 }).unique(),
+  name: varchar('name', { length: 255 }),
+  picture: text('picture'),
+  setupComplete: boolean('setup_complete'),
+  password: varchar('password', { length: 255 })
+});
+
+const swapperUser = pgTable('swapper_user', {
+  userId: integer('user_id').references(() => swapperUserBase.id).primaryKey(),
+  firstName: varchar('first_name', { length: 64 }).notNull(),
+  lastName: varchar('last_name', { length: 64 }).notNull(),
+  nickname: varchar('nickname', { length: 64 }),
+  originId: integer('origin_id').references(() => transition.id),
+  destinationId: integer('destination_id').references(() => transition.id),
+  contactId: integer('contact_id').references(() => contact.id),
+});
+
+const transition = pgTable('transition', {
+  id: serial('id').primaryKey(),
+  areaOffice: varchar('area_office', { length: 255 }).notNull(),
+  province: varchar('province', { length: 255 }).notNull(),
+  subprovince: varchar('subprovince', { length: 255 }).notNull(),
+  major: varchar('major', { length: 64 }).notNull(),
+});
+
+const contact = pgTable('contact', {
+  id: serial('id').primaryKey(),
+  phone: varchar('phone', { length: 20 }),
+  facebook: varchar('facebook', { length: 255 }),
+  line: varchar('line', { length: 255 }),
+  email: varchar('email', { length: 255 }).notNull(),
+});
+
+export async function getUserBase(email: string): Promise<SwapperUserBase | undefined> {
+  const result = await db
+    .select()
+    .from(swapperUserBase)
+    .where(eq(swapperUserBase.email, email)).then((res) => res[0]);
+
+  if (!result) return undefined;
+
+  return {
+    id: result.id,
+    email: result.email!,
+    name: result.name!,
+    picture: result.picture!,
+    setupComplete: result.setupComplete!,
+    password: result.password!,
+  };
+}
+
+export async function getUser(email: string): Promise<SwapperUser> {
+  const user = await db
+    .select()
+    .from(swapperUserBase)
+    .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
+    .where(eq(swapperUserBase.email, email)).then((res) => res[0]);
+
+  const origin = await db
+    .select()
+    .from(transition)
+    .where(eq(transition.id, user.swapper_user.originId!)).then((res) => res[0]);
+
+  const destination = await db
+    .select()
+    .from(transition)
+    .where(eq(transition.id, user.swapper_user.destinationId!)).then((res) => res[0]);
+
+  const _contact = await db
+    .select()
+    .from(contact)
+    .where(eq(contact.id, user.swapper_user.contactId!)).then((res) => res[0]);
+
+  return {
+    id: user.swapper_user_base.id,
+    email: user.swapper_user_base.email!,
+    name: user.swapper_user_base.name!,
+    picture: user.swapper_user_base.picture!,
+    setupComplete: user.swapper_user_base.setupComplete!,
+    firstName: user.swapper_user.firstName!,
+    lastName: user.swapper_user.lastName!,
+    nickname: user.swapper_user.nickname!,
+    origin,
+    destination,
+    contact: _contact as any,
+    password: user.swapper_user_base.password!,
+  }
+}
+
+export async function createUser(authUser: User, password: string) {
+  let salt = genSaltSync(10);
+  let hash = hashSync(password, salt);
+
+  const userBase: SwapperUserBase = {
+    email: authUser.email!,
+    name: authUser.name!,
+    picture: authUser.image!,
+    password: hash,
+    setupComplete: false,
+  };
+
+  await db.insert(swapperUserBase).values(userBase);
+
+  const reloadUserBase = await getUserBase(authUser.email!);
+
+  if (!reloadUserBase) {
+    throw new Error('Failed to create user');
+  }
+
+  const name = authUser.name!.split(' ');
+  const firstName = name[0];
+  const lastName = name[1] ?? '';
+
+  await db.insert(swapperUser).values({
+      userId: reloadUserBase.id!,
+      firstName,
+      lastName,
+      nickname: '',
+    });
+}

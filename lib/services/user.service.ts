@@ -1,25 +1,16 @@
-import { getUser } from '@/app/db';
-import { SwapperUser } from '../models/SwapperUserBase';
-import { User } from 'next-auth';
+import { getUser, getUserBase } from '@/app/db/db';
+import { SwapperUser, SwapperUserBase } from '../models/SwapperUserBase';
+import { sessionUser } from '../session-utils';
 
-export async function getSwapperUser(authUser: User): Promise<SwapperUser> {
-  const user = (await getUser(authUser.email!))[0];
+export async function getSwapperUser(): Promise<SwapperUser> {
+  return getUser((await sessionUser()).email!);
+}
 
-  const fullName = authUser.name?.split(' ');
+export async function getSwapperUserBase(): Promise<SwapperUserBase | undefined> {
+  return getUserBase((await sessionUser()).email!);
+}
 
-  return {
-    id: user.id,
-    email: user.email!,
-    firstName: fullName![0],
-    lastName: fullName![1],
-    nickname: '',
-    contact: '',
-    age: 0,
-    origin: '',
-    destination: '',
-    major: '',
-    province: '',
-    subprovince: '',
-    setup_complete: !!user.setupComplete,
-  };
+export async function checkUserSetup(): Promise<boolean> {
+  const user = await getSwapperUserBase();
+  return !!user?.setupComplete;
 }
