@@ -35,7 +35,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
           });
         }
       }
-    }, 1); // Adjust delay as needed to sync with keyboard animation
+    }, 400); // Adjust delay as needed to sync with keyboard animation
   };
 
   return (
