@@ -10,7 +10,7 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Almost there {user.name}!</div>
+      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Almost there {user.firstName}!</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
         Please follow the steps before matching
       </div>
@@ -56,9 +56,11 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
               <input type="text" id="contactPhone" name="contactPhone" defaultValue={formData.contactPhone}
                 onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
             </div>
-            <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-              Next step
-            </button>
+            <div className='pb-7'>
+              <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Next step
+              </button>
+            </div>
           </form>
         </div>
       </div>

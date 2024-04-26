@@ -26,6 +26,12 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     setCurrentStep(currentStep + 1);
   };
 
+  const handlePreviousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   // Ask the following details:
   // First name
   // Last name
@@ -43,7 +49,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
 
   switch (currentStep) {
     case 1: return <SetupFormStep1Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
-    case 2: return <SetupFormStep2Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
+    case 2: return <SetupFormStep2Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
   }
 
   return null;
