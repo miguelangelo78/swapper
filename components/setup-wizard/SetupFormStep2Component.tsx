@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
+import ProvinceSelect from './ProvinceSelect';
 
 // Dummy data for the dropdowns - replace this with actual data
-const provinces = ["Bangkok", "Chiang Mai", "Phuket", "Khon Kaen", "Udon Thani"];
+const provinceOptions = [
+  { value: 'Bangkok', label: 'Bangkok' },
+  { value: 'Chiang Mai', label: 'Chiang Mai' },
+  { value: 'Phuket', label: 'Phuket' },
+  { value: 'Khon Kaen', label: 'Khon Kaen' },
+  { value: 'Udon Thani', label: 'Udon Thani' },
+];
+
 const areas = ["Area Office 1", "Area Office 2", "Area Office 3"];
 
 export default function SetupFormStep2Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
   formData: any,
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
+  handleInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | { value: string; name: string }) => void,
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   handlePreviousStep: () => void
 }) {
@@ -20,38 +28,28 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center p-4" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap flex-col items-center justify-center w-96 p-4" onSubmit={handleSubmit}>
             <div className="w-full mb-5">
               <label htmlFor="originProvince" className="block text-lg font-medium text-gray-700">Select your origin province:</label>
-              <select
+              <ProvinceSelect
                 id="originProvince"
                 name="originProvince"
                 value={formData.originProvince}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-lg"
-                required
-              >
-                <option value="">-- Select an origin province --</option>
-                {provinces.map(province => (
-                  <option key={province} value={province}>{province}</option>
-                ))}
-              </select>
+                options={provinceOptions}
+                placeholder="Select your origin province..."
+              />
             </div>
             <div className="w-full mb-5">
               <label htmlFor="destinationProvince" className="block text-lg font-medium text-gray-700">Select your destination province:</label>
-              <select
+              <ProvinceSelect
                 id="destinationProvince"
                 name="destinationProvince"
                 value={formData.destinationProvince}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-lg"
-                required
-              >
-                <option value="">-- Select a destination province --</option>
-                {provinces.map(province => (
-                  <option key={province} value={province}>{province}</option>
-                ))}
-              </select>
+                options={provinceOptions}
+                placeholder="Select your destination province..."
+              />
             </div>
             {/* Additional fields below for less critical data */}
             <div className="w-full mb-5">

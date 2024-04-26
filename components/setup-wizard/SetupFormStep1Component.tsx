@@ -1,11 +1,12 @@
 'use client';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import Required from './RequiredCheckComponent';
+import { ChangeEvent } from 'react';
 
 export default function SetupFormStep1Component({ user, formData, handleInputChange, handleSubmit }: {
   user: SwapperUser,
   formData: any,
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  handleInputChange: (event: ChangeEvent<HTMLInputElement> | { value: string; name: string }) => void,
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
   return (

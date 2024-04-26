@@ -1,5 +1,5 @@
 'use client';
-import { BaseSyntheticEvent, useState } from 'react';
+import { BaseSyntheticEvent, ChangeEvent, useState } from 'react';
 import SetupFormStep1Component from './SetupFormStep1Component';
 import SetupFormStep2Component from './SetupFormStep2Component';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
@@ -14,12 +14,21 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     contactLine: '',
     contactFacebook: '',
     contactPhone: '',
+    originProvince: '',
+    destinationProvince: '',
+    originAreaOffice: ''
   });
 
-  const handleInputChange = (event: BaseSyntheticEvent) => {
-    const { name, value } = event.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | { value: string; name: string }) => {
+    const name = 'name' in event ? event.name : event.target.name;
+    const value = 'value' in event ? event.value : event.target.value;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
+
 
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
