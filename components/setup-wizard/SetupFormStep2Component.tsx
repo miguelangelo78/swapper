@@ -22,37 +22,39 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
 }) {
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Step 2</div>
+      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Step 2: Select your Province</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
-        Please provide details about your origin and destination
+        Where would you like to swap to and from?
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center w-96 p-4" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap flex-col items-center justify-center w-96" onSubmit={handleSubmit}>
             <div className="w-full mb-5">
-              <label htmlFor="originProvince" className="block text-lg font-medium text-gray-700">Select your origin province:</label>
+              <label htmlFor="originProvince" className="block text-xl font-medium text-gray-700 mb-2">Select your origin province</label>
+            
               <ProvinceSelect
                 id="originProvince"
                 name="originProvince"
                 value={formData.originProvince}
                 onChange={handleInputChange}
                 options={provinceOptions}
-                placeholder="Select your origin province..."
+                placeholder="Origin province..."
               />
             </div>
             <div className="w-full mb-5">
-              <label htmlFor="destinationProvince" className="block text-lg font-medium text-gray-700">Select your destination province:</label>
+              <label htmlFor="destinationProvince" className="block text-xl font-medium text-gray-700 mb-2">Select your destination province</label>
+            
               <ProvinceSelect
                 id="destinationProvince"
                 name="destinationProvince"
                 value={formData.destinationProvince}
                 onChange={handleInputChange}
                 options={provinceOptions}
-                placeholder="Select your destination province..."
+                placeholder="Destination province..."
               />
             </div>
             {/* Additional fields below for less critical data */}
-            <div className="w-full mb-5">
+            {/*<div className="w-full mb-5">
               <label htmlFor="originAreaOffice" className="block text-sm font-medium text-gray-700">Origin Area Office:</label>
               <select
                 id="originAreaOffice"
@@ -66,7 +68,7 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
                   <option key={area} value={area}>{area}</option>
                 ))}
               </select>
-            </div>
+              </div>*/}
             {/* More fields like subprovince and major could be added similarly */}
             <div className="flex w-full justify-between">
               <button

@@ -35,7 +35,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
           });
         }
       }
-    }, 1000); // Adjust delay as needed to sync with keyboard animation
+    }, 5); // Adjust delay as needed to sync with keyboard animation
   };
 
   return (
@@ -63,6 +63,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
             borderBlockWidth: '0.15rem',
             borderRadius: '0.25rem',
             padding: '0.5rem',
+            boxShadow: state.isFocused ? '0 0 0.5rem #00AEEC' : '0 0 0.5rem #6D3AFA',
           }),
         }}
       />
