@@ -2,9 +2,9 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import { pgTable, serial, varchar, boolean, text, integer } from 'drizzle-orm/pg-core';
 import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
-import { SwapperUser, SwapperUserBase } from '@/lib/models/SwapperUserBase';
 import { eq } from 'drizzle-orm';
 import { User } from 'next-auth';
+import { SwapperUser, SwapperUserBase } from '@/lib/models/SwapperUser.types';
 
 const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
 const db = drizzle(client);

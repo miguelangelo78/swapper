@@ -1,4 +1,4 @@
-import { SwapperUser } from '@/lib/models/SwapperUserBase';
+import { SwapperUser } from '@/lib/models/SwapperUser.types';
 
 export default function SetupFormStep1Component({ user, formData, handleInputChange, handleSubmit }: {
   user: SwapperUser,

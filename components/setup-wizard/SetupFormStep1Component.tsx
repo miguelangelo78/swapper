@@ -12,7 +12,7 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
     <div className="flex flex-col items-center justify-center py-2">
       <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Almost there {user.name}!</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
-        Please fill in the information below before you can start matching
+        Please follow the steps before matching
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="max-w-lg w-full mx-auto">
@@ -37,7 +37,7 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
               <hr className='w-full bg-secondary mt-1 h-1' />
             </div>
             <div>
-              <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700">Email<Required /></label>
+              <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700">Email <Required /></label>
               <input type="text" id="contactEmail" name="contactEmail" defaultValue={formData.contactEmail}
                 onChange={handleInputChange} required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
             </div>
