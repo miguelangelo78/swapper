@@ -1,5 +1,5 @@
 'use client';
-import { BaseSyntheticEvent, ChangeEvent, useState } from 'react';
+import { BaseSyntheticEvent, ChangeEvent, useEffect, useState } from 'react';
 import SetupFormStep1Component from './SetupFormStep1Component';
 import SetupFormStep2Component from './SetupFormStep2Component';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
@@ -29,7 +29,6 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     }));
   };
 
-
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
     setCurrentStep(currentStep + 1);
@@ -40,6 +39,11 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
       setCurrentStep(currentStep - 1);
     }
   };
+
+  useEffect(() => {
+    // Whenever currentStep changes, scroll to the top of the page
+    window.scrollTo(0, 0);
+  }, [currentStep]);
 
   // Ask the following details:
   // First name

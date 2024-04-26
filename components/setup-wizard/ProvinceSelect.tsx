@@ -29,7 +29,10 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
       classNamePrefix="select"
       placeholder={placeholder || "Select..."}
       isClearable
+      menuPlacement="auto"
+      menuShouldScrollIntoView={true}
       onChange={handleChange}
+      onFocus={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
       value={options.find(option => option.value === value)}
       styles={{
         control: (baseStyles, state) => ({
