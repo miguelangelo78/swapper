@@ -25,7 +25,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
   const handleFocus = () => {
     // Delay scrolling a bit to wait for the mobile keyboard to appear
     setTimeout(() => {
-      const selectDOM = selectRef.current ;
+      const selectDOM = selectRef.current;
       if (selectDOM) {
         const bounding = selectDOM.getBoundingClientRect();
         if (bounding.top < 0 || bounding.bottom > window.innerHeight) {
@@ -35,7 +35,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
           });
         }
       }
-    }, 400); // Adjust delay as needed to sync with keyboard animation
+    }, 1000); // Adjust delay as needed to sync with keyboard animation
   };
 
   return (
