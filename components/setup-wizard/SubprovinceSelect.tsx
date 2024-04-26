@@ -34,6 +34,8 @@ const SubprovinceSelect: React.FC<SubprovinceSelectProps> = ({ id, name, value, 
       isClearable
       isSearchable
       isDisabled={disabled}
+      menuPlacement='auto'
+      menuShouldScrollIntoView={true}
       styles={{
         control: (baseStyles, state) => ({
           ...baseStyles,
