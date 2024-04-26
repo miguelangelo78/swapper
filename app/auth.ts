@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
-import { createUser, getUser, getUserBase } from './db/db';
+import { createUser, getUser, getUserBase } from '../lib/db/db';
 
 export const {
   handlers: { GET, POST },

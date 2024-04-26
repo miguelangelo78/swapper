@@ -17,6 +17,7 @@ export interface SwapperUser extends SwapperUserBase {
 }
 
 export interface Transition {
+  id: number;
   areaOffice: string;
   province: string;
   subprovince: string;
@@ -24,8 +25,9 @@ export interface Transition {
 }
 
 export interface Contact {
-  phone?: string;
-  facebook?: string;
-  line?: string;
+  id: number;
   email: string;
+  line?: string;
+  facebook?: string;
+  phone?: string;
 }

@@ -131,3 +131,49 @@ export async function createUser(authUser: User, password: string) {
       nickname: '',
     });
 }
+
+export async function updateUserBase(user: SwapperUserBase) {
+  await db.update(swapperUserBase).set({
+    name: user.name,
+    picture: user.picture,
+    setupComplete: user.setupComplete,
+  }).where(eq(swapperUserBase.id, user.id!));
+}
+
+export async function updateUser(user: SwapperUser) {
+  await db.update(swapperUserBase).set({
+    name: user.name,
+    picture: user.picture,
+    setupComplete: user.setupComplete,
+  }).where(eq(swapperUserBase.id, user.id!));
+
+  await db.update(swapperUser).set({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    nickname: user.nickname,
+    originId: user.origin.id,
+    destinationId: user.destination.id,
+    contactId: user.contact.id,
+  }).where(eq(swapperUser.userId, user.id!));
+
+  await db.update(contact).set({
+    phone: user.contact.phone,
+    facebook: user.contact.facebook,
+    line: user.contact.line,
+    email: user.contact.email,
+  }).where(eq(contact.id, user.contact.id!));
+
+  await db.update(transition).set({
+    areaOffice: user.origin.areaOffice,
+    province: user.origin.province,
+    subprovince: user.origin.subprovince,
+    major: user.origin.major,
+  }).where(eq(transition.id, user.origin.id!));
+
+  await db.update(transition).set({
+    areaOffice: user.destination.areaOffice,
+    province: user.destination.province,
+    subprovince: user.destination.subprovince,
+    major: user.destination.major,
+  }).where(eq(transition.id, user.destination.id!));
+}

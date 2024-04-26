@@ -1,8 +1,8 @@
 'use client';
 import { BaseSyntheticEvent, useState } from 'react';
 import SetupFormStep1Component from './SetupFormStep1Component';
-import { SwapperUser } from '@/lib/models/SwapperUserBase';
 import SetupFormStep2Component from './SetupFormStep2Component';
+import { SwapperUser } from '@/lib/models/SwapperUser.types';
 
 export default function SetupFormWizardComponent({ user }: { user: SwapperUser }) {
   const [currentStep, setCurrentStep] = useState(1);
@@ -10,7 +10,10 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     firstName: user.firstName,
     lastName: user.lastName,
     nickname: '',
-    contact: '',
+    contactEmail: user.email,
+    contactLine: '',
+    contactFacebook: '',
+    contactPhone: '',
   });
 
   const handleInputChange = (event: BaseSyntheticEvent) => {

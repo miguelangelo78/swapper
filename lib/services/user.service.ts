@@ -1,5 +1,5 @@
-import { getUser, getUserBase } from '@/app/db/db';
-import { SwapperUser, SwapperUserBase } from '../models/SwapperUserBase';
+import { getUser, getUserBase } from '@/lib/db/db';
+import { SwapperUser, SwapperUserBase } from '../models/SwapperUser.types';
 import { sessionUser } from '../session-utils';
 
 export async function getSwapperUser(): Promise<SwapperUser> {

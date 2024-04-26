@@ -9,10 +9,10 @@ CREATE TABLE transition (
 
 CREATE TABLE contact (
   id SERIAL PRIMARY KEY,
-  phone VARCHAR(20),
-  facebook VARCHAR(255),
+  email VARCHAR(255) NOT NULL,
   line VARCHAR(255),
-  email VARCHAR(255) NOT NULL
+  facebook VARCHAR(255),
+  phone VARCHAR(20)
 );
 
 CREATE TABLE swapper_user_base (
