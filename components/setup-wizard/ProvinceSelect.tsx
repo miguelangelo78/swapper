@@ -48,6 +48,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
         classNamePrefix="select"
         placeholder={placeholder || "Select..."}
         isClearable
+        required={true}
         menuPlacement="auto"
         menuShouldScrollIntoView={true}
         onChange={handleChange}
@@ -63,7 +64,7 @@ const ProvinceSelect: React.FC<ProvinceSelectProps> = ({ id, name, value, onChan
             borderBlockWidth: '0.15rem',
             borderRadius: '0.25rem',
             padding: '0.5rem',
-            boxShadow: state.isFocused ? '0 0 0.5rem #00AEEC' : '0 0 0.5rem #6D3AFA',
+            boxShadow: state.isFocused ? '0 0 1rem #00AEEC' : '0 0 0.5rem #6D3AFA',
           }),
         }}
       />

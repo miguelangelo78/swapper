@@ -13,9 +13,10 @@ interface SubprovinceSelectProps {
   onChange: (event: { value: string; name: string }) => void;
   options: OptionType[];
   placeholder?: string;
+  disabled?: boolean;
 }
 
-const SubprovinceSelect: React.FC<SubprovinceSelectProps> = ({ id, name, value, onChange, options, placeholder }) => {
+const SubprovinceSelect: React.FC<SubprovinceSelectProps> = ({ id, name, value, onChange, options, placeholder, disabled }) => {
   const handleChange = (selectedOption: OptionType | null) => {
     onChange({ value: selectedOption ? selectedOption.value : '', name });
   };
@@ -32,6 +33,15 @@ const SubprovinceSelect: React.FC<SubprovinceSelectProps> = ({ id, name, value, 
       placeholder={placeholder || "Select a subprovince..."}
       isClearable
       isSearchable
+      isDisabled={disabled}
+      styles={{
+        control: (baseStyles, state) => ({
+          ...baseStyles,
+          borderColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
+          borderBlockColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
+          textDecorationColor: state.isFocused ? '#00AEEC' : '#6D3AF',
+        }),
+      }}
     />
   );
 };
