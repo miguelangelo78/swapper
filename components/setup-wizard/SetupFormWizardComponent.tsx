@@ -4,6 +4,11 @@ import SetupFormStep1Component from './SetupFormStep1Component';
 import SetupFormStep2Component from './SetupFormStep2Component';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 
+export interface SelectOptionType {
+  value: string;
+  name: string;
+}
+
 export default function SetupFormWizardComponent({ user }: { user: SwapperUser }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -16,10 +21,12 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     contactPhone: '',
     originProvince: '',
     destinationProvince: '',
+    originSubprovince: '',
+    destinationSubprovince: '',
     originAreaOffice: ''
   });
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | { value: string; name: string }) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | SelectOptionType) => {
     const name = 'name' in event ? event.name : event.target.name;
     const value = 'value' in event ? event.value : event.target.value;
 
@@ -65,5 +72,18 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     case 2: return <SetupFormStep2Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
   }
 
-  return null;
+  return (
+    <>
+      <div className='justify-center text-center'>
+        <div className='text-4xl font-bold mb-5 mt-5 justify-center text-center'>You are on step {currentStep}!</div>
+        <button
+          type="button"
+          className="py-2 px-6 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+          onClick={handlePreviousStep}
+        >
+          Previous Step
+        </button>
+      </div>
+    </>
+  );
 }

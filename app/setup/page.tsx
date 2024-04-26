@@ -12,7 +12,7 @@ export default async function SetupPage() {
   const user = await getSwapperUser();
 
   return (
-    <Layout>
+    <Layout ignoreFooter={true}>
       <SetupFormWizardComponent user={user} />
     </Layout>
   );
