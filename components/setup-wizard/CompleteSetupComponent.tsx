@@ -51,5 +51,5 @@ export default async function CompleteSetupComponent(formData: SetupFormData, us
   await updateUser(mappedUser);
 
   // Send the user to the /matcher page:
-  redirect('/matcher');
+  return redirect('/matcher');
 }
