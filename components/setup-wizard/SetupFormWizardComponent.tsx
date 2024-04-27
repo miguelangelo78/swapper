@@ -5,6 +5,7 @@ import SetupFormStep1Component from './SetupFormStep1Component';
 import SetupFormStep2Component from './SetupFormStep2Component';
 import SetupFormStep3Component from './SetupFormStep3Component';
 import SetupFormStep4Component from './SetupFormStep4Component';
+import SetupFormStep5Component from './SetupFormStep5Component';
 
 export interface SelectOptionType {
   value: string;
@@ -29,6 +30,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     destinationAreaOffice: '',
     originMajor: '',
     destinationMajor: '',
+    profileImage: user.picture,
   });
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | SelectOptionType) => {
@@ -77,6 +79,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     case 2: return <SetupFormStep2Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
     case 3: return <SetupFormStep3Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
     case 4: return <SetupFormStep4Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
+    case 5: return <SetupFormStep5Component user={user} formData={formData} handleInputChange={handleInputChange} handleSubmit={handleSubmit} handlePreviousStep={handlePreviousStep} />
   }
 
   return (

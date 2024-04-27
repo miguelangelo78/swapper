@@ -38,7 +38,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 onChange={handleInputChange}
                 options={areaOffices.map(option => ({ value: option, label: option }))}
                 placeholder="Origin area office..."
-                fontSize="1rem"
                 required={true}
               />
             </div>
@@ -54,7 +53,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 onChange={handleInputChange}
                 options={areaOffices.map(option => ({ value: option, label: option }))}
                 placeholder="Destination area office..."
-                fontSize="1rem"
                 disabled={disableDestination}
                 required={!disableDestination}
               />

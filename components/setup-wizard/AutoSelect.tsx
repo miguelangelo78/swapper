@@ -21,7 +21,6 @@ interface AutoSelectProps {
   placeholder?: string;
   disabled?: boolean;
   required?: boolean;
-  fontSize?: string;
 }
 
 const AutoSelect: React.FC<AutoSelectProps> = ({
@@ -34,7 +33,6 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
   placeholder,
   disabled,
   required = false,
-  fontSize,
 }) => {
   const handleChange = (selectedOption: AutoSelectOptionType | null) => {
     onChange({ value: selectedOption ? selectedOption.value : '', name });
@@ -46,7 +44,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
       borderColor: disabled ? 'gray' : (state.isFocused ? '#00AEEC' : '#6D3AFA'),
       borderBlockColor:  disabled ? 'gray' : (state.isFocused ? '#00AEEC' : '#6D3AFA'),
       textDecorationColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
-      fontSize: fontSize ?? '1.25rem',
+      fontSize: '1.25rem',
       borderWidth: '0.15rem',
       borderBlockWidth: '0.15rem',
       borderRadius: '0.25rem',
@@ -64,7 +62,6 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
       borderColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
       borderBlockColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
       textDecorationColor: state.isFocused ? '#00AEEC' : '#6D3AF',
-      fontSize: fontSize ?? '1rem',
       '&:hover': {
         borderColor: disabled ? 'gray' : '#00AEEC',
         borderBlockColor: disabled ? 'gray' : '#00AEEC',
