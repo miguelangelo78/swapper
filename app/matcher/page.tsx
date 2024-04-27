@@ -20,7 +20,7 @@ export default async function MatcherPage() {
 
         <div className="text-primary justify-center">
           <div className="justify-center mb-2 text-black font-bold">
-            Here's the data you provided:
+            Here&apos;s the data you provided:
           </div>
           <div className="text-lg">Origin: {user.origin.province}, {user.origin.subprovince}</div>
           <div className="text-lg">Destination: {user.destination.province}, {user.destination.subprovince}</div>
