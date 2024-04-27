@@ -66,7 +66,7 @@ export default function SetupFormStep4Component({ user, formData, handleInputCha
                     onChange={handleDisableDestinationChange}
                     className="form-checkbox h-7 w-7 text-primary border-primary rounded focus:ring-indigo-500 cursor-pointer"
                   />
-                  <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don't want to select a destination major</label>
+                  <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don&apos;t want to select a destination major</label>
                 </div>
               </div>
             </div>

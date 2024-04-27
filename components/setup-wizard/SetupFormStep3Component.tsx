@@ -38,7 +38,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 onChange={handleInputChange}
                 options={areaOffices.map(option => ({ value: option, label: option }))}
                 placeholder="Origin area office..."
-                fontSize='1rem'
+                fontSize="1rem"
                 required={true}
               />
             </div>
@@ -54,7 +54,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 onChange={handleInputChange}
                 options={areaOffices.map(option => ({ value: option, label: option }))}
                 placeholder="Destination area office..."
-                fontSize='1rem'
+                fontSize="1rem"
                 disabled={disableDestination}
                 required={!disableDestination}
               />
@@ -68,7 +68,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     onChange={handleDisableDestinationChange}
                     className="form-checkbox h-7 w-7 text-primary border-primary rounded focus:ring-indigo-500 cursor-pointer"
                   />
-                  <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don't want to select a destination area office</label>
+                  <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don&apos;t want to select a destination area office</label>
                 </div>
               </div>
             </div>
