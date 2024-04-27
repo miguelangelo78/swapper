@@ -22,7 +22,7 @@ export default function SetupFormStep4Component({ user, formData, handleInputCha
 
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Step 4: Select your Major</div>
+      <div className="text-2xl font-black mb-2 mt-5 justify-center text-center">Step 4: Select your Major</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
         Where would you like to swap to and from?
       </div>
@@ -33,7 +33,7 @@ export default function SetupFormStep4Component({ user, formData, handleInputCha
               <label htmlFor="originMajor" className="block text-xl font-medium text-gray-700 mb-2">Select your origin major</label>
               <AutoSelect
                 id="originMajor"
-                name="originAreaOffice"
+                name="originMajor"
                 value={formData.originMajor}
                 onChange={handleInputChange}
                 options={majors.map(option => ({ value: option, label: option }))}

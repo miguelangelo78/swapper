@@ -36,7 +36,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
 
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Step 5: Change your picture</div>
+      <div className="text-2xl font-black mb-2 mt-5 justify-center text-center">Step 5: Change your picture</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
         Would you like to change your profile picture?
       </div>

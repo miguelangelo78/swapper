@@ -32,7 +32,7 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
 
   return (
     <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-4xl font-bold mb-5 mt-5 justify-center text-center">Step 2: Select your Province</div>
+      <div className="text-2xl font-black mb-2 mt-5 justify-center text-center">Step 2: Select your Province</div>
       <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
         Where would you like to swap to and from?
       </div>
