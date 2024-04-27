@@ -5,7 +5,7 @@ import { createUser, getUser } from '@/lib/db/db';
 import { SubmitButton } from 'app/submit-button';
 import Layout from '@/components/Layout';
 import SocialSign from '@/components/SocialSign';
-import { sessionUser } from '@/lib/session-utils';
+import { sessionUser } from '@/lib/utils/session-utils';
 
 export default function Login() {
   async function signup(formData: FormData) {

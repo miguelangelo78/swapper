@@ -6,7 +6,7 @@ export enum AutoSelectType {
   Secondary,
 }
 
-interface OptionType {
+export interface AutoSelectOptionType {
   value: string;
   label: string;
 }
@@ -17,10 +17,11 @@ interface AutoSelectProps {
   name: string;
   value: string;
   onChange: (event: { value: string; name: string }) => void;
-  options: OptionType[];
+  options: AutoSelectOptionType[];
   placeholder?: string;
   disabled?: boolean;
   required?: boolean;
+  fontSize?: string;
 }
 
 const AutoSelect: React.FC<AutoSelectProps> = ({
@@ -33,18 +34,19 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
   placeholder,
   disabled,
   required = false,
+  fontSize,
 }) => {
-  const handleChange = (selectedOption: OptionType | null) => {
+  const handleChange = (selectedOption: AutoSelectOptionType | null) => {
     onChange({ value: selectedOption ? selectedOption.value : '', name });
   };
 
   const styles = type === AutoSelectType.Primary ? {
-    control: (baseStyles: CSSObjectWithLabel, state: ControlProps<OptionType, false, GroupBase<OptionType>>) => ({
+    control: (baseStyles: CSSObjectWithLabel, state: ControlProps<AutoSelectOptionType, false, GroupBase<AutoSelectOptionType>>) => ({
       ...baseStyles,
       borderColor: disabled ? 'gray' : (state.isFocused ? '#00AEEC' : '#6D3AFA'),
       borderBlockColor:  disabled ? 'gray' : (state.isFocused ? '#00AEEC' : '#6D3AFA'),
       textDecorationColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
-      fontSize: '1.25rem',
+      fontSize: fontSize ?? '1.25rem',
       borderWidth: '0.15rem',
       borderBlockWidth: '0.15rem',
       borderRadius: '0.25rem',
@@ -57,11 +59,12 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
       },
     }),
   } : {
-    control: (baseStyles: CSSObjectWithLabel, state: ControlProps<OptionType, false, GroupBase<OptionType>>) => ({
+    control: (baseStyles: CSSObjectWithLabel, state: ControlProps<AutoSelectOptionType, false, GroupBase<AutoSelectOptionType>>) => ({
       ...baseStyles,
       borderColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
       borderBlockColor: state.isFocused ? '#00AEEC' : '#6D3AFA',
       textDecorationColor: state.isFocused ? '#00AEEC' : '#6D3AF',
+      fontSize: fontSize ?? '1rem',
       '&:hover': {
         borderColor: disabled ? 'gray' : '#00AEEC',
         borderBlockColor: disabled ? 'gray' : '#00AEEC',
