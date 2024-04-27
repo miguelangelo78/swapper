@@ -4,7 +4,7 @@ import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { eq } from 'drizzle-orm';
 import { User } from 'next-auth';
-import { SwapperUser, SwapperUserBase } from '@/lib/models/SwapperUser.types';
+import { Contact, SwapperUser, SwapperUserBase, Transition } from '@/lib/models/SwapperUser.types';
 
 const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
 const db = drizzle(client);
@@ -112,24 +112,28 @@ export async function createUser(authUser: User, password: string) {
     setupComplete: false,
   };
 
-  await db.insert(swapperUserBase).values(userBase);
-
-  const reloadUserBase = await getUserBase(authUser.email!);
-
-  if (!reloadUserBase) {
-    throw new Error('Failed to create user');
-  }
+  const result = await db.insert(swapperUserBase).values(userBase).returning({ id: swapperUserBase.id });
 
   const name = authUser.name!.split(' ');
   const firstName = name[0];
   const lastName = name[1] ?? '';
 
   await db.insert(swapperUser).values({
-      userId: reloadUserBase.id!,
+      userId: result[0].id!,
       firstName,
       lastName,
       nickname: '',
     });
+}
+
+export async function createTransition(newTransition: Transition) {
+  const result = await db.insert(transition).values(newTransition).returning({ id: transition.id });
+  return result[0].id;
+}
+
+export async function createContact(newContact: Contact) {
+  const result = await db.insert(contact).values(newContact).returning({ id: contact.id });
+  return result[0].id;
 }
 
 export async function updateUserBase(user: SwapperUserBase) {

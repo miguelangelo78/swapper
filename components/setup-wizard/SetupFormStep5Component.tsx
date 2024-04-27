@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { SelectOptionType } from './SetupFormWizardComponent';
+import CompleteSetupComponent from './CompleteSetupComponent';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -50,7 +51,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
 
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center w-80" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap flex-col items-center justify-center w-80" action={async ()=> await CompleteSetupComponent(formData, user)}>
             <input
               type="file"
               placeholder='Upload a new profile picture'

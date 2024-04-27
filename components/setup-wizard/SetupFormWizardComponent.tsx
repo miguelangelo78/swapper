@@ -12,6 +12,27 @@ export interface SelectOptionType {
   name: string;
 }
 
+export interface SetupFormData {
+  firstName: string;
+  lastName: string;
+  nickname: string;
+  contactEmail: string;
+  contactLine: string;
+  contactFacebook: string;
+  contactPhone: string;
+  originProvince: string;
+  destinationProvince: string;
+  originSubprovince: string;
+  destinationSubprovince: string;
+  originAreaOffice: string;
+  destinationAreaOffice: string;
+  disableDestinationAreaOffice: boolean;
+  originMajor: string;
+  destinationMajor: string;
+  disableDestinationMajor: boolean;
+  profileImage: string;
+}
+
 export default function SetupFormWizardComponent({ user }: { user: SwapperUser }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -33,7 +54,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     destinationMajor: '',
     disableDestinationMajor: false,
     profileImage: user.picture,
-  });
+  } as SetupFormData);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement> | SelectOptionType) => {
     const name = 'name' in event ? event.name : event.target.name;
