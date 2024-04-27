@@ -1,47 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import ProvinceSelect from './ProvinceSelect';
-import SubprovinceSelect from './SubprovinceSelect';
+import AutoSelect, { AutoSelectType } from './AutoSelect';
 import { SelectOptionType } from './SetupFormWizardComponent';
-
-// Dummy data for the dropdowns - replace this with actual data
-const provinceOptions = [
-  'Bangkok',
-  'Chiang Mai',
-  'Phuket',
-  'Khon Kaen',
-  'Udon Thani',
-];
-
-const subprovinceData = {
-  'Bangkok': [
-    'Pathum Wan',
-    'Wattana',
-    'Bang Kho Laem',
-  ],
-  'Chiang Mai': [
-    'Mueang Chiang Mai',
-    'San Kamphaeng',
-    'Hang Dong',
-  ],
-  'Phuket': [
-    'Mueang Phuket',
-    'Kathu',
-    'Thalang',
-  ],
-  'Khon Kaen': [
-    'Mueang Khon Kaen',
-    'Ban Phai',
-    'Nong Ruea',
-  ],
-  'Udon Thani': [
-    'Mueang Udon Thani',
-    'Kumphawapi',
-    'Nong Han',
-  ],
-};
-
-const areas = ["Area Office 1", "Area Office 2", "Area Office 3"];
+import provinceData from '@/lib/data/provinces.json';
+import subprovinceData from '@/lib/data/subprovinces.json';
 
 export default function SetupFormStep2Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -79,17 +41,19 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
           <form className="flex flex-wrap flex-col items-center justify-center w-80" onSubmit={handleSubmit}>
             <div className="w-full">
               <label htmlFor="originProvince" className="block text-xl font-medium text-gray-700 mb-2">Select your origin province</label>
-              <ProvinceSelect
+              <AutoSelect
                 id="originProvince"
                 name="originProvince"
                 value={formData.originProvince}
                 onChange={handleInputChange}
-                options={provinceOptions.map(option => ({ value: option, label: option }))}
+                options={provinceData.map(option => ({ value: option, label: option }))}
                 placeholder="Origin province..."
+                required={true}
               />
               <div className="transition-all duration-500 ease-in-out mt-1">
-                <SubprovinceSelect
+                <AutoSelect
                   id="originSubprovince"
+                  type={AutoSelectType.Secondary}
                   name="originSubprovince"
                   value={formData.originSubprovince}
                   onChange={handleInputChange}
@@ -104,17 +68,19 @@ export default function SetupFormStep2Component({ user, formData, handleInputCha
             </div>
             <div className="w-full mb-5">
               <label htmlFor="destinationProvince" className="block text-xl font-medium text-gray-700 mb-2">Select your destination province</label>
-              <ProvinceSelect
+              <AutoSelect
                 id="destinationProvince"
                 name="destinationProvince"
                 value={formData.destinationProvince}
                 onChange={handleInputChange}
-                options={provinceOptions.map(option => ({ value: option, label: option }))}
+                options={provinceData.map(option => ({ value: option, label: option }))}
                 placeholder="Destination province..."
+                required={true}
               />
               <div className="transition-all duration-500 ease-in-out mt-1">
-                <SubprovinceSelect
+                <AutoSelect
                   id="destinationSubprovince"
+                  type={AutoSelectType.Secondary}
                   name="destinationSubprovince"
                   value={formData.destinationSubprovince}
                   onChange={handleInputChange}

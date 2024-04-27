@@ -1,0 +1,27 @@
+{
+  "Bangkok": [
+    "Pathum Wan",
+    "Wattana",
+    "Bang Kho Laem"
+  ],
+  "Chiang Mai": [
+    "Mueang Chiang Mai",
+    "San Kamphaeng",
+    "Hang Dong"
+  ],
+  "Phuket": [
+    "Mueang Phuket",
+    "Kathu",
+    "Thalang"
+  ],
+  "Khon Kaen": [
+    "Mueang Khon Kaen",
+    "Ban Phai",
+    "Nong Ruea"
+  ],
+  "Udon Thani": [
+    "Mueang Udon Thani",
+    "Kumphawapi",
+    "Nong Han"
+  ]
+}
