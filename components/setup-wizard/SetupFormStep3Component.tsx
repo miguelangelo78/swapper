@@ -11,10 +11,11 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
   handlePreviousStep: () => void,
 }) {
-  const [disableDestination, setDisableDestination] = useState(false);
+  const [disableDestination, setDisableDestination] = useState(formData.disableDestinationAreaOffice);
 
   const handleDisableDestinationChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDisableDestination(event.target.checked);
+    formData.disableDestinationAreaOffice = event.target.checked;
     if (event.target.checked) {
       formData.destinationAreaOffice = '';  // Clear the destination if disabled
     }

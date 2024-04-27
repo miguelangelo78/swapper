@@ -42,7 +42,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
       </div>
       <div className="w-full flex justify-center">
         {profileImage ? (
-          <img src={profileImage} alt="Profile" className="w-40 h-40 rounded-full object-cover cursor-pointer" onClick={triggerFileInput} />
+          <img src={profileImage} alt="Profile" className="w-40 h-40 rounded-full object-cover object-center cursor-pointer" onClick={triggerFileInput} />
         ) : (
           <div className="text-lg text-gray-400">No image selected</div>
         )}

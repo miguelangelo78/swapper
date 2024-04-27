@@ -28,8 +28,10 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     destinationSubprovince: '',
     originAreaOffice: '',
     destinationAreaOffice: '',
+    disableDestinationAreaOffice: false,
     originMajor: '',
     destinationMajor: '',
+    disableDestinationMajor: false,
     profileImage: user.picture,
   });
 
