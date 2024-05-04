@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { SelectOptionType } from './SetupFormWizardComponent';
 import CompleteSetupComponent from './CompleteSetupComponent';
+import { SwapperButton } from '../SwapperButton';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -62,21 +63,10 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
               title='Upload a new profile picture'
               className="hidden"
             />
-            <label htmlFor="profileImageInput" className="py-2 px-6 text-xl mt-6 cursor-pointer border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload a new profile picture</label>
-            <div className="flex w-full justify-around mt-5">
-              <button
-                type="button"
-                className="py-2 px-6 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-                onClick={handlePreviousStep}
-              >
-                Previous Step
-              </button>
-              <button
-                type="submit"
-                className="py-2 px-6 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Complete Setup
-              </button>
+            <label htmlFor="profileImageInput" className="py-2 w-full text-center text-xl mt-6 cursor-pointer border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload a new profile picture</label>
+            <div className="flex w-full gap-4 justify-center mt-5">
+              <SwapperButton text='Previous Step' styleType='secondary' onClick={handlePreviousStep} />
+              <SwapperButton type='submit' text='Complete Setup' useSpinner={true} />
             </div>
           </form>
         </div>

@@ -30,7 +30,7 @@ export default function MatcherPageClient(
       <div className="text-lg">Contact: {user.contact.email}</div>
     </div>
 
-    <SwapperButton onClick={onClickRestartSetup} text="Restart Setup" styleType="primary" />
+    <SwapperButton onClick={onClickRestartSetup} text="Restart Setup" styleType="primary" useSpinner={true} />
   </div>
   )
 }

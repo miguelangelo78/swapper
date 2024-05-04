@@ -2,7 +2,7 @@
 
 import { Contact, SwapperUser, Transition, mapSetupFormDataToUser } from '@/lib/models/SwapperUser.types';
 import { SetupFormData } from './SetupFormWizardComponent';
-import { createContact, createTransition, updateContact, updateTransition, updateUser, upsertContact, upsertTransition } from '@/lib/db/db';
+import { updateUser, upsertContact, upsertTransition } from '@/lib/db/db';
 import { redirect } from 'next/navigation';
 
 export default async function CompleteSetupComponent(formData: SetupFormData, user: SwapperUser) {
