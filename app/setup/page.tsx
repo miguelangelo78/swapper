@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
 import { redirect } from 'next/navigation';
 import SetupFormWizardComponent from '@/components/setup-wizard/SetupFormWizardComponent';
-import { checkUserSetup, getSwapperUser } from '@/lib/services/user.service';
+import { checkUserSetup, getSwapperUser } from '@/lib/services/server/user.service';
 
 export default async function SetupPage() {
   if (await checkUserSetup()) {

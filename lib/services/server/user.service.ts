@@ -1,6 +1,6 @@
 import { getUser, getUserBase } from '@/lib/db/db';
-import { SwapperUser, SwapperUserBase } from '../models/SwapperUser.types';
-import { sessionUser } from '../utils/session-utils';
+import { SwapperUser, SwapperUserBase } from '../../models/SwapperUser.types';
+import { sessionUser } from '../../utils/session-utils';
 
 export async function getSwapperUserBase(): Promise<SwapperUserBase | undefined> {
   return getUserBase((await sessionUser()).email!);
