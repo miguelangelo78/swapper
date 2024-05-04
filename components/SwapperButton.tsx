@@ -21,8 +21,8 @@ export function SwapperButton({ text, onClick, className, type = 'button', style
   let secondaryStyle = 'py-2 w-40 h-10 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50';
 
   if (loading === true) {
-    primaryStyle += ' opacity-50 bg-indigo-600 cursor-not-allowed';
-    secondaryStyle += ' opacity-50 cursor-not-allowed';
+    primaryStyle += ' disabled:opacity-50 bg-indigo-600 cursor-not-allowed';
+    secondaryStyle += ' disabled:opacity-50 cursor-not-allowed';
   }
 
   const style = styleType === 'primary' ? primaryStyle : secondaryStyle;
@@ -58,6 +58,7 @@ export function SwapperButton({ text, onClick, className, type = 'button', style
       type={type}
       className={`${style} ${className}`}
       onClick={handleClick}
+      disabled={loading}
     >
       {content}
     </button>

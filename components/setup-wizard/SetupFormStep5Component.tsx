@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { SelectOptionType } from './SetupFormWizardComponent';
-import CompleteSetupComponent from './CompleteSetupComponent';
 import { SwapperButton } from '../SwapperButton';
+import { completeSetup } from '@/lib/services/client/user.service';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -36,6 +36,11 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
     document.getElementById('profileImageInput')!.click();
   };
 
+  const handleCompleteSetup = async () => {
+    completeSetup(formData)
+      .then(() => window.location.href = '/matcher');
+  };
+
   return (
     <div className="flex flex-col items-center justify-center py-2">
       <div className="text-2xl font-black mb-2 mt-5 justify-center text-center">Step 5: Change your picture</div>
@@ -52,7 +57,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
 
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center w-80" action={async ()=> await CompleteSetupComponent(formData, user)}>
+          <div className="flex flex-wrap flex-col items-center justify-center w-80">
             <input
               type="file"
               placeholder='Upload a new profile picture'
@@ -66,9 +71,9 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
             <label htmlFor="profileImageInput" className="py-2 w-full text-center text-xl mt-6 cursor-pointer border border-transparent rounded-md shadow-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Upload a new profile picture</label>
             <div className="flex w-full gap-4 justify-center mt-5">
               <SwapperButton text='Previous Step' styleType='secondary' onClick={handlePreviousStep} />
-              <SwapperButton type='submit' text='Complete Setup' useSpinner={true} />
+              <SwapperButton text='Complete Setup' useSpinner={true} onClick={handleCompleteSetup} />
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
