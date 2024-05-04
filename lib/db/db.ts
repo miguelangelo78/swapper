@@ -38,10 +38,10 @@ const transition = pgTable('transition', {
 
 const contact = pgTable('contact', {
   id: serial('id').primaryKey(),
-  phone: varchar('phone', { length: 20 }),
-  facebook: varchar('facebook', { length: 255 }),
-  line: varchar('line', { length: 255 }),
   email: varchar('email', { length: 255 }).notNull(),
+  line: varchar('line', { length: 255 }),
+  facebook: varchar('facebook', { length: 255 }),
+  phone: varchar('phone', { length: 20 }),
 });
 
 export async function getUserBase(email: string): Promise<SwapperUserBase | undefined> {
@@ -100,7 +100,7 @@ export async function getUser(email: string): Promise<SwapperUser> {
   }
 }
 
-export async function createUser(authUser: User, password: string) {
+export async function createUser(authUser: User, password: string): Promise<number> {
   let salt = genSaltSync(10);
   let hash = hashSync(password, salt);
 
@@ -118,30 +118,102 @@ export async function createUser(authUser: User, password: string) {
   const firstName = name[0];
   const lastName = name[1] ?? '';
 
-  await db.insert(swapperUser).values({
+  return db.insert(swapperUser).values({
       userId: result[0].id!,
       firstName,
       lastName,
       nickname: '',
-    });
+    }).returning({ userId: swapperUser.userId })
+      .then((res) => res[0].userId);
 }
 
-export async function createTransition(newTransition: Transition) {
-  const result = await db.insert(transition).values(newTransition).returning({ id: transition.id });
-  return result[0].id;
+export async function upsertTransition(newTransition: Transition, id?: number): Promise<number> {
+  const result = await db.select().from(transition).where(eq(transition.id, id!)).then((res) => res[0]);
+
+  if (result) {
+    return updateTransition(newTransition);
+  }
+
+  return createTransition(newTransition);
 }
 
-export async function createContact(newContact: Contact) {
-  const result = await db.insert(contact).values(newContact).returning({ id: contact.id });
-  return result[0].id;
+export async function getTransition(id: number): Promise<Transition | undefined> {
+  return db.select().from(transition).where(eq(transition.id, id)).then((res) => res[0]);
 }
 
-export async function updateUserBase(user: SwapperUserBase) {
-  await db.update(swapperUserBase).set({
+export async function createTransition(newTransition: Transition): Promise<number> {
+  return db.insert(transition).values(newTransition)
+    .returning({ id: transition.id })
+    .then((res) => res[0].id);
+}
+
+export async function updateTransition(updatedTransition: Transition): Promise<number> {
+  return db.update(transition).set({
+    id: updatedTransition.id,
+    areaOffice: updatedTransition.areaOffice,
+    province: updatedTransition.province,
+    subprovince: updatedTransition.subprovince,
+    major: updatedTransition.major,
+  }).where(eq(transition.id, updatedTransition.id!))
+    .returning({ id: transition.id })
+    .then((res) => res[0].id);
+}
+
+export async function deleteTransition(id: number) {
+  await db.delete(transition).where(eq(transition.id, id));
+}
+
+export async function upsertContact(newContact: Contact, id?: number): Promise<number> {
+  const result = await db.select().from(contact).where(eq(contact.id, id!)).then((res) => res[0]);
+
+  if (result) {
+    return updateContact(newContact);
+  }
+
+  return createContact(newContact);
+}
+
+export async function getContact(id: number): Promise<Contact | undefined> {
+  const _contact = await db.select().from(contact).where(eq(contact.id, id)).then((res) => res[0]);
+
+  return {
+    id: _contact.id,
+    email: _contact.email,
+    line: _contact.line ?? undefined,
+    facebook: _contact.facebook ?? undefined,
+    phone: _contact.phone ?? undefined,
+  };
+}
+
+export async function createContact(newContact: Contact): Promise<number> {
+  return db.insert(contact).values(newContact)
+    .returning({ id: contact.id })
+    .then((res) => res[0].id);
+}
+
+export async function updateContact(updatedContact: Contact): Promise<number> {
+  return db.update(contact).set({
+    phone: updatedContact.phone,
+    facebook: updatedContact.facebook,
+    line: updatedContact.line,
+    email: updatedContact.email,
+  }).where(eq(contact.id, updatedContact.id!))
+    .returning({ id: contact.id })
+    .then((res) => res[0].id);
+}
+
+export async function deleteContact(id: number) {
+  await db.delete(contact).where(eq(contact.id, id));
+}
+
+export async function updateUserBase(user: SwapperUserBase): Promise<number> {
+  return db.update(swapperUserBase).set({
     name: user.name,
     picture: user.picture,
     setupComplete: user.setupComplete,
-  }).where(eq(swapperUserBase.id, user.id!));
+  }).where(eq(swapperUserBase.id, user.id!))
+    .returning({ id: swapperUserBase.id })
+    .then((res) => res[0].id);
 }
 
 export async function updateUser(user: SwapperUser) {

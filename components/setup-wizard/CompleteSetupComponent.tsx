@@ -2,12 +2,13 @@
 
 import { Contact, SwapperUser, Transition, mapSetupFormDataToUser } from '@/lib/models/SwapperUser.types';
 import { SetupFormData } from './SetupFormWizardComponent';
-import { createContact, createTransition, updateUser } from '@/lib/db/db';
+import { createContact, createTransition, updateContact, updateTransition, updateUser, upsertContact, upsertTransition } from '@/lib/db/db';
 import { redirect } from 'next/navigation';
 
 export default async function CompleteSetupComponent(formData: SetupFormData, user: SwapperUser) {
-  // Create origin, destination and contact objects:
+  // Upsert origin, destination and contact objects:
   const origin: Transition = {
+    id: user.origin?.id,
     areaOffice: formData.originAreaOffice,
     province: formData.originProvince,
     subprovince: formData.originSubprovince,
@@ -15,6 +16,7 @@ export default async function CompleteSetupComponent(formData: SetupFormData, us
   };
 
   const destination: Transition = {
+    id: user.destination?.id,
     areaOffice: formData.destinationAreaOffice,
     province: formData.destinationProvince,
     subprovince: formData.destinationSubprovince,
@@ -22,25 +24,17 @@ export default async function CompleteSetupComponent(formData: SetupFormData, us
   };
 
   const contact: Contact = {
+    id: user.contact?.id,
     email: formData.contactEmail,
     line: formData.contactLine,
     facebook: formData.contactFacebook,
     phone: formData.contactPhone,
   };
 
-  const originId = await createTransition(origin);
-  const destinationId = await createTransition(destination);
-  const contactId = await createContact(contact);
-
-  // Update user with new IDs:
-  origin.id = originId;
-  destination.id = destinationId;
-  contact.id = contactId;
+  await upsertTransition(origin, user.origin?.id);
+  await upsertTransition(destination, user.destination?.id);
+  await upsertContact(contact, user.contact?.id);
   
-  user.origin = origin;
-  user.destination = destination;
-  user.contact = contact;
-
   // Update user with new data:
   const mappedUser = mapSetupFormDataToUser(formData, user);
 
