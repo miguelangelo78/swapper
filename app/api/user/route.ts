@@ -1,9 +1,10 @@
 import { auth } from '@/app/auth';
 import { getUser } from '@/lib/db/db';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextApiResponse) {
   const session = await auth();
   if (!session) {
     return res.status(401).json({ error: 'Not authenticated' });

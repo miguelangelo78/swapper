@@ -1,8 +1,9 @@
 import { auth } from '@/app/auth';
 import { getUser, updateUser } from '@/lib/db/db';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
+import { NextRequest } from 'next/server';
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
   const session = await auth();
   if (!session) {
     return res.status(401).json({ error: 'Not authenticated' });
