@@ -1,15 +1,13 @@
 'use client';
 import { SwapperButton } from '@/components/SwapperButton';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { restartSetup } from '@/lib/services/client/user.service';
 
 export type MatcherPageClientProps = {
   user: SwapperUser;
 }
 
 function onClickRestartSetup() {
-  restartSetup()
-    .then(() => window.location.reload());
+  window.location.href = '/setup';
 }
 
 export default function MatcherPageClient(
