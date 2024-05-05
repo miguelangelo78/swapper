@@ -13,12 +13,18 @@ export const authConfig: NextAuthConfig = {
     async authorized({ auth, request: { nextUrl } }): Promise<boolean | Response> {
       let isLoggedIn = !!auth?.user;
       let isOnSetup = nextUrl.pathname.startsWith('/setup');
+      let isOnWelcome = nextUrl.pathname.startsWith('/welcome');
       let isOnMatcher = nextUrl.pathname.startsWith('/matcher');
       let isOnSignUp = nextUrl.pathname.startsWith('/signup');
 
       if (isOnSetup) {
         if (isLoggedIn) return true;
         return Response.redirect(new URL('/setup', nextUrl));
+      }
+
+      if(isOnWelcome) {
+        if (isLoggedIn) return true;
+        return Response.redirect(new URL('/login', nextUrl));
       }
 
       if (isOnSignUp) {

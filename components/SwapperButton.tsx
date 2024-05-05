@@ -10,7 +10,7 @@ export type SwapperButtonProps = {
   className?: string,
   type?: 'button' | 'submit',
   styleType?: StyleType,
-  action?: (formData: any) => void,
+  action?: (formData?: any) => void,
   useSpinner?: boolean,
 };
 
@@ -31,7 +31,7 @@ export function SwapperButton({ text, onClick, className, type = 'button', style
 
   const handleClick = () => {
     if (useSpinner) {
-      setLoading(true);
+      setTimeout(() => setLoading(true), 10);
     }
     if (onClick) {
       onClick();
@@ -40,7 +40,7 @@ export function SwapperButton({ text, onClick, className, type = 'button', style
 
   if (action) {
     return (
-      <form className="flex flex-wrap flex-col items-center justify-center w-80" onSubmit={action}>
+      <form className="flex flex-wrap flex-col items-center justify-center w-80" action={action}>
         <button
           type="submit"
           className={`${style} ${className}`}

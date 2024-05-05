@@ -3,6 +3,7 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { SelectOptionType } from './SetupFormWizardComponent';
 import { SwapperButton } from '../SwapperButton';
 import { completeSetup } from '@/lib/services/client/user.service';
+import { useRouter } from 'next/navigation';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -11,6 +12,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
   handlePreviousStep: () => void,
 }) {
+  const router = useRouter()
   const [profileImage, setProfileImage] = useState('');
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
 
   const handleCompleteSetup = async () => {
     completeSetup(formData)
-      .then(() => window.location.href = '/matcher');
+      .then(() => router.push('/welcome'));
   };
 
   return (
