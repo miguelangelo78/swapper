@@ -1,4 +1,5 @@
 'use client';
+import SignOutComponent from '@/components/SignOutComponent';
 import { SwapperButton } from '@/components/SwapperButton';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 
@@ -31,6 +32,8 @@ export default function MatcherPageClient(
     </div>
 
     <SwapperButton onClick={onClickRestartSetup} text="Restart Setup" styleType="primary" useSpinner={true} />
+    <br />
+    <SignOutComponent />
   </div>
   )
 }
