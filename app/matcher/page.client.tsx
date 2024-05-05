@@ -1,4 +1,5 @@
 'use client';
+import Separator from '@/components/SeparatorComponent';
 import SignOutComponent from '@/components/SignOutComponent';
 import { SwapperButton } from '@/components/SwapperButton';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
@@ -15,25 +16,23 @@ export default function MatcherPageClient(
   { user }: MatcherPageClientProps,
 ) {
   return (
-    <div className="flex flex-col items-center justify-center py-2">
-    <div className="text-4xl font-black mb-10">Welcome, {user.firstName}!</div>
-    <img src={user.picture} alt="Profile" className="w-40 h-40 rounded-full object-cover object-center mb-10" />
-    <div className="text-lg mb-10 text-primary justify-center font-medium">You have successfully completed your setup.</div>
-    <div className="text-xl mb-10 text-primary justify-center font-medium">Start matching now!</div>
-
-    <div className="text-primary justify-center mb-6">
-      <div className="justify-center mb-2 text-black font-bold">
-        Here&apos;s the data you provided:
+    <div className="flex flex-col items-center mt-5">
+      <div className='justify-start'>
+        <div className="text-3xl font-bold">Your matches for:</div>
+        <div className="text-4xl font-black text-primary text-center drop-shadow underline">{user.destination.province}</div>
+        {user.destination.subprovince && (
+          <div className="text-2xl font-medium text-primary text-center drop-shadow">{user.destination.subprovince}</div>
+        )}
+        <section className='mb-10'>
+          <Separator />
+        </section>
       </div>
-      <div className="text-lg">Origin: {user.origin.province}, {user.origin.subprovince}</div>
-      <div className="text-lg">Destination: {user.destination.province}, {user.destination.subprovince}</div>
-      <div className="text-lg">Major: {user.origin.major}</div>
-      <div className="text-lg">Contact: {user.contact.email}</div>
-    </div>
 
-    <SwapperButton onClick={onClickRestartSetup} text="Restart Setup" styleType="primary" useSpinner={true} />
-    <br />
-    <SignOutComponent />
-  </div>
+      <div className="text-2xl font-black mb-10">TODO</div>
+
+      <SwapperButton onClick={onClickRestartSetup} text="Restart Setup" styleType="primary" useSpinner={true} />
+      <br />
+      <SignOutComponent />
+    </div>
   )
 }
