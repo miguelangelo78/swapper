@@ -53,10 +53,10 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
           </DropdownItem>
         </DropdownSection>
         <DropdownSection>
-          <DropdownItem key="matcher" color='primary' className='text-black'>Matcher</DropdownItem>
-          <DropdownItem key="profile" color='primary' className='text-black'>Profile</DropdownItem>
-          <DropdownItem key="restartSetup" color='warning' className='text-primary'>Restart Setup</DropdownItem>
-          <DropdownItem key="logout" color='danger' className='text-danger'>Logout</DropdownItem>
+          <DropdownItem key="matcher" color='primary' className='text-black'><div className='text-lg my-2 font-semibold'>Matcher</div></DropdownItem>
+          <DropdownItem key="profile" color='primary' className='text-black'><div className='text-lg my-2 font-semibold'>Profile</div></DropdownItem>
+          <DropdownItem key="restartSetup" color='warning' className='text-primary'><div className='text-lg my-2 font-semibold'>Restart Setup</div></DropdownItem>
+          <DropdownItem key="logout" color='danger' className='text-danger'><div className='text-lg my-2 font-semibold'>Logout</div></DropdownItem>
         </DropdownSection>
       </DropdownMenu>
     </Dropdown>
