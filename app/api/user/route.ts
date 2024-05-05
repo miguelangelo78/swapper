@@ -7,13 +7,13 @@ import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest, res: NextApiResponse) {
   const session = await auth();
   if (!session) {
-    return res.status(401).json({ error: 'Not authenticated' });
+    throw new Error('Unauthorized');
   }
 
   const user = await getUser(session.user!.email as string) as SwapperUser;
 
   if (!user) {
-    return res.status(404).json({ error: 'User not found' });
+    throw new Error('User not found');
   }
 
   return Response.json(user);

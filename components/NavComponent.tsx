@@ -4,8 +4,8 @@ import Link from 'next/link';
 import SignOutComponent from './SignOutComponent';
 import { useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import NavUserDropdown from './NavUserDropdown';
 import { getUser } from '@/lib/services/client/user.service';
+import NavAvatar from './NavAvatarComponent';
 
 export default function Nav() {
   const [swapperUser, setSwapperUser] = useState<SwapperUser | null>(null);
@@ -42,7 +42,7 @@ export default function Nav() {
         <div>
           {swapperUser.setupComplete ? (
             <>
-              <NavUserDropdown user={swapperUser} />
+              <NavAvatar user={swapperUser} />
             </>
           ) : (
             <>
