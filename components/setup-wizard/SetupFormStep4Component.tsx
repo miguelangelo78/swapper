@@ -5,6 +5,8 @@ import { SelectOptionType } from './SetupFormWizardComponent';
 import majors from '@/lib/data/majors.json';
 import { SwapperButton } from '../SwapperButton';
 
+const ENABLE_MAJOR_SWAPPING = false;
+
 export default function SetupFormStep4Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
   formData: any,
@@ -43,36 +45,40 @@ export default function SetupFormStep4Component({ user, formData, handleInputCha
                 required={true}
               />
             </div>
-            <div className="flex justify-center">
-              <span className="text-5xl font-black text-primary">↓</span>
-            </div>
-            <div className="w-full mb-5">
-              <label htmlFor="destinationMajor" className="block text-xl font-medium text-gray-700 mb-2">Select your destination major</label>
-              <AutoSelect
-                id="destinationMajor"
-                name="destinationMajor"
-                value={formData.destinationMajor}
-                onChange={handleInputChange}
-                options={majors.map(option => ({ value: option, label: option }))}
-                placeholder="Destination major..."
-                disabled={disableDestination}
-                required={!disableDestination}
-              />
-              <div className="w-full mt-5">
-                <div className="flex items-center mt-3">
-                  <input
-                    type="checkbox"
-                    id="disableDestination"
-                    name="disableDestination"
-                    checked={disableDestination}
-                    onChange={handleDisableDestinationChange}
-                    className="form-checkbox h-7 w-7 text-primary border-primary rounded focus:ring-indigo-500 cursor-pointer"
-                  />
-                  <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don&apos;t want to select a destination major</label>
+            {ENABLE_MAJOR_SWAPPING ? (
+              <>
+                <div className="flex justify-center">
+                  <span className="text-5xl font-black text-primary">↓</span>
                 </div>
-              </div>
-            </div>
-            <div className="flex w-full gap-4 justify-between">
+                <div className="w-full">
+                  <label htmlFor="destinationMajor" className="block text-xl font-medium text-gray-700 mb-2">Select your destination major</label>
+                  <AutoSelect
+                    id="destinationMajor"
+                    name="destinationMajor"
+                    value={formData.destinationMajor}
+                    onChange={handleInputChange}
+                    options={majors.map(option => ({ value: option, label: option }))}
+                    placeholder="Destination major..."
+                    disabled={disableDestination}
+                    required={!disableDestination}
+                  />
+                  <div className="w-full mt-5">
+                    <div className="flex items-center mt-3">
+                      <input
+                        type="checkbox"
+                        id="disableDestination"
+                        name="disableDestination"
+                        checked={disableDestination}
+                        onChange={handleDisableDestinationChange}
+                        className="form-checkbox h-7 w-7 text-primary border-primary rounded focus:ring-indigo-500 cursor-pointer"
+                      />
+                      <label htmlFor="disableDestination" className="ml-2 text-sm font-medium text-gray-900 cursor-pointer select-none">I don&apos;t want to select a destination major</label>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : null}
+            <div className="flex w-full gap-4 justify-between mt-5">
               <SwapperButton text='Previous Step' styleType='secondary' onClick={handlePreviousStep} />
               <SwapperButton type='submit' text='Next Step' />
             </div>

@@ -78,6 +78,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
 
   return (
     <Select
+      key={`${id}-${type}-${options.find(option => option.value === value)}`}
       inputId={id}
       name={name}
       options={options}

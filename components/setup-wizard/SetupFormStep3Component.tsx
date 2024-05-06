@@ -23,10 +23,8 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
   const isOriginAreaVisible = filteredOriginEducationAreaOptions.length > 0;
   const isDestinationAreaVisible = filteredDestinationEducationAreaOptions.length > 0;
 
-  const originAreaDisabled = !(formData.originProvince && !formData.originSubprovince);
-  const destinationAreaDisabled = !(formData.destinationProvince && !formData.destinationSubprovince);
-  const originSubprovinceDisabled = !(formData.originProvince && !formData.originEducationArea || !isOriginAreaVisible);
-  const destinationSubprovinceDisabled = !(formData.destinationProvince && !formData.destinationEducationArea || !isDestinationAreaVisible);
+  const originAreaRequired = (formData.originProvince && !formData.originSubprovince);
+  const destinationAreaRequired = (formData.destinationProvince && !formData.destinationSubprovince);
 
   useEffect(() => {
     // Update subprovince options when the origin province changes
@@ -68,25 +66,31 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 id="originProvince"
                 name="originProvince"
                 value={formData.originProvince}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  formData.originSubprovince = '';
+                  formData.originEducationArea = '';
+                  handleInputChange(e);
+                }}
                 options={provinceData.map(option => ({ value: option, label: option }))}
                 placeholder="Origin province..."
                 required={true}
               />
               <div className="flex transition-all duration-500 ease-in-out mt-1 gap-1">
                 {/* Origin Area and Subprovince */}
-                {filteredOriginEducationAreaOptions.length > 0 && (
+                {isOriginAreaVisible && (
                   <AutoSelect
                     id="originEducationArea"
                     type={AutoSelectType.Secondary}
                     name="originEducationArea"
                     className='w-6/12'
                     value={formData.originEducationArea}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      formData.originSubprovince = '';
+                      handleInputChange(e);
+                    }}
                     options={filteredOriginEducationAreaOptions}
                     placeholder={"Area..."}
-                    required={!originAreaDisabled}
-                    disabled={originAreaDisabled}
+                    required={originAreaRequired}
                   />
                 )
                 }
@@ -97,11 +101,13 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   className='w-full'
                   styles={{}}
                   value={formData.originSubprovince}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    formData.originEducationArea = '';
+                    handleInputChange(e);
+                  }}
                   options={filteredOriginSubprovinceOptions}
                   placeholder={formData.originProvince ? "Subprovince..." : "Select a province first"}
-                  required={!originSubprovinceDisabled}
-                  disabled={originSubprovinceDisabled}
+                  required={!isOriginAreaVisible}
                 />
               </div>
             </div>
@@ -114,25 +120,31 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                 id="destinationProvince"
                 name="destinationProvince"
                 value={formData.destinationProvince}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  formData.destinationSubprovince = '';
+                  formData.destinationEducationArea = '';
+                  handleInputChange(e);
+                }}
                 options={provinceData.map(option => ({ value: option, label: option }))}
                 placeholder="Destination province..."
                 required={true}
               />
               <div className="flex transition-all duration-500 ease-in-out mt-1 gap-1">
                 {/* Destination Area and Subprovince */}
-                {filteredDestinationEducationAreaOptions.length > 0 && (
+                {isDestinationAreaVisible && (
                   <AutoSelect
                     id="destinationEducationArea"
                     type={AutoSelectType.Secondary}
                     name="destinationEducationArea"
                     className='w-6/12'
                     value={formData.destinationEducationArea}
-                    onChange={handleInputChange}
+                    onChange={(e) => {
+                      formData.destinationSubprovince = '';
+                      handleInputChange(e);
+                    }}
                     options={filteredDestinationEducationAreaOptions}
                     placeholder={"Area..."}
-                    required={!destinationAreaDisabled}
-                    disabled={destinationAreaDisabled}
+                    required={destinationAreaRequired}
                   />
                 )
                 }
@@ -142,11 +154,13 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   name="destinationSubprovince"
                   className='w-full'
                   value={formData.destinationSubprovince}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    formData.destinationEducationArea = '';
+                    handleInputChange(e);
+                  }}
                   options={filteredDestinationSubprovinceOptions}
                   placeholder={formData.destinationProvince ? "Subprovince..." : "Select a province first"}
-                  required={!destinationSubprovinceDisabled}
-                  disabled={destinationSubprovinceDisabled}
+                  required={!isDestinationAreaVisible}                  
                 />
               </div>
             </div>
