@@ -53,6 +53,8 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     destinationSubprovince: user.destination.subprovince || '',
     originAreaOffice: user.origin.areaOffice || '',
     destinationAreaOffice: user.destination.areaOffice || '',
+    originEducationArea: user.origin.educationArea || '',
+    destinationEducationArea: user.destination.educationArea || '',
     disableDestinationAreaOffice: !!!user.destination.areaOffice,
     originMajor: user.origin.major || '',
     destinationMajor: user.destination.major || '',

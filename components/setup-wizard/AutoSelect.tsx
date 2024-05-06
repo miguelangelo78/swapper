@@ -15,6 +15,8 @@ interface AutoSelectProps {
   id: string;
   type?: AutoSelectType;
   name: string;
+  className?: string;
+  styles?: CSSObjectWithLabel;
   value: string;
   onChange: (event: { value: string; name: string }) => void;
   options: AutoSelectOptionType[];
@@ -27,6 +29,8 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
   id,
   type = AutoSelectType.Primary,
   name,
+  className = '',
+  styles = {},
   value,
   onChange,
   options,
@@ -38,7 +42,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
     onChange({ value: selectedOption ? selectedOption.value : '', name });
   };
 
-  const styles = type === AutoSelectType.Primary ? {
+  const appliedStyles = type === AutoSelectType.Primary ? {
     control: (baseStyles: CSSObjectWithLabel, state: ControlProps<AutoSelectOptionType, false, GroupBase<AutoSelectOptionType>>) => ({
       ...baseStyles,
       borderColor: disabled ? 'gray' : (state.isFocused ? '#00AEEC' : '#6D3AFA'),
@@ -55,6 +59,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
         borderBlockColor: disabled ? 'gray' : '#00AEEC',
         boxShadow: disabled ? '' : ('0 0 1rem #00AEEC'),
       },
+      ...styles,
     }),
   } : {
     control: (baseStyles: CSSObjectWithLabel, state: ControlProps<AutoSelectOptionType, false, GroupBase<AutoSelectOptionType>>) => ({
@@ -67,6 +72,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
         borderBlockColor: disabled ? 'gray' : '#00AEEC',
         boxShadow: disabled ? '' : ('0 0 1rem #00AEEC'),
       },
+      ...styles,
     }),
   };
 
@@ -75,7 +81,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
       inputId={id}
       name={name}
       options={options}
-      className="basic-single"
+      className={`basic-single ${className}`}
       classNamePrefix="select"
       placeholder={placeholder || "Select..."}
       isClearable
@@ -87,7 +93,7 @@ const AutoSelect: React.FC<AutoSelectProps> = ({
       onChange={handleChange}
       onFocus={() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
       value={options.find(option => option.value === value)}
-      styles={styles}
+      styles={appliedStyles}
     />
   );
 };
