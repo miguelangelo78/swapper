@@ -12,9 +12,9 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
   return (
-    <div className="flex flex-col items-center justify-center py-2">
-      <div className="text-2xl font-black mb-2 mt-5 justify-center text-center">Almost there {user.firstName}!</div>
-      <div className="text-xl mb-10 text-primary font-medium justify-center text-center">
+    <div className="flex flex-col items-center justify-center">
+      <div className="text-2xl font-black mb-2 mt-4 justify-center text-center">Almost there {user.firstName}!</div>
+      <div className="text-lg mb-3 text-primary font-medium justify-center text-center">
         Please follow the steps before matching
       </div>
       <div className="flex flex-wrap justify-center">
@@ -36,8 +36,12 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
                 onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
             </div>
             <div>
-              <div className="text-2xl font-bold text-center">Contact details</div>
-              <hr className='w-full bg-secondary mt-1 h-1' />
+              <label htmlFor="schoolName" className="block text-sm font-medium text-gray-700">Current School Name</label>
+              <input type="text" id="schoolName" name="schoolName" defaultValue={formData.schoolName}
+                onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+            </div>
+            <div>
+              <div className="text-2xl font-black text-center">Contact details</div>
             </div>
             <div>
               <label htmlFor="contactEmail" className="block text-sm font-medium text-gray-700">Email <Required /></label>

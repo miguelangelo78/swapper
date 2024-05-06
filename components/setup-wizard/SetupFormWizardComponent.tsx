@@ -16,6 +16,7 @@ export interface SetupFormData {
   firstName: string;
   lastName: string;
   nickname: string;
+  schoolName: string;
   contactEmail: string;
   contactLine: string;
   contactFacebook: string;
@@ -41,6 +42,7 @@ export default function SetupFormWizardComponent({ user }: { user: SwapperUser }
     firstName: user.firstName,
     lastName: user.lastName,
     nickname: user.nickname,
+    schoolName: user.schoolName,
     contactEmail: user.email,
     contactLine: user.contact?.line || '',
     contactFacebook: user.contact?.facebook || '',

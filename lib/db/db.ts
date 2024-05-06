@@ -267,6 +267,7 @@ export async function updateUser(user: SwapperUser) {
     firstName: user.firstName,
     lastName: user.lastName,
     nickname: user.nickname,
+    schoolName: user.schoolName,
     originId: user.origin.id,
     destinationId: user.destination.id,
     contactId: user.contact.id,

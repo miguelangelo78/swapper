@@ -51,6 +51,7 @@ export function mapSetupFormDataToUser(formData: SetupFormData, user: SwapperUse
     firstName: formData.firstName,
     lastName: formData.lastName,
     nickname: formData.nickname,
+    schoolName: formData.schoolName,
     picture: formData.profileImage,
     origin: {
       ...user.origin,
