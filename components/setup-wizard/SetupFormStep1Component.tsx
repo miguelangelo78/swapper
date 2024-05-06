@@ -19,7 +19,7 @@ export default function SetupFormStep1Component({ user, formData, handleInputCha
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="max-w-lg w-full mx-auto">
-          <form className="space-y-4 w-86" onSubmit={handleSubmit}>
+          <form className="space-y-4 w-96" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name <Required /></label>
               <input type="text" id="firstName" name="firstName" defaultValue={formData.firstName}

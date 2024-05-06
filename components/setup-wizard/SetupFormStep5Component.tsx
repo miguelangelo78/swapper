@@ -59,7 +59,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
 
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <div className="flex flex-wrap flex-col items-center justify-center w-86">
+          <div className="flex flex-wrap flex-col items-center justify-center w-80">
             <input
               type="file"
               placeholder='Upload a new profile picture'
