@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { pgTable, serial, varchar, boolean, text, integer } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, boolean, text, integer, date, timestamp } from 'drizzle-orm/pg-core';
 import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { eq } from 'drizzle-orm';
@@ -11,16 +11,20 @@ const db = drizzle(client);
 
 const swapperUserBase = pgTable('swapper_user_base', {
   id: serial('id').primaryKey(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
   email: varchar('email', { length: 255 }).unique(),
+  password: varchar('password', { length: 255 }),
   name: varchar('name', { length: 255 }),
   picture: text('picture'),
   setupComplete: boolean('setup_complete'),
-  password: varchar('password', { length: 255 })
+  lastLogin: timestamp('last_login'),
 });
 
 const swapperUser = pgTable('swapper_user', {
   userId: integer('user_id').references(() => swapperUserBase.id).primaryKey(),
   firstName: varchar('first_name', { length: 64 }).notNull(),
+  schoolName: varchar('school_name', { length: 64 }).notNull(),
   lastName: varchar('last_name', { length: 64 }).notNull(),
   nickname: varchar('nickname', { length: 64 }),
   originId: integer('origin_id').references(() => transition.id),
@@ -30,14 +34,19 @@ const swapperUser = pgTable('swapper_user', {
 
 const transition = pgTable('transition', {
   id: serial('id').primaryKey(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
   areaOffice: varchar('area_office', { length: 255 }).notNull(),
   province: varchar('province', { length: 255 }).notNull(),
   subprovince: varchar('subprovince', { length: 255 }).notNull(),
+  educationArea: varchar('education_area', { length: 255 }).notNull(),
   major: varchar('major', { length: 64 }).notNull(),
 });
 
 const contact = pgTable('contact', {
   id: serial('id').primaryKey(),
+  createdAt: timestamp('created_at'),
+  updatedAt: timestamp('updated_at'),
   email: varchar('email', { length: 255 }).notNull(),
   line: varchar('line', { length: 255 }),
   facebook: varchar('facebook', { length: 255 }),
@@ -54,6 +63,8 @@ export async function getUserBase(email: string): Promise<SwapperUserBase | unde
 
   return {
     id: result.id,
+    createdAt: result.createdAt!,
+    updatedAt: result.updatedAt!,
     email: result.email!,
     name: result.name!,
     picture: result.picture!,
@@ -86,17 +97,39 @@ export async function getUser(email: string): Promise<SwapperUser> {
 
   return {
     id: user.swapper_user_base.id,
+    createdAt: user.swapper_user_base.createdAt!,
+    updatedAt: user.swapper_user_base.updatedAt!,
     email: user.swapper_user_base.email!,
+    password: user.swapper_user_base.password!,
     name: user.swapper_user_base.name!,
     picture: user.swapper_user_base.picture!,
     setupComplete: user.swapper_user_base.setupComplete!,
+    lastLogin: user.swapper_user_base.lastLogin!,
     firstName: user.swapper_user.firstName!,
     lastName: user.swapper_user.lastName!,
     nickname: user.swapper_user.nickname!,
-    origin,
-    destination,
+    schoolName: user.swapper_user.schoolName!,
+    origin: {
+      id: origin.id,
+      createdAt: origin.createdAt!,
+      updatedAt: origin.updatedAt!,
+      areaOffice: origin.areaOffice,
+      province: origin.province,
+      subprovince: origin.subprovince,
+      major: origin.major,
+      educationArea: origin.educationArea,
+    },
+    destination: {
+      id: destination.id,
+      createdAt: destination.createdAt!,
+      updatedAt: destination.updatedAt!,
+      areaOffice: destination.areaOffice,
+      province: destination.province,
+      subprovince: destination.subprovince,
+      major: destination.major,
+      educationArea: destination.educationArea,
+    },
     contact: _contact as any,
-    password: user.swapper_user_base.password!,
   }
 }
 
@@ -123,6 +156,7 @@ export async function createUser(authUser: User, password: string): Promise<numb
       firstName,
       lastName,
       nickname: '',
+      schoolName: '',
     }).returning({ userId: swapperUser.userId })
       .then((res) => res[0].userId);
 }
@@ -138,7 +172,13 @@ export async function upsertTransition(newTransition: Transition, id?: number): 
 }
 
 export async function getTransition(id: number): Promise<Transition | undefined> {
-  return db.select().from(transition).where(eq(transition.id, id)).then((res) => res[0]);
+  const result = await db.select().from(transition).where(eq(transition.id, id)).then((res) => res[0]);
+
+  return {
+    ...result,
+    createdAt: result.createdAt!,
+    updatedAt: result.updatedAt!,
+  }
 }
 
 export async function createTransition(newTransition: Transition): Promise<number> {
@@ -252,4 +292,10 @@ export async function updateUser(user: SwapperUser) {
     subprovince: user.destination.subprovince,
     major: user.destination.major,
   }).where(eq(transition.id, user.destination.id!));
+}
+
+export async function updateUserBaseLastLogin(user: SwapperUserBase) {
+  return db.update(swapperUserBase).set({
+    lastLogin: new Date(Date.now()),
+  }).where(eq(swapperUserBase.id, user.id!));
 }

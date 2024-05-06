@@ -28,6 +28,8 @@ export interface SetupFormData {
   destinationAreaOffice: string;
   disableDestinationAreaOffice: boolean;
   originMajor: string;
+  originEducationArea: string;
+  destinationEducationArea: string;
   destinationMajor: string;
   disableDestinationMajor: boolean;
   profileImage: string;

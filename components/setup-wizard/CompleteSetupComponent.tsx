@@ -13,6 +13,7 @@ export default async function CompleteSetupComponent(formData: SetupFormData, us
     province: formData.originProvince,
     subprovince: formData.originSubprovince,
     major: formData.originMajor,
+    educationArea: formData.originEducationArea,
   };
 
   const destination: Transition = {
@@ -21,6 +22,7 @@ export default async function CompleteSetupComponent(formData: SetupFormData, us
     province: formData.destinationProvince,
     subprovince: formData.destinationSubprovince,
     major: formData.destinationMajor,
+    educationArea: formData.destinationEducationArea,
   };
 
   const contact: Contact = {

@@ -21,22 +21,27 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
   // Upsert origin, destination and contact objects:
   const origin: Transition = {
     id: user.origin?.id,
+    createdAt: user.origin.createdAt,
     areaOffice: formData.originAreaOffice,
     province: formData.originProvince,
     subprovince: formData.originSubprovince,
     major: formData.originMajor,
+    educationArea: formData.originEducationArea,
   };
 
   const destination: Transition = {
     id: user.destination?.id,
+    createdAt: user.destination.createdAt,
     areaOffice: formData.destinationAreaOffice,
     province: formData.destinationProvince,
     subprovince: formData.destinationSubprovince,
     major: formData.destinationMajor,
+    educationArea: formData.destinationEducationArea,
   };
 
   const contact: Contact = {
     id: user.contact?.id,
+    createdAt: user.contact.createdAt,
     email: formData.contactEmail,
     line: formData.contactLine,
     facebook: formData.contactFacebook,

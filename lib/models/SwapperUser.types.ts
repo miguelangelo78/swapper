@@ -2,17 +2,21 @@ import { SetupFormData } from "@/components/setup-wizard/SetupFormWizardComponen
 
 export interface SwapperUserBase {
   id?: number,
+  updatedAt?: Date,
+  createdAt?: Date,
   email: string,
+  password: string,
   name?: string,
   picture?: string,
   setupComplete: boolean,
-  password: string,
+  lastLogin?: Date,
 }
 
 export interface SwapperUser extends SwapperUserBase {
   firstName: string;
   lastName: string;
   nickname: string;
+  schoolName: string;
   origin: Transition;
   destination: Transition;
   contact: Contact;
@@ -20,14 +24,19 @@ export interface SwapperUser extends SwapperUserBase {
 
 export interface Transition {
   id?: number;
+  updatedAt?: Date,
+  createdAt?: Date,
   areaOffice: string;
   province: string;
   subprovince: string;
   major: string;
+  educationArea: string;
 }
 
 export interface Contact {
   id?: number;
+  updatedAt?: Date,
+  createdAt?: Date,
   email: string;
   line?: string;
   facebook?: string;
@@ -37,11 +46,14 @@ export interface Contact {
 export function mapSetupFormDataToUser(formData: SetupFormData, user: SwapperUser): SwapperUser {
   return {
     ...user,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
     firstName: formData.firstName,
     lastName: formData.lastName,
     nickname: formData.nickname,
     picture: formData.profileImage,
     origin: {
+      ...user.origin,
       id: user.origin.id,
       areaOffice: formData.originAreaOffice,
       province: formData.originProvince,
@@ -49,6 +61,7 @@ export function mapSetupFormDataToUser(formData: SetupFormData, user: SwapperUse
       major: formData.originMajor,
     },
     destination: {
+      ...user.destination,
       id: user.destination.id,
       areaOffice: formData.destinationAreaOffice,
       province: formData.destinationProvince,

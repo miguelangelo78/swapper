@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
-import { createUser, getUser, getUserBase } from '../lib/db/db';
+import { createUser, getUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/db';
 
 export const {
   handlers: { GET, POST },
@@ -33,6 +33,9 @@ export const {
         const dbUser = await getUserBase(user.email);
         if (!dbUser) {
           await createUser(user, '');
+        } else {
+          // Update lastLogin:
+          await updateUserBaseLastLogin(dbUser);
         }
       } else {
         throw new Error(`No email provided for user: ${JSON.stringify(user)}`);
