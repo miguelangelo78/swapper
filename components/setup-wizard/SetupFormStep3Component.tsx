@@ -23,6 +23,11 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
   const isOriginAreaVisible = filteredOriginEducationAreaOptions.length > 0;
   const isDestinationAreaVisible = filteredDestinationEducationAreaOptions.length > 0;
 
+  const isOriginAreaDisabled = !formData.originProvince;
+  const isDestinationAreaDisabled = !formData.destinationProvince;
+  const isOriginSubprovinceDisabled = !formData.originProvince;
+  const isDestinationSubpriovinceDisabled = !formData.destinationProvince;
+
   const originAreaRequired = (formData.originProvince && !formData.originSubprovince);
   const destinationAreaRequired = (formData.destinationProvince && !formData.destinationSubprovince);
 
@@ -59,7 +64,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center w-80" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap flex-col items-center justify-center w-86" onSubmit={handleSubmit}>
             <div className="w-full">
               <label htmlFor="originProvince" className="block text-xl font-medium text-gray-700 mb-2">Select your origin province</label>
               <AutoSelect
@@ -91,6 +96,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     options={filteredOriginEducationAreaOptions}
                     placeholder={"Area..."}
                     required={originAreaRequired}
+                    disabled={isOriginAreaDisabled}
                   />
                 )
                 }
@@ -108,6 +114,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   options={filteredOriginSubprovinceOptions}
                   placeholder={formData.originProvince ? "Subprovince..." : "Select a province first"}
                   required={!isOriginAreaVisible}
+                  disabled={isOriginSubprovinceDisabled}
                 />
               </div>
             </div>
@@ -145,6 +152,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     options={filteredDestinationEducationAreaOptions}
                     placeholder={"Area..."}
                     required={destinationAreaRequired}
+                    disabled={isDestinationAreaDisabled}
                   />
                 )
                 }
@@ -160,7 +168,8 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   }}
                   options={filteredDestinationSubprovinceOptions}
                   placeholder={formData.destinationProvince ? "Subprovince..." : "Select a province first"}
-                  required={!isDestinationAreaVisible}                  
+                  required={!isDestinationAreaVisible}
+                  disabled={isDestinationSubpriovinceDisabled}                
                 />
               </div>
             </div>
