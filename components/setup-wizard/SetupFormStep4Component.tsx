@@ -32,7 +32,7 @@ export default function SetupFormStep4Component({ user, formData, handleInputCha
       </div>
       <div className="flex flex-wrap justify-center">
         <div className="w-full mx-auto">
-          <form className="flex flex-wrap flex-col items-center justify-center w-80" onSubmit={handleSubmit}>
+          <form className="flex flex-wrap flex-col items-center justify-center w-86" onSubmit={handleSubmit}>
             <div className="w-full">
               <label htmlFor="originMajor" className="block text-xl font-medium text-gray-700 mb-2">Select your origin major</label>
               <AutoSelect
