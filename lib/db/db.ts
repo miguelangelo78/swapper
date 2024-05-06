@@ -194,6 +194,7 @@ export async function updateTransition(updatedTransition: Transition): Promise<n
     province: updatedTransition.province,
     subprovince: updatedTransition.subprovince,
     major: updatedTransition.major,
+    educationArea: updatedTransition.educationArea,
   }).where(eq(transition.id, updatedTransition.id!))
     .returning({ id: transition.id })
     .then((res) => res[0].id);

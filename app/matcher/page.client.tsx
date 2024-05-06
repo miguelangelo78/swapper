@@ -16,6 +16,9 @@ export default function MatcherPageClient(
         {user.destination.subprovince && (
           <div className="text-xl font-medium text-primary text-center drop-shadow">{user.destination.subprovince}</div>
         )}
+        {user.destination.educationArea && (
+          <div className="text-xl font-medium text-primary text-center drop-shadow">Area {user.destination.educationArea}</div>
+        )}
         <section className='mb-10'>
         </section>
       </div>
