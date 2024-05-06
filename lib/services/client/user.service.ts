@@ -23,3 +23,9 @@ export async function restartSetup(): Promise<void> {
     .then((res) => res.json())
     .catch((error) => console.error(error));
 }
+
+export async function refreshLastLogin(): Promise<void> {
+  return fetch('/api/refresh-lastlogin', { method: 'POST' })
+    .then((res) => res.json())
+    .catch((error) => console.error(error));
+}

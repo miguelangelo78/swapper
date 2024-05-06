@@ -262,6 +262,7 @@ export async function updateUser(user: SwapperUser) {
     name: user.name,
     picture: user.picture,
     setupComplete: user.setupComplete,
+    lastLogin: user.lastLogin,
   }).where(eq(swapperUserBase.id, user.id!));
 
   await db.update(swapperUser).set({

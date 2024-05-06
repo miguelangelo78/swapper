@@ -4,7 +4,7 @@ import Link from 'next/link';
 import SignOutComponent from './SignOutComponent';
 import { useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { getUser } from '@/lib/services/client/user.service';
+import { getUser, refreshLastLogin } from '@/lib/services/client/user.service';
 import NavAvatar from './NavAvatarComponent';
 
 export default function Nav() {
@@ -12,7 +12,10 @@ export default function Nav() {
 
   useEffect(() => {
     getUser()
-      .then((data) => setSwapperUser(data));
+      .then((data) => {
+        setSwapperUser(data);
+        refreshLastLogin();
+      });
   }, []);
 
   if (!swapperUser) {
