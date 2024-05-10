@@ -29,3 +29,9 @@ export async function refreshLastLogin(): Promise<void> {
     .then((res) => res.json())
     .catch((error) => console.error(error));
 }
+
+export async function findMatchesForUser(): Promise<SwapperUser[]> {
+  return fetch('/api/findmatches', { method: 'POST' })
+    .then((res) => res.json())
+    .catch((error) => console.error(error));
+}

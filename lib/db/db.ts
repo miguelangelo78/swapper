@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
-import { pgTable, serial, varchar, boolean, text, integer, date, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, boolean, text, integer, timestamp, alias } from 'drizzle-orm/pg-core';
 import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { User } from 'next-auth';
 import { Contact, SwapperUser, SwapperUserBase, Transition } from '@/lib/models/SwapperUser.types';
 
@@ -131,6 +131,53 @@ export async function getUser(email: string): Promise<SwapperUser> {
     },
     contact: _contact as any,
   }
+}
+
+function mapRowToSwapperUser(row: any): SwapperUser {
+  return {
+    id: row.swapper_user_base.id,
+    createdAt: row.swapper_user_base.createdAt!,
+    updatedAt: row.swapper_user_base.updatedAt!,
+    email: row.swapper_user_base.email!,
+    password: row.swapper_user_base.password!,
+    name: row.swapper_user_base.name!,
+    picture: row.swapper_user_base.picture!,
+    setupComplete: row.swapper_user_base.setupComplete!,
+    lastLogin: row.swapper_user_base.lastLogin!,
+    firstName: row.swapper_user.firstName!,
+    lastName: row.swapper_user.lastName!,
+    nickname: row.swapper_user.nickname!,
+    schoolName: row.swapper_user.schoolName!,
+    origin: {
+      id: row.swapper_user.originId,
+      createdAt: row.transition_origin.createdAt!,
+      updatedAt: row.transition_origin.updatedAt!,
+      areaOffice: row.transition_origin.areaOffice,
+      province: row.transition_origin.province,
+      subprovince: row.transition_origin.subprovince,
+      major: row.transition_origin.major,
+      educationArea: row.transition_origin.educationArea,
+    },
+    destination: {
+      id: row.swapper_user.destinationId,
+      createdAt: row.transition_destination.createdAt!,
+      updatedAt: row.transition_destination.updatedAt!,
+      areaOffice: row.transition_destination.areaOffice,
+      province: row.transition_destination.province,
+      subprovince: row.transition_destination.subprovince,
+      major: row.transition_destination.major,
+      educationArea: row.transition_destination.educationArea,
+    },
+    contact: {
+      id: row.swapper_user.contactId,
+      createdAt: row.contact.createdAt!,
+      updatedAt: row.contact.updatedAt!,
+      email: row.contact.email,
+      line: row.contact.line,
+      facebook: row.contact.facebook,
+      phone: row.contact.phone,
+    },
+  };
 }
 
 export async function createUser(authUser: User, password: string): Promise<number> {
@@ -301,4 +348,47 @@ export async function updateUserBaseLastLogin(user: SwapperUserBase) {
   return db.update(swapperUserBase).set({
     lastLogin: new Date(Date.now()),
   }).where(eq(swapperUserBase.id, user.id!));
+}
+
+export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser[]> {
+  const destinationProvince = user.destination.province;
+  const destinationSubprovince = user.destination.subprovince;
+  const destinationEducationArea = user.destination.educationArea;
+  const destinationAreaOffice = user.destination.areaOffice || user.origin.areaOffice;
+  const destinationMajor = user.destination.major || user.origin.major;
+
+  const transitionOriginAlias = alias(transition, 'transition_origin');
+  const transitionDestinationAlias = alias(transition, 'transition_destination');
+
+  // Find users that match the destination criteria above:
+  const matches = await db
+    .select()
+    .from(swapperUserBase)
+    .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
+    .innerJoin(transitionOriginAlias, eq(swapperUser.originId, transitionOriginAlias.id))
+    .innerJoin(transitionDestinationAlias, eq(swapperUser.destinationId, transitionDestinationAlias.id))
+    .innerJoin(contact, eq(swapperUser.contactId, contact.id))
+    .where(
+      and(
+        eq(transitionOriginAlias.province, destinationProvince),
+        !!destinationSubprovince ?
+          eq(transitionOriginAlias.subprovince, destinationSubprovince) :
+          eq(transitionOriginAlias.educationArea, destinationEducationArea),
+        eq(transitionOriginAlias.areaOffice, destinationAreaOffice),
+        eq(transitionOriginAlias.major, destinationMajor),
+        eq(swapperUserBase.setupComplete, true),
+      ),
+    )
+    .then((res) => res);
+
+  // Filter matches to match the user's origin criteria:
+  const filteredMatches = matches.filter((match) => {
+    return match.transition_destination.province === user.origin.province &&
+      (
+        match.transition_destination.subprovince === user.origin.subprovince ||
+        match.transition_destination.educationArea === user.origin.educationArea
+      )
+  });
+
+  return filteredMatches.map(mapRowToSwapperUser);
 }
