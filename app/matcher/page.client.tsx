@@ -42,7 +42,7 @@ export default function MatcherPageClient(
             <>
               <div className="w-96 mt-5">
                 {matches!.map((match) => (
-                  <Card key={match.id} className='bg-primary w-96 text-white my-5 shadow-md shadow-primary'>
+                  <Card key={match.id} className='bg-primary w-96 text-white my-3 shadow-md shadow-primary'>
                     <CardHeader className='justify-between'>
                       <div className='flex gap-3'>
                         <Avatar
@@ -60,13 +60,13 @@ export default function MatcherPageClient(
                           ) : (
                             <>
                               <div className="text-lg font-black">{match.firstName} {match.lastName}</div>
-                              <div className="text-xs font-medium bg-tertiary mt-1 rounded-lg px-2 text-primary">{match.origin.major}</div>
+                              <div className="text-xs font-medium bg-tertiary mt-1 rounded-lg px-2 text-primary w-fit">{match.origin.major}</div>
                             </>
                           )}
-                          <div className="text-base font-normal">{match.schoolName}</div>
+                          <div className="text-base font-thin">{match.schoolName}</div>
                         </div>
                       </div>
-                      <Button className='bg-tertiary text-primary rounded-lg shadow-sm shadow-secondary font-semibold'>Match</Button>
+                      <Button className='bg-tertiary text-primary rounded-lg border-secondary font-semibold mr-3'>Match</Button>
                     </CardHeader>
                   </Card>
                 ))}
