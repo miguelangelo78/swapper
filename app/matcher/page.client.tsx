@@ -43,7 +43,7 @@ export default function MatcherPageClient(
               <div className="w-96 mt-5">
                 {matches!.map((match) => (
                   <Card key={match.id} className='bg-primary w-96 text-white my-5 shadow-md shadow-primary'>
-                    <CardHeader className='justify-between border-b'>
+                    <CardHeader className='justify-between'>
                       <div className='flex gap-3'>
                         <Avatar
                           size='lg'
@@ -52,29 +52,22 @@ export default function MatcherPageClient(
                           src={match.picture}
                         />
                         <div className='flex flex-col'>
-                          <div className="text-lg font-black">{match.nickname}</div>
-                          <div className="text-lg font-strong">{match.firstName}&nbsp;{match.lastName}</div>
+                          {match.nickname ? (
+                            <>
+                              <div className="text-lg font-black">{match.nickname} <span className='text-xs font-medium bg-tertiary ml-1 rounded-lg px-2 text-primary'>{match.origin.major}</span></div>
+                              <div className="text-base font-normal">{match.firstName} {match.lastName}</div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="text-lg font-black">{match.firstName} {match.lastName}</div>
+                              <div className="text-xs font-medium bg-tertiary mt-1 rounded-lg px-2 text-primary">{match.origin.major}</div>
+                            </>
+                          )}
+                          <div className="text-base font-normal">{match.schoolName}</div>
                         </div>
                       </div>
-                      <Button className='bg-tertiary text-primary font-semibold'>Match</Button>
+                      <Button className='bg-tertiary text-primary rounded-lg shadow-sm shadow-secondary font-semibold'>Match</Button>
                     </CardHeader>
-                    <CardBody>
-                      <div className='justify-between flex'>
-                        <div>
-                          <div className="text-md font-bold">{match.origin.province}</div>
-                          {match.origin.subprovince && (
-                            <div className="text-md font-medium">{match.origin.subprovince}</div>
-                          )}
-                          {match.origin.educationArea && (
-                            <div className="text-center text-md font-medium">Area {match.origin.educationArea}</div>
-                          )}
-                        </div>
-                        <div>
-                          <div className="text-base font-semibold">{match.schoolName}</div>
-                          <div className="text-base font-semibold">{match.origin.major}</div>
-                        </div>
-                      </div>
-                    </CardBody>
                   </Card>
                 ))}
               </div>
