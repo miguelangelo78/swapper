@@ -360,6 +360,12 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
   const transitionOriginAlias = alias(transition, 'transition_origin');
   const transitionDestinationAlias = alias(transition, 'transition_destination');
 
+  const subAreaCriteria = !destinationSubprovince && !destinationEducationArea ?
+    undefined 
+    : (destinationSubprovince ?
+      eq(transitionOriginAlias.subprovince, destinationSubprovince) :
+      eq(transitionOriginAlias.educationArea, destinationEducationArea));
+
   // Find users that match the destination criteria above:
   const matches = await db
     .select()
@@ -371,9 +377,7 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
     .where(
       and(
         eq(transitionOriginAlias.province, destinationProvince),
-        !!destinationSubprovince ?
-          eq(transitionOriginAlias.subprovince, destinationSubprovince) :
-          eq(transitionOriginAlias.educationArea, destinationEducationArea),
+        subAreaCriteria,
         eq(transitionOriginAlias.areaOffice, destinationAreaOffice),
         eq(transitionOriginAlias.major, destinationMajor),
         eq(swapperUserBase.setupComplete, true),
@@ -385,8 +389,10 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
   const filteredMatches = matches.filter((match) => {
     return match.transition_destination.province === user.origin.province &&
       (
-        match.transition_destination.subprovince === user.origin.subprovince ||
-        match.transition_destination.educationArea === user.origin.educationArea
+        !match.transition_destination.subprovince && !match.transition_destination.educationArea 
+        ? true 
+        : (match.transition_destination.subprovince === user.origin.subprovince ||
+           match.transition_destination.educationArea === user.origin.educationArea)
       )
   });
 

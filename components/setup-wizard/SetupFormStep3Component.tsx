@@ -28,9 +28,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
   const isOriginSubprovinceDisabled = !formData.originProvince;
   const isDestinationSubpriovinceDisabled = !formData.destinationProvince;
 
-  const originAreaRequired = (formData.originProvince && !formData.originSubprovince);
-  const destinationAreaRequired = (formData.destinationProvince && !formData.destinationSubprovince);
-
   useEffect(() => {
     // Update subprovince options when the origin province changes
     if (formData.originProvince) {
@@ -95,7 +92,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     }}
                     options={filteredOriginEducationAreaOptions}
                     placeholder={"Area..."}
-                    required={originAreaRequired}
                     disabled={isOriginAreaDisabled}
                   />
                 )
@@ -113,7 +109,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   }}
                   options={filteredOriginSubprovinceOptions}
                   placeholder={formData.originProvince ? "Subprovince..." : "Select a province first"}
-                  required={!isOriginAreaVisible}
                   disabled={isOriginSubprovinceDisabled}
                 />
               </div>
@@ -151,7 +146,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     }}
                     options={filteredDestinationEducationAreaOptions}
                     placeholder={"Area..."}
-                    required={destinationAreaRequired}
                     disabled={isDestinationAreaDisabled}
                   />
                 )
@@ -168,7 +162,6 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                   }}
                   options={filteredDestinationSubprovinceOptions}
                   placeholder={formData.destinationProvince ? "Subprovince..." : "Select a province first"}
-                  required={!isDestinationAreaVisible}
                   disabled={isDestinationSubpriovinceDisabled}                
                 />
               </div>
