@@ -60,10 +60,10 @@ export default function MatcherPageClient(
                           ) : (
                             <>
                               <div className="text-lg font-black">{match.firstName} {match.lastName}</div>
-                              <div className="text-xs font-medium bg-tertiary mt-1 rounded-lg px-2 text-primary w-fit">{match.origin.major}</div>
+                              <div className="text-xs font-medium bg-tertiary rounded-lg px-2 text-primary w-fit">{match.origin.major}</div>
                             </>
                           )}
-                          <div className="text-base font-thin">{match.schoolName}</div>
+                          <div className="text-base font-extralight">{match.schoolName}</div>
                         </div>
                       </div>
                       <Button className='bg-tertiary text-primary rounded-lg border-secondary font-semibold mr-3'>Match</Button>
