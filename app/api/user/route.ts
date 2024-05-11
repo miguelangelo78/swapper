@@ -7,7 +7,7 @@ import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest, res: NextApiResponse) {
   const session = await auth();
   if (!session) {
-    throw new Error('Unauthorized');
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const user = await getUser(session.user!.email as string) as SwapperUser;

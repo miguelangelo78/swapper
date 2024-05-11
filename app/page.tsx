@@ -1,5 +1,5 @@
 import { Hero } from '@/components/Hero';
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import smartphoneMockup from './resources/images/mockup/smartphone_mockup.png'

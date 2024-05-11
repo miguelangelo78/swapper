@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Form } from 'app/form';
 import { signIn } from 'app/auth';
 import { SubmitButton } from 'app/submit-button';
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';
 
 export default function Login() {

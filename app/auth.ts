@@ -4,6 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
 import { createUser, getUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/db';
+import { expireSessionUser } from '@/lib/services/session.service';
 
 export const {
   handlers: { GET, POST },
@@ -43,6 +44,7 @@ export const {
     },
     async signOut(event) {
       console.log('User signed out:', event);
+      expireSessionUser();
     },
   }
 });

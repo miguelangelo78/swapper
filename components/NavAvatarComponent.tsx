@@ -1,3 +1,4 @@
+'use client';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, User } from '@nextui-org/react';
 import { signOut } from 'next-auth/react';

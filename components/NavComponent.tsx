@@ -1,23 +1,13 @@
+'use server';
 import { APP_NAME } from '@/lib/models/globals';
 import { Button } from '@nextui-org/button';
 import Link from 'next/link';
 import SignOutComponent from './SignOutComponent';
-import { useEffect, useState } from 'react';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { getUser, refreshLastLogin } from '@/lib/services/client/user.service';
 import NavAvatar from './NavAvatarComponent';
+import { refreshLastLogin } from '@/lib/services/server/user.service';
 
-export default function Nav() {
-  const [swapperUser, setSwapperUser] = useState<SwapperUser | null>(null);
-
-  useEffect(() => {
-    getUser()
-      .then((data) => {
-        setSwapperUser(data);
-        refreshLastLogin();
-      });
-  }, []);
-
+export default async function Nav({ swapperUser }: { swapperUser: SwapperUser | null | undefined}) {
   if (!swapperUser) {
     return (
       <nav className="p-4 bg-primary shadow-md">
@@ -35,6 +25,8 @@ export default function Nav() {
     </nav>
     );
   }
+
+  refreshLastLogin(swapperUser);
 
   return (
     <nav className="p-4 bg-primary shadow-md">

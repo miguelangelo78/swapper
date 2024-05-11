@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import { checkUserSetup, getSwapperUser } from '@/lib/services/server/user.service';
 import { redirect } from 'next/navigation'
 import MatcherPageClient from './page.client';
@@ -13,7 +13,7 @@ export default async function MatcherPage() {
 
   return (
     <Layout>
-      <MatcherPageClient user={user} />
+      <MatcherPageClient user={user!} />
     </Layout>
   );
 }

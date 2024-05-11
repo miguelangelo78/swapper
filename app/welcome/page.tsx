@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import { SwapperButton } from '@/components/SwapperButton';
 import { checkUserSetup, getSwapperUser } from '@/lib/services/server/user.service';
 import { redirect } from 'next/navigation'
@@ -14,7 +14,7 @@ export default async function WelcomePage() {
     redirect('/setup');
   }
 
-  const user = await getSwapperUser();
+  const user = (await getSwapperUser())!;
 
   return (
     <Layout ignoreFooter={true}>

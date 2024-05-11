@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import SetupFormWizardComponent from '@/components/setup-wizard/SetupFormWizardComponent';
 import { getSwapperUser } from '@/lib/services/server/user.service';
 
@@ -7,7 +7,7 @@ export default async function SetupPage() {
 
   return (
     <Layout ignoreFooter={true}>
-      <SetupFormWizardComponent user={user} />
+      <SetupFormWizardComponent user={user!} />
     </Layout>
   );
 }

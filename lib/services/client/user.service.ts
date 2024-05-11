@@ -4,6 +4,7 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 export async function getUser(): Promise<SwapperUser | null> {
   return fetch('/api/user')
     .then((res) => res.json())
+    .then((data) => data.error ? null : data)
     .catch((error) => console.error(error));
 }
 

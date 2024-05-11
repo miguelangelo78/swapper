@@ -3,9 +3,9 @@ import { Form } from 'app/form';
 import { redirect } from 'next/navigation';
 import { createUser, getUser } from '@/lib/db/db';
 import { SubmitButton } from 'app/submit-button';
-import Layout from '@/components/Layout';
+import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';
-import { sessionUser } from '@/lib/utils/session-utils';
+import { sessionUser } from '@/lib/services/session.service';
 
 export default function Login() {
   async function signup(formData: FormData) {
@@ -17,7 +17,12 @@ export default function Login() {
     if (user) {
       return 'User already exists'; // TODO: Handle errors with useFormStatus
     } else {
-      await createUser(await sessionUser(), password);
+      const authUser = await sessionUser();
+      if (!authUser) {
+        return 'User not found in session';
+      }
+
+      await createUser(authUser, password);
       redirect('/login');
     }
   }
