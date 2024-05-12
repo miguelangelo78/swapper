@@ -2,12 +2,12 @@
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import Required from './RequiredCheckComponent';
 import { ChangeEvent } from 'react';
-import { SelectOptionType } from './SetupFormWizardComponent';
+import { SelectOptionType, SetupFormData } from './SetupFormWizardComponent';
 import { SwapperButton } from '../SwapperButton';
 
 export default function SetupFormStep1Component({ user, formData, handleInputChange, handleSubmit }: {
   user: SwapperUser,
-  formData: any,
+  formData: SetupFormData,
   handleInputChange: (event: ChangeEvent<HTMLInputElement> | SelectOptionType) => void,
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
