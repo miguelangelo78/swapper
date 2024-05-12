@@ -352,19 +352,11 @@ export async function updateUserBaseLastLogin(user: SwapperUserBase) {
 
 export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser[]> {
   const destinationProvince = user.destination.province;
-  const destinationSubprovince = user.destination.subprovince;
-  const destinationEducationArea = user.destination.educationArea;
   const destinationAreaOffice = user.destination.areaOffice || user.origin.areaOffice;
   const destinationMajor = user.destination.major || user.origin.major;
 
   const transitionOriginAlias = alias(transition, 'transition_origin');
   const transitionDestinationAlias = alias(transition, 'transition_destination');
-
-  const subAreaCriteria = !destinationSubprovince && !destinationEducationArea ?
-    undefined 
-    : (destinationSubprovince ?
-      eq(transitionOriginAlias.subprovince, destinationSubprovince) :
-      eq(transitionOriginAlias.educationArea, destinationEducationArea));
 
   // Find users that match the destination criteria above:
   const matches = await db
@@ -377,7 +369,6 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
     .where(
       and(
         eq(transitionOriginAlias.province, destinationProvince),
-        subAreaCriteria,
         eq(transitionOriginAlias.areaOffice, destinationAreaOffice),
         eq(transitionOriginAlias.major, destinationMajor),
         eq(swapperUserBase.setupComplete, true),
@@ -393,8 +384,31 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
         ? true 
         : (match.transition_destination.subprovince === user.origin.subprovince ||
            match.transition_destination.educationArea === user.origin.educationArea)
+      ) &&
+      // Check whether the sublocation (subprovince or education area) matches with my user
+      filterSublocation(
+        user.origin.subprovince, user.origin.educationArea,
+        match.transition_destination.subprovince, match.transition_destination.educationArea,
+      ) &&
+      filterSublocation(
+        user.destination.subprovince, user.destination.educationArea,
+        match.transition_origin.subprovince, match.transition_origin.educationArea,
       )
   });
 
   return filteredMatches.map(mapRowToSwapperUser);
+}
+
+function filterSublocation(mySubprovince: string, myEducationArea: string, matchSubprovince: string, matchEducationArea: string): boolean {
+  return (
+    !mySubprovince && !myEducationArea // If I didn't set a subprovince or education area, then it's a match
+    ? true
+    // If we both set subprovince/education area, check whether they match:
+    : (mySubprovince && matchSubprovince ? mySubprovince === matchSubprovince
+      : myEducationArea && matchEducationArea ? myEducationArea === matchEducationArea : true)
+  ) || (
+    // If my destination subprovince or education area is specified but the match's origin subprovince or education area is not, then it's a match
+    mySubprovince && !matchSubprovince ? true :
+    myEducationArea && !matchEducationArea ? true : false
+  );
 }
