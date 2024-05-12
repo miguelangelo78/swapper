@@ -1,7 +1,8 @@
 'use client';
+import FindMatchChip from '@/components/FindMatchChipComponent';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { findMatchesForUser } from '@/lib/services/client/user.service';
-import { Avatar, Button, Card, CardBody, CardHeader, Spinner } from '@nextui-org/react';
+import { Spinner } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 
 export type MatcherPageClientProps = {
@@ -29,47 +30,22 @@ export default function MatcherPageClient(
         <div className="text-xl font-medium text-primary text-center drop-shadow">{subLocation}</div>
         <div className="text-xl font-medium text-primary text-center drop-shadow">{user.origin.major}</div>
         <section className='mb-10 justify-center items-center'>
+          {/** Display matches **/}
+          {/** Loading **/}
           {matches === undefined && (
-            <>
-              <Spinner className='w-full mt-5' size='lg' />
-            </>
+            <Spinner className='w-full mt-5' size='lg' />
           )}
+          {/** No matches **/}
           {matches?.length === 0 && (
             <div className="text-center text-2xl font-bold">No matches found</div>
           )}
+          {/** Matches found **/}
           {matches && matches?.length > 0 && (
-            <>
-              <div className="w-96 mt-5">
-                {matches!.map((match) => (
-                  <Card key={match.id} className='bg-secondary w-96 text-primary my-3 shadow-md border border-primary shadow-primary'>
-                    <CardHeader className='justify-between'>
-                      <div className='flex gap-3 items-center'>
-                        <Avatar
-                          size='lg'
-                          as="button"
-                          className="transition-transform border-1 border-primary hover:scale-110"
-                          src={match.picture}
-                        />
-                        <div className='flex flex-col h-full'>
-                          {match.nickname ? (
-                            <>
-                              <div className="text-lg font-black">{match.nickname}</div>
-                              <div className="text-base font-semibold">{match.firstName} {match.lastName}</div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="text-lg font-black">{match.firstName} {match.lastName}</div>
-                            </>
-                          )}
-                          <div className="text-base font-light">{match.schoolName}</div>
-                        </div>
-                      </div>
-                      <Button className='bg-tertiary text-primary rounded-lg border border-primary font-semibold mr-3'>Match</Button>
-                    </CardHeader>
-                  </Card>
-                ))}
-              </div>
-            </>
+            <div className="w-96 mt-5">
+              {matches!.map((match) => (
+                <FindMatchChip key={match.id} match={match} />
+              ))}
+            </div>
           )}
         </section>
       </div>
