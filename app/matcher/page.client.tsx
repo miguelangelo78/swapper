@@ -14,6 +14,9 @@ export default function MatcherPageClient(
   // Load matches from API using useState:
   const [matches, setMatches] = useState<SwapperUser[] | undefined>(undefined);
 
+  const subLocation = !user.destination.subprovince && !user.destination.educationArea ? 'All areas and subprovinces' 
+    : user.destination.subprovince ? user.destination.subprovince : user.destination.educationArea;
+
   useEffect(() => {
     findMatchesForUser().then(setMatches);
   }, []);
@@ -23,12 +26,8 @@ export default function MatcherPageClient(
       <div className='justify-center'>
         <div className="text-2xl font-bold text-center">Your matches for:</div>
         <div className="text-3xl font-black text-primary text-center drop-shadow underline">{user.destination.province}</div>
-        {user.destination.subprovince && (
-          <div className="text-xl font-medium text-primary text-center drop-shadow">{user.destination.subprovince}</div>
-        )}
-        {user.destination.educationArea && (
-          <div className="text-xl font-medium text-primary text-center drop-shadow">Area {user.destination.educationArea}</div>
-        )}
+        <div className="text-xl font-medium text-primary text-center drop-shadow">{subLocation}</div>
+        <div className="text-xl font-medium text-primary text-center drop-shadow">{user.origin.major}</div>
         <section className='mb-10 justify-center items-center'>
           {matches === undefined && (
             <>
@@ -42,31 +41,30 @@ export default function MatcherPageClient(
             <>
               <div className="w-96 mt-5">
                 {matches!.map((match) => (
-                  <Card key={match.id} className='bg-primary w-96 text-white my-3 shadow-md shadow-primary'>
+                  <Card key={match.id} className='bg-secondary w-96 text-primary my-3 shadow-md border border-primary shadow-primary'>
                     <CardHeader className='justify-between'>
-                      <div className='flex gap-3'>
+                      <div className='flex gap-3 items-center'>
                         <Avatar
                           size='lg'
                           as="button"
-                          className="transition-transform border-2 border-secondary hover:scale-110"
+                          className="transition-transform border-1 border-primary hover:scale-110"
                           src={match.picture}
                         />
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col h-full'>
                           {match.nickname ? (
                             <>
-                              <div className="text-lg font-black">{match.nickname} <span className='text-xs font-medium bg-tertiary ml-1 rounded-lg px-2 text-primary'>{match.origin.major}</span></div>
-                              <div className="text-base font-normal">{match.firstName} {match.lastName}</div>
+                              <div className="text-lg font-black">{match.nickname}</div>
+                              <div className="text-base font-semibold">{match.firstName} {match.lastName}</div>
                             </>
                           ) : (
                             <>
                               <div className="text-lg font-black">{match.firstName} {match.lastName}</div>
-                              <div className="text-xs font-medium bg-tertiary rounded-lg px-2 text-primary w-fit">{match.origin.major}</div>
                             </>
                           )}
-                          <div className="text-base font-extralight">{match.schoolName}</div>
+                          <div className="text-base font-light">{match.schoolName}</div>
                         </div>
                       </div>
-                      <Button className='bg-tertiary text-primary rounded-lg border-secondary font-semibold mr-3'>Match</Button>
+                      <Button className='bg-tertiary text-primary rounded-lg border border-primary font-semibold mr-3'>Match</Button>
                     </CardHeader>
                   </Card>
                 ))}
