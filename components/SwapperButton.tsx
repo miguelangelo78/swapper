@@ -77,7 +77,7 @@ export function SwapperButton({
 function getStyle(styleType: StyleType, loading: boolean, disabled?: boolean) {
   let primaryStyle = 'py-2 w-40 h-10 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500';
   let secondaryStyle = 'py-2 w-40 h-10 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50';
-  let tertiaryStyle = 'bg-tertiary text-primary rounded-lg border border-primary font-semibold px-4 h-10 text-sm w-24';
+  let tertiaryStyle = 'bg-tertiary text-primary rounded-lg border border-primary font-semibold px-4 h-10 text-sm w-28';
 
   if (loading || disabled) {
     primaryStyle += ' disabled:opacity-50 bg-indigo-600 cursor-not-allowed';

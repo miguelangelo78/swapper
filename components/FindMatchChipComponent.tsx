@@ -16,9 +16,9 @@ export default function FindMatchChip({ match }: { match: MatchResult }) {
   let matchButtonStyle = '';
 
   if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
-    cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
+    cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
     avatarStyle = 'transition-transform border-1 border-yellow-600 hover:scale-110';
-    matchButtonStyle = 'text-yellow-800 bg-secondary border-yellow-600';
+    matchButtonStyle = 'text-white bg-yellow-500 border-yellow-600';
   }
 
   const sendRequestMatch = async (otherUserId: number) => {
