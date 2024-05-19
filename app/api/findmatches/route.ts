@@ -1,20 +1,26 @@
-import { auth } from '@/app/auth';
-import { findMatchesForUser, getUser } from '@/lib/db/db';
+import { findMatchesForUser } from '@/lib/db/user_db';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
+import { verifyLoggedUser } from '../utils';
+import { getMatchRequests } from '@/lib/db/match_request_db';
+import { MatchResult } from '@/lib/models/Match.types';
 
 export async function POST(req: NextRequest, res: NextApiResponse) {
-  const session = await auth();
-  if (!session) {
-    return res.status(401).json({ error: 'Not authenticated' });
+  const user = await verifyLoggedUser();
+  if (user instanceof Response) {
+    return user;
   }
 
-  const user = await getUser(session.user!.email as string);
-  if (!user) {
-    return res.status(404).json({ error: 'User not found' });
-  }
+  const possibleMatches = await findMatchesForUser(user);
+  const myMatches = await getMatchRequests(user.id!);
 
-  const matches = await findMatchesForUser(user);
+  // Combine userMatches and myMatches into a single array
+  const matches: MatchResult[] = possibleMatches.map((possibleMatch) => {
+    return {
+      swapperUser: possibleMatch,
+      matchRequest: myMatches.find((myMatch) => myMatch.otherUserId === possibleMatch.id),
+    };
+  });
 
   return Response.json(matches);
 }

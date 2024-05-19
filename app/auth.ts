@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
-import { createUser, getUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/db';
+import { createUser, getUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/user_db';
 import { expireSessionUser } from '@/lib/services/session.service';
 
 export const {

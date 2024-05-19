@@ -1,4 +1,4 @@
-import { getUser, getUserBase, updateUser } from '@/lib/db/db';
+import { getUser, getUserBase, updateUser } from '@/lib/db/user_db';
 import { SwapperUser, SwapperUserBase } from '../../models/SwapperUser.types';
 import { sessionUser } from '../session.service';
 import { User } from 'next-auth';

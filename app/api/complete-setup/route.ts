@@ -1,6 +1,6 @@
 import { auth } from '@/app/auth';
 import { SetupFormData } from '@/components/setup-wizard/SetupFormWizardComponent';
-import { getUser, updateUser, upsertContact, upsertTransition } from '@/lib/db/db';
+import { getUser, updateUser, upsertContact, upsertTransition } from '@/lib/db/user_db';
 import { Contact, Transition, mapSetupFormDataToUser } from '@/lib/models/SwapperUser.types';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';

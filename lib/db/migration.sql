@@ -67,3 +67,29 @@ CREATE TRIGGER update_contact_modtime
 BEFORE UPDATE ON contact
 FOR EACH ROW
 EXECUTE PROCEDURE update_modified_column();
+
+-- Match notifications:
+CREATE TYPE match_request_status AS ENUM (
+    'PENDING',
+    'ACCEPTED',
+    'REJECTED',
+    'IGNORED',
+    'EXPIRED',
+    'CANCELLED',
+);
+
+-- Create the match_request table
+CREATE TABLE match_request (
+  id SERIAL PRIMARY KEY,
+  my_user_id INTEGER REFERENCES swapper_user_base(id),
+  other_user_id INTEGER REFERENCES swapper_user_base(id),
+  status match_request_status NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create a trigger on the 'match_request' table
+CREATE TRIGGER update_match_request_modtime
+BEFORE UPDATE ON match_request
+FOR EACH ROW
+EXECUTE PROCEDURE update_modified_column();

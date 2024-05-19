@@ -1,5 +1,5 @@
 import { auth } from '@/app/auth';
-import { getUser, updateUser } from '@/lib/db/db';
+import { getUser, updateUser } from '@/lib/db/user_db';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
 

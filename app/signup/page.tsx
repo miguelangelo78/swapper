@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Form } from 'app/form';
 import { redirect } from 'next/navigation';
-import { createUser, getUser } from '@/lib/db/db';
+import { createUser, getUser } from '@/lib/db/user_db';
 import { SubmitButton } from 'app/submit-button';
 import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';

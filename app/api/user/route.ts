@@ -1,5 +1,5 @@
 import { auth } from '@/app/auth';
-import { getUser } from '@/lib/db/db';
+import { getUser } from '@/lib/db/user_db';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';

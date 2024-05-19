@@ -1,13 +1,9 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
 import { pgTable, serial, varchar, boolean, text, integer, timestamp, alias } from 'drizzle-orm/pg-core';
-import postgres from 'postgres';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { and, eq } from 'drizzle-orm';
 import { User } from 'next-auth';
 import { Contact, SwapperUser, SwapperUserBase, Transition } from '@/lib/models/SwapperUser.types';
-
-const client = postgres(`${process.env.POSTGRES_URL!}?sslmode=require`);
-const db = drizzle(client);
+import { db } from './db_client';
 
 const swapperUserBase = pgTable('swapper_user_base', {
   id: serial('id').primaryKey(),
@@ -21,7 +17,7 @@ const swapperUserBase = pgTable('swapper_user_base', {
   lastLogin: timestamp('last_login'),
 });
 
-const swapperUser = pgTable('swapper_user', {
+export const swapperUser = pgTable('swapper_user', {
   userId: integer('user_id').references(() => swapperUserBase.id).primaryKey(),
   firstName: varchar('first_name', { length: 64 }).notNull(),
   schoolName: varchar('school_name', { length: 64 }).notNull(),

@@ -1,7 +1,8 @@
 'use client';
 import FindMatchChip from '@/components/FindMatchChipComponent';
+import { MatchResult } from '@/lib/models/Match.types';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { findMatchesForUser } from '@/lib/services/client/user.service';
+import { findMatchesForUser } from '@/lib/services/client/matcher.service';
 import { Spinner } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +14,7 @@ export default function MatcherPageClient(
   { user }: MatcherPageClientProps,
 ) {
   // Load matches from API using useState:
-  const [matches, setMatches] = useState<SwapperUser[] | undefined>(undefined);
+  const [matches, setMatches] = useState<MatchResult[] | undefined>(undefined);
 
   const subLocation = !user.destination.subprovince && !user.destination.educationArea ? 'All areas and subprovinces' 
     : user.destination.subprovince ? user.destination.subprovince : user.destination.educationArea;
@@ -43,13 +44,12 @@ export default function MatcherPageClient(
           {matches && matches?.length > 0 && (
             <div className="w-96 mt-5">
               {matches!.map((match) => (
-                <FindMatchChip key={match.id} match={match} />
+                <FindMatchChip key={match.swapperUser.id} match={match} />
               ))}
             </div>
           )}
         </section>
       </div>
-
     </div>
   )
 }
