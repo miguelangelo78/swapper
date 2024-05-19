@@ -1,5 +1,6 @@
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { Avatar, Button, Card, CardHeader } from '@nextui-org/react';
+import { Avatar, Card, CardHeader } from '@nextui-org/react';
+import { SwapperButton } from './SwapperButton';
 
 export default function FindMatchChip({ match }: { match: SwapperUser }) {
   return (
@@ -24,7 +25,7 @@ export default function FindMatchChip({ match }: { match: SwapperUser }) {
             <div className="text-base font-light">{match.schoolName}</div>
           </div>
         </div>
-        <Button className='bg-tertiary text-primary rounded-lg border border-primary font-semibold mr-3'>Match</Button>
+        <SwapperButton text='Match' styleType='tertiary' className='mr-3' useSpinner={true} />
       </CardHeader>
     </Card>
   );

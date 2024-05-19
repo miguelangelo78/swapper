@@ -2,7 +2,7 @@
 import { Spinner } from "@nextui-org/react";
 import { useState } from "react";
 
-export type StyleType = 'primary' | 'secondary';
+export type StyleType = 'primary' | 'secondary' | 'tertiary';
 
 export type SwapperButtonProps = {
   text: string,
@@ -17,16 +17,8 @@ export type SwapperButtonProps = {
 export function SwapperButton({ text, onClick, className, type = 'button', styleType = 'primary', action, useSpinner = false }: SwapperButtonProps) {
   const [loading, setLoading] = useState(false);
 
-  let primaryStyle = 'py-2 w-40 h-10 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500';
-  let secondaryStyle = 'py-2 w-40 h-10 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50';
+  const style = getStyle(styleType, loading);
 
-  if (loading === true) {
-    primaryStyle += ' disabled:opacity-50 bg-indigo-600 cursor-not-allowed';
-    secondaryStyle += ' disabled:opacity-50 cursor-not-allowed';
-  }
-
-  const style = styleType === 'primary' ? primaryStyle : secondaryStyle;
- 
   const content = loading ? <Spinner color="secondary" size="sm" /> : text; // Show spinner if loading state is true, otherwise show text
 
   const handleClick = () => {
@@ -63,4 +55,34 @@ export function SwapperButton({ text, onClick, className, type = 'button', style
       {content}
     </button>
   );
+}
+
+function getStyle(styleType: StyleType, loading: boolean) {
+  let primaryStyle = 'py-2 w-40 h-10 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500';
+  let secondaryStyle = 'py-2 w-40 h-10 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50';
+  let tertiaryStyle = 'bg-tertiary text-primary rounded-lg border border-primary font-semibold px-4 h-10 text-sm w-20';
+
+  if (loading === true) {
+    primaryStyle += ' disabled:opacity-50 bg-indigo-600 cursor-not-allowed';
+    secondaryStyle += ' disabled:opacity-50 cursor-not-allowed';
+    tertiaryStyle += ' disabled:opacity-50 cursor-not-allowed';
+  }
+
+  let style;
+
+  switch (styleType) {
+    case 'primary':
+      style = primaryStyle;
+      break;
+    case 'secondary':
+      style = secondaryStyle;
+      break;
+    case 'tertiary':
+      style = tertiaryStyle;
+      break;
+    default:
+      style = primaryStyle;
+  }
+
+  return style;
 }
