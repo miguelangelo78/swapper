@@ -2,13 +2,13 @@
 import { APP_NAME } from '@/lib/models/globals';
 import { Button } from '@nextui-org/button';
 import Link from 'next/link';
-import SignOutComponent from './SignOutComponent';
+import SignOutButton from './SignOutButtonComponent';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import NavAvatar from './NavAvatarComponent';
 import { useEffect } from 'react';
 import { refreshLastLogin } from '@/lib/services/client/user.service';
 
-export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null | undefined}) {
+export default function Nav({ swapperUser, notificationsCount, matchCount, myMatchRequestsCount }: { swapperUser: SwapperUser | null | undefined, notificationsCount: number, matchCount: number, myMatchRequestsCount: number }) {
   useEffect(() => {
     if (swapperUser) {
       refreshLastLogin();
@@ -42,11 +42,11 @@ export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null |
         <div>
           {swapperUser.setupComplete ? (
             <>
-              <NavAvatar user={swapperUser} />
+              <NavAvatar user={swapperUser} notificationsCount={notificationsCount} matchCount={matchCount} myMatchRequestsCount={myMatchRequestsCount} />
             </>
           ) : (
             <>
-              <SignOutComponent />
+              <SignOutButton />
             </>
           )}
         </div>

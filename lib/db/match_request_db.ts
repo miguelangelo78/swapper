@@ -53,7 +53,7 @@ export async function deleteMatchRequest(myUserId: number, otherUserId: number):
   ).returning({ id: matchRequest.id }).then((res) => res[0].id);
 }
 
-export async function getMatchRequests(myUserId: number): Promise<MatchRequest[]> {
+export async function getMatchRequestsFromMe(myUserId: number): Promise<MatchRequest[]> {
   const result = await db.select().from(matchRequest).where(
     eq(matchRequest.myUserId, myUserId),
   );
@@ -68,8 +68,23 @@ export async function getMatchRequests(myUserId: number): Promise<MatchRequest[]
   }));
 }
 
+export async function getMatchRequestsForMe(myUserId: number): Promise<MatchRequest[]> {
+  const result = await db.select().from(matchRequest).where(
+    eq(matchRequest.otherUserId, myUserId),
+  );
+
+  return result.map((row) => ({
+    id: row.id,
+    myUserId: row.myUserId!,
+    otherUserId: row.otherUserId!,
+    status: row.status! as MatchRequestStatus,
+    createdAt: row.createdAt!,
+    updatedAt: row.updatedAt!,
+  }));
+}
+
 export async function getMatchRequestWithOtherUser(myUserId: number, otherUserId: number): Promise<MatchRequest | null> {
-  const myRequests = await getMatchRequests(myUserId);
+  const myRequests = await getMatchRequestsFromMe(myUserId);
 
   return myRequests.find((req) => req.otherUserId === otherUserId) || null;
 }
