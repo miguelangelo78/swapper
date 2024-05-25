@@ -26,7 +26,7 @@ export default function MatcherPageClient(
   return (
     <div className="flex flex-col items-center mt-5">
       <div className='justify-center'>
-        <div className="text-2xl font-bold text-center">Your matches for:</div>
+        <div className="text-2xl font-bold text-center">Your search results for:</div>
         <div className="text-3xl font-black text-primary text-center drop-shadow underline">{user.destination.province}</div>
         <div className="text-xl font-medium text-primary text-center drop-shadow">{subLocation}</div>
         <div className="text-xl font-medium text-primary text-center drop-shadow">{user.origin.major}</div>

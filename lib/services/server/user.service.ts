@@ -1,4 +1,4 @@
-import { getUser, getUserBase, updateUser } from '@/lib/db/user_db';
+import { getUserByEmail, getUserBase, updateUser } from '@/lib/db/user_db';
 import { SwapperUser, SwapperUserBase } from '../../models/SwapperUser.types';
 import { sessionUser } from '../session.service';
 import { User } from 'next-auth';
@@ -18,7 +18,7 @@ export async function getSwapperUser(session?: User): Promise<SwapperUser | null
     return undefined;
   }
 
-  return getUser(auth.email!);
+  return getUserByEmail(auth.email!);
 }
 
 export async function checkUserSetup(): Promise<boolean> {

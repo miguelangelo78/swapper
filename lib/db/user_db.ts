@@ -69,12 +69,17 @@ export async function getUserBase(email: string): Promise<SwapperUserBase | unde
   };
 }
 
-export async function getUser(email: string): Promise<SwapperUser> {
+export async function getUser({
+  id, email
+}: { id?: number, email?: string}
+): Promise<SwapperUser> {
+  const eqField = id ? eq(swapperUserBase.id, id!) : eq(swapperUserBase.email, email!);
+
   const user = await db
-    .select()
-    .from(swapperUserBase)
-    .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
-    .where(eq(swapperUserBase.email, email)).then((res) => res[0]);
+  .select()
+  .from(swapperUserBase)
+  .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
+  .where(eqField).then((res) => res[0]);
 
   const origin = await db
     .select()
@@ -127,6 +132,15 @@ export async function getUser(email: string): Promise<SwapperUser> {
     },
     contact: _contact as any,
   }
+}
+
+export async function getUserByEmail(email: string): Promise<SwapperUser> {
+  return getUser({ email }); 
+}
+
+
+export async function getUserById(id: number): Promise<SwapperUser | undefined> {
+  return getUser({ id }); 
 }
 
 function mapRowToSwapperUser(row: any): SwapperUser {

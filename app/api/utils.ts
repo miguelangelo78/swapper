@@ -1,6 +1,6 @@
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { auth } from '../auth';
-import { getUser } from '@/lib/db/user_db';
+import { getUserByEmail } from '@/lib/db/user_db';
 
 export async function verifyLoggedUser(): Promise<Response | SwapperUser> {
   const session = await auth();
@@ -8,7 +8,7 @@ export async function verifyLoggedUser(): Promise<Response | SwapperUser> {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const user = await getUser(session.user!.email as string);
+  const user = await getUserByEmail(session.user!.email as string);
   if (!user) {
     return Response.json({ error: 'User not found' }, { status: 404 });
   }

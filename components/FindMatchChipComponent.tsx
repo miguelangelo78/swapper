@@ -8,7 +8,7 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { useLayoutContext } from './layout/LayoutClient';
 import Separator from './SeparatorComponent';
 
-export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser}) {
+export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser }) {
   const { matchContext } = useLayoutContext();
   const { otherSwapperUser, matchRequest } = match;
 
@@ -16,7 +16,6 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const [matchLoadingState] = useState(new Subject<boolean>());
 
   const requestForMe = matchContext.received.matchRequests.find((mr) => mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id);
-  const requestFromMe = matchContext.sent.matchRequests.find((mr) => mr.myUserId === user.id && mr.otherUserId === match.otherSwapperUser.id);
 
   let cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-primary shadow-primary';
   let avatarStyle = 'transition-transform border-1 border-primary hover:scale-110';
@@ -27,9 +26,8 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
     cardStyle = 'bg-indigo-100 text-primary my-3 shadow-md border border-indigo-600 shadow-indigo-500';
     avatarStyle = 'transition-transform border-1 border-indigo-600 hover:scale-110';
   } else if(currentMatchRequest?.status === MatchRequestStatus.ACCEPTED) {
-    cardStyle = 'bg-green-100 text-primary my-3 shadow-md border border-green-600 shadow-green-500';
+    cardStyle = 'bg-green-200 text-primary my-3 shadow-md border border-green-600 shadow-green-500';
     avatarStyle = 'transition-transform border-1 border-green-600 hover:scale-110';
-    matchButtonStyle = 'text-green-600 border-green-600';
   } else {
     if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
       cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
@@ -62,7 +60,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   return (
     <Card key={otherSwapperUser.id} className={cardStyle}>
-      <CardHeader className='justify-between'>
+      <CardHeader className='justify-between w-96'>
         <div className='flex gap-3 items-center w-full'>
           <Avatar
             size='lg'

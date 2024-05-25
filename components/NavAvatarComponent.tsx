@@ -24,14 +24,14 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
 
   async function handleAction(key: Key) {
     switch (key) {
-      case "viewMatchRequests":
-        router.push("/viewMatchRequests");
+      case "viewMatchInvitations":
+        router.push("/my-match-invitations");
         break;
       case "viewMatches":
-        router.push("/viewMatches");
+        router.push("/my-matches");
         break;
       case "viewMyMatchRequests":
-        router.push("/viewMyMatchRequests");
+        router.push("/my-match-requests");
         break;
       case "matcher":
         router.push("/matcher");
@@ -82,7 +82,7 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
           </DropdownItem>
         </DropdownSection>
         <DropdownSection showDivider>
-          <DropdownItem key="viewMatchRequests" className={matchRequestMenuStyle}>
+          <DropdownItem key="viewMatchInvitations" className={matchRequestMenuStyle}>
             <p className="font-semibold text-center">{notificationsCount} {notificationsCount === 1 ? 'person wants' : 'people want'} to swap with you!</p>
           </DropdownItem>
         </DropdownSection>

@@ -1,6 +1,6 @@
 import { auth } from '@/app/auth';
 import { SetupFormData } from '@/components/setup-wizard/SetupFormWizardComponent';
-import { getUser, updateUser, upsertContact, upsertTransition } from '@/lib/db/user_db';
+import { getUserByEmail, updateUser, upsertContact, upsertTransition } from '@/lib/db/user_db';
 import { Contact, Transition, mapSetupFormDataToUser } from '@/lib/models/SwapperUser.types';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     return res.status(401).json({ error: 'Not authenticated' });
   }
 
-  const user = await getUser(session.user!.email as string);
+  const user = await getUserByEmail(session.user!.email as string);
   if (!user) {
     return res.status(404).json({ error: 'User not found' });
   }

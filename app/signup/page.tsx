@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Form } from 'app/form';
 import { redirect } from 'next/navigation';
-import { createUser, getUser } from '@/lib/db/user_db';
+import { createUser, getUserByEmail } from '@/lib/db/user_db';
 import { SubmitButton } from 'app/submit-button';
 import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';
@@ -12,7 +12,7 @@ export default function Login() {
     'use server';
     let email = formData.get('email') as string;
     let password = formData.get('password') as string;
-    let user = await getUser(email);
+    let user = await getUserByEmail(email);
 
     if (user) {
       return 'User already exists'; // TODO: Handle errors with useFormStatus

@@ -1,5 +1,5 @@
 import { auth } from '@/app/auth';
-import { getUser, updateUserBaseLastLogin } from '@/lib/db/user_db';
+import { getUserByEmail, updateUserBaseLastLogin } from '@/lib/db/user_db';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
 
@@ -9,7 +9,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const user = await getUser(session.user!.email as string);
+  const user = await getUserByEmail(session.user!.email as string);
   if (!user) {
     return Response.json({ error: 'User not found' }, { status: 404 });
   }

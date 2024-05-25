@@ -1,5 +1,5 @@
 import { auth } from '@/app/auth';
-import { getUser } from '@/lib/db/user_db';
+import { getUserByEmail } from '@/lib/db/user_db';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { NextApiResponse } from 'next';
 import { NextRequest } from 'next/server';
@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, res: NextApiResponse) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const user = await getUser(session.user!.email as string) as SwapperUser;
+  const user = await getUserByEmail(session.user!.email as string) as SwapperUser;
 
   if (!user) {
     throw new Error('User not found');
