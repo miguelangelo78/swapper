@@ -4,7 +4,7 @@ import { db } from './db_client';
 import { MatchRequest, MatchRequestStatus } from '../models/Match.types';
 import { and, eq } from 'drizzle-orm';
 
-export const statusEnum = pgEnum('status', ['PENDING', 'ACCEPTED', 'REJECTED', 'IGNORED', 'EXPIRED', 'CANCELLED']);
+export const statusEnum = pgEnum('status', ['PENDING', 'ACCEPTED', 'ACCEPTED_ACK', 'REJECTED', 'IGNORED', 'EXPIRED', 'CANCELLED', 'SWAPPED']);
 
 const matchRequest = pgTable('match_request', {
   id: serial('id').primaryKey(),

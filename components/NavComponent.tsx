@@ -8,7 +8,7 @@ import NavAvatar from './NavAvatarComponent';
 import { useEffect } from 'react';
 import { refreshLastLogin } from '@/lib/services/client/user.service';
 
-export default function Nav({ swapperUser, notificationsCount, matchCount, myMatchRequestsCount }: { swapperUser: SwapperUser | null | undefined, notificationsCount: number, matchCount: number, myMatchRequestsCount: number }) {
+export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null | undefined }) {
   useEffect(() => {
     if (swapperUser) {
       refreshLastLogin();
@@ -42,7 +42,7 @@ export default function Nav({ swapperUser, notificationsCount, matchCount, myMat
         <div>
           {swapperUser.setupComplete ? (
             <>
-              <NavAvatar user={swapperUser} notificationsCount={notificationsCount} matchCount={matchCount} myMatchRequestsCount={myMatchRequestsCount} />
+              <NavAvatar user={swapperUser} />
             </>
           ) : (
             <>

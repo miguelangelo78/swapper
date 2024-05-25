@@ -72,10 +72,12 @@ EXECUTE PROCEDURE update_modified_column();
 CREATE TYPE match_request_status AS ENUM (
     'PENDING',
     'ACCEPTED',
+    'ACCEPTED_ACK',
     'REJECTED',
     'IGNORED',
     'EXPIRED',
     'CANCELLED',
+    'SWAPPED',
 );
 
 -- Create the match_request table

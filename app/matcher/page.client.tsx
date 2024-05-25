@@ -44,7 +44,7 @@ export default function MatcherPageClient(
           {matches && matches?.length > 0 && (
             <div className="w-96 mt-5">
               {matches!.map((match) => (
-                <FindMatchChip key={match.swapperUser.id} match={match} />
+                <FindMatchChip key={match.otherSwapperUser.id} user={user} match={match} />
               ))}
             </div>
           )}

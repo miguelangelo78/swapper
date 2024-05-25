@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
   // Combine userMatches and myMatches into a single array
   const matches: MatchResult[] = possibleMatches.map((possibleMatch) => {
     return {
-      swapperUser: possibleMatch,
+      otherSwapperUser: possibleMatch,
       matchRequest: myMatches.find((myMatch) => myMatch.otherUserId === possibleMatch.id),
     };
   });

@@ -1,24 +1,37 @@
-import { Avatar, Card, CardHeader } from '@nextui-org/react';
+import { Avatar, Card, CardBody, CardHeader } from '@nextui-org/react';
 import { SwapperButton } from './SwapperButton';
 import { MatchRequest, MatchRequestStatus, MatchResult } from '@/lib/models/Match.types';
 import { cancelRequestMatch, requestMatch } from '@/lib/services/client/matcher.service';
 import { useEffect, useState } from 'react';
 import { Subject } from 'rxjs';
+import { SwapperUser } from '@/lib/models/SwapperUser.types';
+import { useLayoutContext } from './layout/LayoutClient';
+import Separator from './SeparatorComponent';
 
-export default function FindMatchChip({ match }: { match: MatchResult }) {
-  const { swapperUser, matchRequest } = match;
+export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser}) {
+  const { matchContext } = useLayoutContext();
+  const { otherSwapperUser, matchRequest } = match;
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
+
+  const pendingRequestForMe = matchContext.received.pending.some((mr) => mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id);
 
   let cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-primary shadow-primary';
   let avatarStyle = 'transition-transform border-1 border-primary hover:scale-110';
   let matchButtonStyle = '';
 
-  if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
-    cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
-    avatarStyle = 'transition-transform border-1 border-yellow-600 hover:scale-110';
-    matchButtonStyle = 'text-white bg-yellow-500 border-yellow-600';
+  if (pendingRequestForMe) {
+    // This request is for me!
+    cardStyle = 'bg-blue-200 text-primary my-3 shadow-md border border-blue-600 shadow-blue-500';
+    avatarStyle = 'transition-transform border-1 border-blue-600 hover:scale-110';
+    matchButtonStyle = 'text-white bg-blue-600 border-blue-900 w-9/12';
+  } else {
+    if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
+      cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
+      avatarStyle = 'transition-transform border-1 border-yellow-600 hover:scale-110';
+      matchButtonStyle = 'text-white bg-yellow-500 border-yellow-600';
+    }
   }
 
   const sendRequestMatch = async (otherUserId: number) => {
@@ -31,42 +44,58 @@ export default function FindMatchChip({ match }: { match: MatchResult }) {
       () => setCurrentMatchRequest(undefined));
   };
 
+  const sendAcceptRequestMatch = async (otherUserId: number) => {
+    // TODO: Implement accept request
+  };
+
   useEffect(() => {
     matchLoadingState.next(false);
   }, [currentMatchRequest]);
 
   return (
-    <Card key={swapperUser.id} className={cardStyle}>
+    <Card key={otherSwapperUser.id} className={cardStyle}>
       <CardHeader className='justify-between'>
         <div className='flex gap-3 items-center'>
           <Avatar
             size='lg'
             as="button"
             className={avatarStyle}
-            src={swapperUser.picture}
+            src={otherSwapperUser.picture}
           />
           <div className='flex flex-col h-full'>
-            {swapperUser.nickname ? (
+            {otherSwapperUser.nickname ? (
               <>
-                <div className="text-lg font-black">{swapperUser.nickname}</div>
-                <div className="text-base font-semibold">{swapperUser.firstName} {swapperUser.lastName}</div>
+                <div className="text-lg font-black">{otherSwapperUser.nickname}</div>
+                <div className="text-base font-semibold">{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
               </>
             ) : (
-              <div className="text-lg font-black">{swapperUser.firstName} {swapperUser.lastName}</div>
+              <div className="text-lg font-black">{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
             )}
-            <div className="text-base font-light">{swapperUser.schoolName}</div>
+            <div className="text-base font-light">{otherSwapperUser.schoolName}</div>
           </div>
         </div>
         <div className='mr-3'>
         {
+          !pendingRequestForMe ? (
           currentMatchRequest?.status === MatchRequestStatus.PENDING ? (
-            <SwapperButton text='Pending...' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendCancelRequestMatch(swapperUser.id!)} setLoading$={matchLoadingState} />
+            <SwapperButton text='Pending...' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendCancelRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
           ) : (
-            <SwapperButton text='Match' styleType='tertiary' useSpinner={true} onClick={() => sendRequestMatch(swapperUser.id!)} setLoading$={matchLoadingState} />
+            <SwapperButton text='Match' styleType='tertiary' useSpinner={true} onClick={() => sendRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
           )
+          ) : (<></>)
         }
         </div>
       </CardHeader>
+      <CardBody className='p-0 bg-blue-400'>
+      {pendingRequestForMe ? (
+          <div className='text-center pb-5 px-0'>
+            <Separator className='h-px bg-primary mb-4' />
+            <div className='text-white font-semibold mb-2'>{match.otherSwapperUser.nickname || match.otherSwapperUser.firstName} wants to swap with you!</div>
+            <SwapperButton text='Accept' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendAcceptRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
+          </div>
+        ) : (<></>)
+        }
+      </CardBody>
     </Card>
   );
 }
