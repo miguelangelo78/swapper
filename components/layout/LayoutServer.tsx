@@ -16,7 +16,7 @@ export default async function Layout({ children, ignoreFooter = false }: { child
   const matchContext: MatchContext = {
     received: {
       matchRequests: incomingMatchRequests,
-      notifications: incomingMatchRequests.filter(match => match.status === 'PENDING' || match.status === 'ACCEPTED'),
+      notifications: incomingMatchRequests.filter(match => match.status === 'PENDING'),
       pending: incomingMatchRequests.filter(match => match.status === 'PENDING'),
       accepted: incomingMatchRequests.filter(match => match.status === 'ACCEPTED'),
     },

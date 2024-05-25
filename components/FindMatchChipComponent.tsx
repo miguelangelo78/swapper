@@ -29,7 +29,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   } else if(currentMatchRequest?.status === MatchRequestStatus.ACCEPTED) {
     cardStyle = 'bg-green-100 text-primary my-3 shadow-md border border-green-600 shadow-green-500';
     avatarStyle = 'transition-transform border-1 border-green-600 hover:scale-110';
-    matchButtonStyle = 'text-white bg-green-500 border-green-600';
+    matchButtonStyle = 'text-green-600 border-green-600';
   } else {
     if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
       cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
@@ -50,7 +50,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   const sendAcceptRequestMatch = async (otherUserId: number) => {
     acceptRequestMatch(otherUserId).then(
-      () => setCurrentMatchRequest({ ...currentMatchRequest, status: MatchRequestStatus.ACCEPTED } as MatchRequest));
+      () => {
+        requestForMe!.status = MatchRequestStatus.ACCEPTED;
+        setCurrentMatchRequest({ ...currentMatchRequest, status: MatchRequestStatus.ACCEPTED } as MatchRequest)
+      });
   };
 
   useEffect(() => {
