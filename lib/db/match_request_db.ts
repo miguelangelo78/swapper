@@ -41,16 +41,58 @@ export async function createMatchRequest(myUserId: number, otherUserId: number):
 export async function deleteMatchRequest(myUserId: number, otherUserId: number): Promise<number> {
   const currentRequest = await getMatchRequestWithOtherUser(myUserId, otherUserId);
 
-  return db.update(matchRequest).set({
+  const updatedAt = new Date();
+
+  const id = await db.update(matchRequest).set({
     ...currentRequest,
     status: MatchRequestStatus.CANCELLED,
-    updatedAt: new Date(),
+    updatedAt,
   }).where(
     and(
       eq(matchRequest.myUserId, myUserId),
       eq(matchRequest.otherUserId, otherUserId),
     ),
   ).returning({ id: matchRequest.id }).then((res) => res[0].id);
+
+  // Update the reverse request if it exists:
+  await db.update(matchRequest).set({
+    status: MatchRequestStatus.CANCELLED,
+    updatedAt,
+  }).where(
+    and(
+      eq(matchRequest.myUserId, otherUserId),
+      eq(matchRequest.otherUserId, myUserId),
+    ),
+  );
+
+  return id;
+}
+
+export async function acceptMatchRequest(myUserId: number, otherUserId: number): Promise<number> {
+  const updatedAt = new Date();
+
+  const id = await db.update(matchRequest).set({
+    status: MatchRequestStatus.ACCEPTED,
+    updatedAt,
+  }).where(
+    and(
+      eq(matchRequest.myUserId, myUserId),
+      eq(matchRequest.otherUserId, otherUserId),
+    ),
+  ).returning({ id: matchRequest.id }).then((res) => res[0].id);
+
+  // Update the reverse request if it exists:
+  await db.update(matchRequest).set({
+    status: MatchRequestStatus.ACCEPTED,
+    updatedAt,
+  }).where(
+    and(
+      eq(matchRequest.myUserId, otherUserId),
+      eq(matchRequest.otherUserId, myUserId),
+    ),
+  )
+
+  return id;
 }
 
 export async function getMatchRequestsFromMe(myUserId: number): Promise<MatchRequest[]> {

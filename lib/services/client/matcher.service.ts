@@ -17,3 +17,9 @@ export async function cancelRequestMatch(userId: number): Promise<number> {
     .then((res) => res.json())
     .catch((error) => console.error(error));
 }
+
+export async function acceptRequestMatch(userId: number): Promise<boolean> {
+  return fetch(`/api/requestmatch/accept`, { method: 'POST', body: JSON.stringify({ userId }) })
+    .then((res) => res.json())
+    .catch((error) => console.error(error));
+}
