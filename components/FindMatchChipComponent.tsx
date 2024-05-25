@@ -23,9 +23,9 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   if (pendingRequestForMe) {
     // This request is for me!
-    cardStyle = 'bg-blue-200 text-primary my-3 shadow-md border border-blue-600 shadow-blue-500';
-    avatarStyle = 'transition-transform border-1 border-blue-600 hover:scale-110';
-    matchButtonStyle = 'text-white bg-blue-600 border-blue-900 w-9/12';
+    cardStyle = 'bg-indigo-100 text-primary my-3 shadow-md border border-indigo-600 shadow-indigo-500';
+    avatarStyle = 'transition-transform border-1 border-indigo-600 hover:scale-110';
+    matchButtonStyle = 'text-white bg-indigo-400 w-9/12';
   } else {
     if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
       cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
@@ -86,7 +86,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
         }
         </div>
       </CardHeader>
-      <CardBody className='p-0 bg-blue-400'>
+      <CardBody className='p-0 bg-indigo-500'>
       {pendingRequestForMe ? (
           <div className='text-center pb-5 px-0'>
             <Separator className='h-px bg-primary mb-4' />
