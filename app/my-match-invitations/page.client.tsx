@@ -8,6 +8,8 @@ export default async function MyMatchInvitationsClient({ myMatchInvitations, use
     <div className='flex flex-col items-center mt-5'>
       <div className='justify-center'>
         <div className='text-2xl font-bold text-center'>These people want to swap with you:</div>
+        {myMatchInvitations.length === 0 && <div className='text-center'>No match invitations received</div>}
+
         {myMatchInvitations.map((match) => (
           <FindMatchChip key={match.otherSwapperUser.id} user={user!} match={match} />
         ))}

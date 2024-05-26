@@ -46,7 +46,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   const sendCancelRequestMatch = async (otherUserId: number) => {
     cancelRequestMatch(otherUserId).then(
-      () => setCurrentMatchRequest(undefined));
+      () => {
+        requestForMe!.status = MatchRequestStatus.CANCELLED;
+        setCurrentMatchRequest(undefined)
+      });
   };
 
   const sendAcceptRequestMatch = async (otherUserId: number) => {
@@ -110,7 +113,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
           <div className='text-center pb-4 px-0'>
             <Separator className='h-px bg-primary mb-4' />
             <div className='text-white font-semibold mb-2'>{match.otherSwapperUser.nickname || match.otherSwapperUser.firstName} wants to swap with you!</div>
-            <SwapperButton text='Accept' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendAcceptRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
+            <div>
+              <SwapperButton text='Accept' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendAcceptRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
+              <SwapperButton text='Ignore' styleType='tertiary' className={'ml-5 text-yellow-700 border-yellow-700'} useSpinner={true} onClick={() => sendCancelRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
+            </div>
           </div>
         ) : (<></>)
         }
