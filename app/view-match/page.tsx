@@ -24,7 +24,10 @@ export default async function ViewMatchPage({
   const requestFromOtherUser = requestsForMe.find((r) => r.myUserId === otherUserId);
   const requestFromMe = (await getMatchRequestsFromMe(user!.id!)).find((r) => r.otherUserId === otherUserId);
 
-  const amIMatchedWithOtherUser = requestFromOtherUser?.status === 'ACCEPTED' || requestFromMe?.status === 'ACCEPTED';
+  const amIMatchedWithOtherUser = (requestFromOtherUser?.status === 'ACCEPTED' || requestFromMe?.status === 'ACCEPTED') &&
+    (requestFromOtherUser?.status !== 'REJECTED' && requestFromMe?.status !== 'REJECTED') &&
+    (requestFromOtherUser?.status !== 'CANCELLED' && requestFromMe?.status !== 'CANCELLED') &&
+    (requestFromOtherUser?.status !== 'EXPIRED' && requestFromMe?.status !== 'EXPIRED');
 
   if (!amIMatchedWithOtherUser) {
     redirect('/matcher');
