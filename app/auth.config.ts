@@ -19,6 +19,12 @@ export const authConfig: NextAuthConfig = {
       let isOnMyMatches = nextUrl.pathname.startsWith('/my-matches');
       let isOnMyMatchRequests = nextUrl.pathname.startsWith('/my-match-requests');
       let isOnMyMatchInvitations = nextUrl.pathname.startsWith('/my-match-invitations');
+      let isOnViewMatch = nextUrl.pathname.startsWith('/view-match');
+
+      if (isOnViewMatch) {
+        if (isLoggedIn) return true;
+        return Response.redirect(new URL('/view-match', nextUrl));
+      }
 
       if (isOnMyMatchInvitations) {
         if (isLoggedIn) return true;

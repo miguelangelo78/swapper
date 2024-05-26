@@ -7,8 +7,11 @@ import { Subject } from 'rxjs';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { useLayoutContext } from './layout/LayoutClient';
 import Separator from './SeparatorComponent';
+import { useRouter } from 'next/navigation';
 
 export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser }) {
+  const router = useRouter();
+
   const { matchContext } = useLayoutContext();
   const { otherSwapperUser, matchRequest } = match;
 
@@ -54,6 +57,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
       });
   };
 
+  const viewMatch = async (otherUserId: number) => {
+    router.push(`/view-match?otherUserId=${otherUserId}`);
+  }
+
   useEffect(() => {
     matchLoadingState.next(false);
   }, [currentMatchRequest]);
@@ -85,7 +92,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
           requestForMe?.status !== MatchRequestStatus.PENDING ? (
             currentMatchRequest?.status === MatchRequestStatus.ACCEPTED ? (
               <>
-                <SwapperButton text='View' styleType='tertiary' className={matchButtonStyle} useSpinner={true} />
+                <SwapperButton text='View' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => viewMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
                 <SwapperButton text='Remove' styleType='tertiary' className={'text-red-500 border-red-500 mt-1 w-10'} useSpinner={true} onClick={() => sendCancelRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
               </>
             ) :
