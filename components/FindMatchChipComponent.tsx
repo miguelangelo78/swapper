@@ -47,16 +47,20 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const sendCancelRequestMatch = async (otherUserId: number) => {
     cancelRequestMatch(otherUserId).then(
       () => {
-        requestForMe!.status = MatchRequestStatus.CANCELLED;
-        setCurrentMatchRequest(undefined)
+        if (requestForMe) {
+          requestForMe.status = MatchRequestStatus.CANCELLED;
+        }
+        setCurrentMatchRequest(undefined);
       });
   };
 
   const sendAcceptRequestMatch = async (otherUserId: number) => {
     acceptRequestMatch(otherUserId).then(
       () => {
-        requestForMe!.status = MatchRequestStatus.ACCEPTED;
-        setCurrentMatchRequest({ ...currentMatchRequest, status: MatchRequestStatus.ACCEPTED } as MatchRequest)
+        if (requestForMe) {
+          requestForMe.status = MatchRequestStatus.ACCEPTED;
+        }
+        setCurrentMatchRequest({ ...currentMatchRequest, status: MatchRequestStatus.ACCEPTED } as MatchRequest);
       });
   };
 
