@@ -5,24 +5,34 @@ import { createUser, getUserByEmail } from '@/lib/db/user_db';
 import { SubmitButton } from 'app/submit-button';
 import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';
-import { sessionUser } from '@/lib/services/session.service';
+import { User } from 'next-auth';
 
 export default function Login() {
   async function signup(formData: FormData) {
     'use server';
     let email = formData.get('email') as string;
     let password = formData.get('password') as string;
-    let user = await getUserByEmail(email);
+    let user = undefined;
+    
+    try {
+      user = await getUserByEmail(email);
+    } catch (e: any) {
+      if (e.message !== 'User does not exist') {
+        throw e;
+      }
+    }
 
     if (user) {
       return 'User already exists'; // TODO: Handle errors with useFormStatus
     } else {
-      const authUser = await sessionUser();
-      if (!authUser) {
-        return 'User not found in session';
-      }
+      const newUser = {
+        email,
+        name: '',
+        password,
+        image: '',
+      } as unknown as User;
 
-      await createUser(authUser, password);
+      await createUser(newUser, password);
       redirect('/login');
     }
   }

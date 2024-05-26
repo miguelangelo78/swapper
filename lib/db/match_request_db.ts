@@ -39,12 +39,9 @@ export async function createMatchRequest(myUserId: number, otherUserId: number):
 }
 
 export async function deleteMatchRequest(myUserId: number, otherUserId: number): Promise<number> {
-  const currentRequest = await getMatchRequestWithOtherUser(myUserId, otherUserId);
-
   const updatedAt = new Date();
 
   const id = await db.update(matchRequest).set({
-    ...currentRequest,
     status: MatchRequestStatus.CANCELLED,
     updatedAt,
   }).where(

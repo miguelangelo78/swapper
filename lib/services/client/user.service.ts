@@ -11,11 +11,10 @@ export async function getUser(): Promise<SwapperUser | null> {
 export async function completeSetup(formData: SetupFormData): Promise<void | Response> {
   return fetch('/api/complete-setup', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData),
   })
+    .then((res) => res.json())
     .catch((error) => console.error(error));
 }
 

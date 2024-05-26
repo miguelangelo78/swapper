@@ -3,7 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
-import { createUser, getUserByEmail, getUserBase, updateUserBaseLastLogin } from '../lib/db/user_db';
+import { createUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/user_db';
 import { expireSessionUser } from '@/lib/services/session.service';
 
 export const {
@@ -16,7 +16,7 @@ export const {
   providers: [
     Credentials({
       async authorize({ email, password }: any) {
-        let user = await getUserByEmail(email);
+        let user = await getUserBase(email);
         if (!user) return null;
         let passwordsMatch = await compare(password, user.password!);
         if (passwordsMatch) return user as any;

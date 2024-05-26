@@ -76,10 +76,15 @@ export async function getUser({
   const eqField = id ? eq(swapperUserBase.id, id!) : eq(swapperUserBase.email, email!);
 
   const user = await db
-  .select()
-  .from(swapperUserBase)
-  .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
-  .where(eqField).then((res) => res[0]);
+    .select()
+    .from(swapperUserBase)
+    .innerJoin(swapperUser, eq(swapperUserBase.id, swapperUser.userId))
+    .where(eqField).then((res) => res[0]);
+
+  if (!user) {
+    // User does not exist
+    throw new Error('User does not exist');
+  }
 
   const origin = await db
     .select()
@@ -110,7 +115,7 @@ export async function getUser({
     lastName: user.swapper_user.lastName!,
     nickname: user.swapper_user.nickname!,
     schoolName: user.swapper_user.schoolName!,
-    origin: {
+    origin: origin ? {
       id: origin.id,
       createdAt: origin.createdAt!,
       updatedAt: origin.updatedAt!,
@@ -119,8 +124,16 @@ export async function getUser({
       subprovince: origin.subprovince,
       major: origin.major,
       educationArea: origin.educationArea,
+    } : {
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      areaOffice: '',
+      province: '',
+      subprovince: '',
+      major: '',
+      educationArea: '',
     },
-    destination: {
+    destination: destination ? {
       id: destination.id,
       createdAt: destination.createdAt!,
       updatedAt: destination.updatedAt!,
@@ -129,6 +142,14 @@ export async function getUser({
       subprovince: destination.subprovince,
       major: destination.major,
       educationArea: destination.educationArea,
+    } : {
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      areaOffice: '',
+      province: '',
+      subprovince: '',
+      major: '',
+      educationArea: '',
     },
     contact: _contact as any,
   }
@@ -219,6 +240,10 @@ export async function createUser(authUser: User, password: string): Promise<numb
 }
 
 export async function upsertTransition(newTransition: Transition, id?: number): Promise<number> {
+  if (!id) {
+    return createTransition(newTransition);
+  }
+
   const result = await db.select().from(transition).where(eq(transition.id, id!)).then((res) => res[0]);
 
   if (result) {
@@ -262,6 +287,10 @@ export async function deleteTransition(id: number) {
 }
 
 export async function upsertContact(newContact: Contact, id?: number): Promise<number> {
+  if (!id) {
+    return createContact(newContact);
+  }
+
   const result = await db.select().from(contact).where(eq(contact.id, id!)).then((res) => res[0]);
 
   if (result) {
