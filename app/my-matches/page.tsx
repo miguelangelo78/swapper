@@ -12,7 +12,7 @@ export default async function MyMatchesPage() {
   const matchResults: MatchResult[] = [];
 
   for (const match of requestsForMe.filter((r) => r.status === 'ACCEPTED')){
-    const otherSwapperUser = (await getUserById(match.otherUserId))!;
+    const otherSwapperUser = (await getUserById(match.myUserId))!;
     matchResults.push({ otherSwapperUser, matchRequest: match });
   }
 
