@@ -6,7 +6,7 @@ export async function findMatchesForUser(): Promise<MatchResult[]> {
     .catch((error) => console.error(error));
 }
 
-export async function requestMatch(userId: number): Promise<boolean> {
+export async function requestMatch(userId: number): Promise<{id: number, status: string} | boolean> {
   return fetch(`/api/requestmatch/`, { method: 'POST', body: JSON.stringify({ userId }) })
     .then((res) => res.json())
     .catch((error) => console.error(error));

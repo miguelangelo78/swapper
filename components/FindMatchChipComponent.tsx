@@ -19,6 +19,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const [matchLoadingState] = useState(new Subject<boolean>());
 
   const requestForMe = matchContext.received.matchRequests.find((mr) => mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id);
+  const matchedWithMe = currentMatchRequest?.status === MatchRequestStatus.ACCEPTED || requestForMe?.status === MatchRequestStatus.ACCEPTED;
 
   let cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-primary shadow-primary';
   let avatarStyle = 'transition-transform border-1 border-primary hover:scale-110';
@@ -28,7 +29,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
     // This request is for me!
     cardStyle = 'bg-indigo-100 text-primary my-3 shadow-md border border-indigo-600 shadow-indigo-500';
     avatarStyle = 'transition-transform border-1 border-indigo-600 hover:scale-110';
-  } else if(currentMatchRequest?.status === MatchRequestStatus.ACCEPTED) {
+  } else if(matchedWithMe) {
     cardStyle = 'bg-green-200 text-primary my-3 shadow-md border border-green-600 shadow-green-500';
     avatarStyle = 'transition-transform border-1 border-green-600 hover:scale-110';
   } else {
@@ -41,7 +42,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   const sendRequestMatch = async (otherUserId: number) => {
     requestMatch(otherUserId).then(
-      () => setCurrentMatchRequest({ ...currentMatchRequest, status: MatchRequestStatus.PENDING } as MatchRequest));
+      (result) => {
+        const { status } = (result as { id: number, status: string });
+        setCurrentMatchRequest({ ...currentMatchRequest, status } as MatchRequest)
+      });
   }
 
   const sendCancelRequestMatch = async (otherUserId: number) => {
@@ -97,7 +101,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
         <div className='mr-3 text-right'>
         {
           requestForMe?.status !== MatchRequestStatus.PENDING ? (
-            currentMatchRequest?.status === MatchRequestStatus.ACCEPTED ? (
+            matchedWithMe ? (
               <>
                 <SwapperButton text='View' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => viewMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
                 <SwapperButton text='Remove' styleType='tertiary' className={'text-red-500 border-red-500 mt-1 w-10'} useSpinner={true} onClick={() => sendCancelRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />

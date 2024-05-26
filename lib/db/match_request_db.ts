@@ -2,7 +2,7 @@ import { integer, pgEnum, pgTable, serial, timestamp } from 'drizzle-orm/pg-core
 import { swapperUser } from './user_db';
 import { db } from './db_client';
 import { MatchRequest, MatchRequestStatus } from '../models/Match.types';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, or } from 'drizzle-orm';
 
 export const statusEnum = pgEnum('status', ['PENDING', 'ACCEPTED', 'ACCEPTED_ACK', 'REJECTED', 'IGNORED', 'EXPIRED', 'CANCELLED', 'SWAPPED']);
 
@@ -45,22 +45,17 @@ export async function deleteMatchRequest(myUserId: number, otherUserId: number):
     status: MatchRequestStatus.CANCELLED,
     updatedAt,
   }).where(
-    and(
-      eq(matchRequest.myUserId, myUserId),
-      eq(matchRequest.otherUserId, otherUserId),
-    ),
+    or(
+      and(
+        eq(matchRequest.myUserId, myUserId),
+        eq(matchRequest.otherUserId, otherUserId),
+      ),
+      and(
+        eq(matchRequest.myUserId, otherUserId),
+        eq(matchRequest.otherUserId, myUserId),
+      )
+    )
   ).returning({ id: matchRequest.id }).then((res) => res[0].id);
-
-  // Update the reverse request if it exists:
-  await db.update(matchRequest).set({
-    status: MatchRequestStatus.CANCELLED,
-    updatedAt,
-  }).where(
-    and(
-      eq(matchRequest.myUserId, otherUserId),
-      eq(matchRequest.otherUserId, myUserId),
-    ),
-  );
 
   return id;
 }
@@ -72,22 +67,17 @@ export async function acceptMatchRequest(myUserId: number, otherUserId: number):
     status: MatchRequestStatus.ACCEPTED,
     updatedAt,
   }).where(
-    and(
-      eq(matchRequest.myUserId, myUserId),
-      eq(matchRequest.otherUserId, otherUserId),
-    ),
+    or(
+      and(
+        eq(matchRequest.myUserId, myUserId),
+        eq(matchRequest.otherUserId, otherUserId),
+      ),
+      and(
+        eq(matchRequest.myUserId, otherUserId),
+        eq(matchRequest.otherUserId, myUserId),
+      ),
+    )
   ).returning({ id: matchRequest.id }).then((res) => res[0].id);
-
-  // Update the reverse request if it exists:
-  await db.update(matchRequest).set({
-    status: MatchRequestStatus.ACCEPTED,
-    updatedAt,
-  }).where(
-    and(
-      eq(matchRequest.myUserId, otherUserId),
-      eq(matchRequest.otherUserId, myUserId),
-    ),
-  )
 
   return id;
 }
