@@ -55,7 +55,7 @@ export default async function ViewMatchPage({
           <p><span className='font-bold'>Major:</span> <span>{otherUser.origin.major}</span></p>
           {otherUser.schoolName && <p><span className='font-bold'>School:</span> <span>{otherUser.schoolName}</span></p>}
         </div>
-        <div className="text-lg text-primary bg-white p-2 rounded-lg border border-blue-500 w-96">
+        <div className="text-lg text-primary bg-white p-2 rounded-lg shadow-md w-96">
           <h3 className="font-black text-primary text-xl">Destination:</h3>
           <Separator className='h-0.5' />
           {
