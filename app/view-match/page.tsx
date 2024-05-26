@@ -1,7 +1,7 @@
 import { getUserById } from '@/lib/db/user_db';
 import { getSwapperUser } from '@/lib/services/server/user.service';
 import Layout from '@/components/layout/LayoutServer';
-import { getMatchRequestsForMe } from '@/lib/db/match_request_db';
+import { getMatchRequestsForMe, getMatchRequestsFromMe } from '@/lib/db/match_request_db';
 import { redirect } from 'next/navigation';
 import Separator from '@/components/SeparatorComponent';
 import { SwapperButton } from '@/components/SwapperButton';
@@ -22,8 +22,9 @@ export default async function ViewMatchPage({
 
   const requestsForMe = await getMatchRequestsForMe(user!.id!);
   const requestFromOtherUser = requestsForMe.find((r) => r.myUserId === otherUserId);
+  const requestFromMe = (await getMatchRequestsFromMe(user!.id!)).find((r) => r.otherUserId === otherUserId);
 
-  const amIMatchedWithOtherUser = requestFromOtherUser?.status === 'ACCEPTED';
+  const amIMatchedWithOtherUser = requestFromOtherUser?.status === 'ACCEPTED' || requestFromMe?.status === 'ACCEPTED';
 
   if (!amIMatchedWithOtherUser) {
     redirect('/matcher');
