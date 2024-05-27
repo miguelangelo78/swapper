@@ -13,7 +13,15 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
 
   const notificationsCount = matchContext.received.notifications?.length || 0;
   const hasNews = notificationsCount > 0;
-  const matchCount = matchContext.received.accepted?.length || 0;
+
+  let matches = [...matchContext.received.matchRequests, ...matchContext.sent.matchRequests];
+  // Remove reverse duplicates
+  matches = matches.filter((r) => {
+    const reverseRequest = matches.find((rr) => rr.myUserId === r.otherUserId && rr.otherUserId === r.myUserId);
+    return !reverseRequest || r.createdAt > reverseRequest.createdAt;
+  });
+
+  const matchCount = matches.filter((r) => r.status === 'ACCEPTED').length || 0;
   const myPendingMatchRequestsCount = matchContext.sent.pending?.length || 0;
   
   let matchRequestMenuStyle = 'h-14 data-[hover=true]:bg-primary data-[hover=true]:text-white';
