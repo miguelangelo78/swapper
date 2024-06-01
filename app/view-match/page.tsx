@@ -20,7 +20,7 @@ export default async function ViewMatchPage({
 
   const user = await getSwapperUser();
 
-  const applyBlur = !user?.isAdmin ? 'blur-xs select-none' : '';
+  const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
   
   const otherUserId = +(searchParams['otherUserId']?.toString()! ?? 0);
 

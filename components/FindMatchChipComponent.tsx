@@ -17,7 +17,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const { otherSwapperUser, matchRequest } = match;
 
   const isOnline = isUserOnline(otherSwapperUser);
-  const applyBlur = !user?.isAdmin ? 'blur-xs select-none' : '';
+  const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
