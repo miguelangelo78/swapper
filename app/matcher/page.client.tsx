@@ -45,7 +45,7 @@ export default function MatcherPageClient(
           {matches && matches?.length > 0 && (
             <div className="w-96 mt-5">
               {!user?.isAdmin &&
-                <Info header='NOTE:' message='personal information will be hidden during early versions' />
+                <Info header='NOTE:' message='personal information will be blurred during early Swapper' />
               }
               {matches!.map((match) => (
                 <FindMatchChip key={match.otherSwapperUser.id} user={user} match={match} />

@@ -4,10 +4,10 @@ import Layout from '@/components/layout/LayoutServer';
 import { getMatchRequestsForMe, getMatchRequestsFromMe } from '@/lib/db/match_request_db';
 import { redirect } from 'next/navigation';
 import Separator from '@/components/SeparatorComponent';
-import { SwapperButton } from '@/components/SwapperButton';
 import { Avatar } from '@nextui-org/react';
 import { isUserOnline } from '@/lib/utils';
 import Info from '@/components/InfoComponent';
+import SendMessageButton from './SendMessageButtonComponent';
 
 export default async function ViewMatchPage({
   searchParams,
@@ -46,7 +46,7 @@ export default async function ViewMatchPage({
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-2 bg-primary">
         {applyBlur && 
-          <Info header='NOTE:' message='personal information will be hidden during early versions' />
+          <Info header='NOTE:' message='personal information will be blurred during early Swapper' />
         }
         <div>
           <Avatar
@@ -74,7 +74,7 @@ export default async function ViewMatchPage({
           {!isOnline &&
             <h2 className="text-lg text-center text-secondary pb-2">Last online: {otherUser.lastLogin?.toDateString() ?? 'never'}</h2>
           }
-          <SwapperButton text='Send Message' styleType='tertiary' className='w-40' />
+          <SendMessageButton />
         </section>
 
         <div className='mt-8'>
