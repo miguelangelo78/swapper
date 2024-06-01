@@ -7,7 +7,7 @@ import Separator from '@/components/SeparatorComponent';
 import { SwapperButton } from '@/components/SwapperButton';
 import { Avatar } from '@nextui-org/react';
 import { isUserOnline } from '@/lib/utils';
-import InfoComponent from '@/components/InfoComponent';
+import Info from '@/components/InfoComponent';
 
 export default async function ViewMatchPage({
   searchParams,
@@ -45,7 +45,7 @@ export default async function ViewMatchPage({
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-2 bg-primary">
         {applyBlur && 
-          <InfoComponent header='NOTE:' message='personal information will be hidden during the early version' />
+          <Info header='NOTE:' message='personal information will be hidden during early versions' />
         }
         <div>
           <Avatar
