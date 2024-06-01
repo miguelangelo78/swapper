@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { refreshLastLogin } from '@/lib/services/client/user.service';
 
 export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null | undefined }) {
-  const earlyVersionChip = <span className='inline-block bg-tertiary text-primary font-bold text-base px-2 rounded-md shadow-xl select-none ml-1 translate-y-3 -translate-x-2'>Beta</span>;
+  const earlyVersionChip = <span className='inline-block ml-2 bg-tertiary text-primary font-bold text-base px-2 rounded-md shadow-xl select-none'>Beta</span>;
 
   useEffect(() => {
     if (swapperUser) {
@@ -40,7 +40,7 @@ export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null |
     <nav className="p-4 bg-primary shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         <div>
-          <a href="/" className="text-4xl text-white font-bold mr-4 logo">{APP_NAME}</a>
+          <a href="/" className="text-4xl text-white font-bold logo">{APP_NAME}</a>
           {earlyVersionChip}
         </div>
         <div>
