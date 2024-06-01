@@ -1,17 +1,20 @@
 'use client';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
-import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from '@nextui-org/react';
+import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Spinner } from '@nextui-org/react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Key } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useLayoutContext } from './layout/LayoutClient';
+import { MatchRequest } from '@/lib/models/Match.types';
+import { getUserById } from '@/lib/services/client/user.service';
 
 export default function NavAvatar({ user }: { user: SwapperUser }) {
   const router = useRouter();
-
+  
   const { matchContext } = useLayoutContext();
 
-  const notificationsCount = matchContext.received.notifications?.length || 0;
+  const requestsReceived = matchContext.received.notifications;
+  const notificationsCount = requestsReceived?.length || 0;
   const hasNews = notificationsCount > 0;
 
   let matches = [...matchContext.received.matchRequests, ...matchContext.sent.matchRequests];
@@ -27,8 +30,28 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
   let matchRequestMenuStyle = 'h-14 data-[hover=true]:bg-primary data-[hover=true]:text-white';
 
   if (notificationsCount > 0) {
-    matchRequestMenuStyle = 'h-14 bg-primary text-white transition-transform data-[hover=true]:bg-tertiary';
+    matchRequestMenuStyle = 'bg-primary text-white transition-transform data-[hover=true]:bg-tertiary';
   }
+
+  const [userRequests, setUserRequests] = useState<{ otherUser?: SwapperUser, request?: MatchRequest}[]>([]);
+
+  useEffect(() => {
+    if (notificationsCount > 0 && userRequests.length === 0) {
+      const requests = requestsReceived || [];
+      const getUsers = requests.map((r) => getUserById(r.myUserId).then((user) => ({ otherUser: user, request: r }))) as { otherUser?: SwapperUser, request?: MatchRequest}[];
+
+      Promise.all(getUsers).then((users) => {
+        // Set a maximum of 5 avatars
+        const userAvatars = users.slice(0, 4);
+        // If there are more, add a "..." avatar
+        if (users.length > 4) {
+          userAvatars.push({});
+        }
+
+        setUserRequests(userAvatars);
+      });
+    }
+  });
 
   async function handleAction(key: Key) {
     switch (key) {
@@ -91,7 +114,32 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
         </DropdownSection>
         <DropdownSection showDivider>
           <DropdownItem key="viewMatchInvitations" className={matchRequestMenuStyle}>
-            <p className="font-semibold text-center">{notificationsCount} {notificationsCount === 1 ? 'person wants' : 'people want'} to swap with you!</p>
+            <>
+              <p className="font-semibold text-center">{notificationsCount} {notificationsCount === 1 ? 'person wants' : 'people want'} to swap with you!</p>
+              {notificationsCount > 0 && (
+                <div className='flex gap-1 justify-center items-center py-2'>
+                  {userRequests.length > 0 ?
+                    userRequests.map((notification, index) => (
+                      notification.otherUser ? (
+                        <Avatar
+                          key={index}
+                          size='md'
+                          src={notification.otherUser.picture}
+                          className='border-2 border-secondary'
+                        />
+                      ) : (
+                        <Avatar
+                          key={index}
+                          size='sm'
+                          className='border-2 border-secondary'
+                        >
+                          ...
+                        </Avatar>
+                      )
+                    )) : <Spinner size='sm' color='warning' /> }
+                </div>
+              )}
+            </>
           </DropdownItem>
         </DropdownSection>
         <DropdownSection>

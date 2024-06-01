@@ -8,6 +8,12 @@ export async function getUser(): Promise<SwapperUser | null> {
     .catch((error) => console.error(error));
 }
 
+export async function getUserById(userId: number): Promise<SwapperUser> {
+  return fetch(`/api/user/${userId}`)
+    .then((res) => res.json())
+    .catch((error) => console.error(error));
+}
+
 export async function completeSetup(formData: SetupFormData): Promise<void | Response> {
   return fetch('/api/complete-setup', {
     method: 'POST',
