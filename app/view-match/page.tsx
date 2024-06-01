@@ -21,6 +21,7 @@ export default async function ViewMatchPage({
   const user = await getSwapperUser();
 
   const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
+  const applyBlurExtra = !user?.isAdmin ? 'blur select-none' : '';
   
   const otherUserId = +(searchParams['otherUserId']?.toString()! ?? 0);
 
@@ -60,7 +61,7 @@ export default async function ViewMatchPage({
             )}
         </div>
         {otherUser.nickname && <p className="text-4xl text-center font-black text-tertiary">{otherUser.nickname}</p>}
-        <h1 className={`text-center font-black ${applyBlur} ${otherUser.nickname ? 'text-xl font-semibold text-secondary' : 'text-4xl text-tertiary'}`}>{otherUser.firstName} {otherUser.lastName}</h1>
+        <h1 className={`text-center font-black ${applyBlurExtra} ${otherUser.nickname ? 'text-xl font-semibold text-secondary' : 'text-4xl text-tertiary'}`}>{otherUser.firstName} {otherUser.lastName}</h1>
         {isOnline &&
           <h2 className="text-sm text-center bg-green-500 text-white p-1 px-3 text-thin rounded-lg shadow-md">
             <span className="font-semibold">Online</span>

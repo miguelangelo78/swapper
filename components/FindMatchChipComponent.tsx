@@ -18,6 +18,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   const isOnline = isUserOnline(otherSwapperUser);
   const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
+  const applyBlurExtra = !user?.isAdmin ? 'blur select-none' : '';
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
@@ -100,10 +101,10 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
             {otherSwapperUser.nickname ? (
               <>
                 <div className="text-lg font-black">{otherSwapperUser.nickname}</div>
-                <div className={`text-base font-semibold ${applyBlur}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
+                <div className={`text-base font-semibold ${applyBlurExtra}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
               </>
             ) : (
-              <div className={`text-lg font-black ${applyBlur}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
+              <div className={`text-lg font-black ${applyBlurExtra}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
             )}
             <div className={`text-base font-light ${applyBlur}`}>{otherSwapperUser.schoolName}</div>
           </div>
@@ -134,7 +135,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
               {match.otherSwapperUser.nickname ? (
                 <span>{match.otherSwapperUser.nickname} </span>
               ) : (
-                <span className={`${applyBlur}`}>{match.otherSwapperUser.firstName} </span>
+                <span className={`${applyBlurExtra}`}>{match.otherSwapperUser.firstName} </span>
               )}
               wants to swap with you!</div>
             <div>
