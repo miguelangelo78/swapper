@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { refreshLastLogin } from '@/lib/services/client/user.service';
 
 export default function Nav({ swapperUser }: { swapperUser: SwapperUser | null | undefined }) {
-  const earlyVersionChip = <span className='inline-block bg-tertiary text-primary font-bold text-base px-2 rounded-md shadow-xl select-none'>Beta</span>;
+  const earlyVersionChip = <span className='inline-block bg-tertiary text-primary font-bold text-base px-2 rounded-md shadow-xl select-none -translate-x-2'>Beta</span>;
 
   useEffect(() => {
     if (swapperUser) {
