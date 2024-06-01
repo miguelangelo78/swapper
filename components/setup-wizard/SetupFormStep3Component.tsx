@@ -20,8 +20,8 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
   const [filteredOriginEducationAreaOptions, setFilteredOriginEducationAreaOptions] = useState([] as { value: string, label: string }[]);
   const [filteredDestinationEducationAreaOptions, setFilteredDestinationEducationAreaOptions] = useState([] as { value: string, label: string }[]);
 
-  const isOriginAreaVisible = filteredOriginEducationAreaOptions.length > 0;
-  const isDestinationAreaVisible = filteredDestinationEducationAreaOptions.length > 0;
+  const isOriginAreaVisible = filteredOriginEducationAreaOptions.filter(val => val.value).length > 0;
+  const isDestinationAreaVisible = filteredDestinationEducationAreaOptions.filter(val => val.value).length > 0;
 
   const isOriginAreaDisabled = !formData.originProvince;
   const isDestinationAreaDisabled = !formData.destinationProvince;
@@ -32,23 +32,28 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
     // Update subprovince options when the origin province changes
     if (formData.originProvince) {
       const subprovince = subprovinceData[formData.originProvince as string as keyof typeof subprovinceData] || [];
-      setFilteredOriginSubprovinceOptions(subprovince.map(option => ({ value: option, label: option })));
+      const filteredSubProvince = subprovince.map(option => ({ value: option, label: option }));
+      setFilteredOriginSubprovinceOptions([{ value: '', label: 'All Subprovinces' }, ...filteredSubProvince]);
 
       const areaOffice = educationalArea[formData.originAreaOffice as string as keyof typeof educationalArea];
       const educationArea = areaOffice[formData.originProvince as string as keyof typeof areaOffice];
       const areasList = Array.from({ length: educationArea }, (_, index) => index + 1);
-      setFilteredOriginEducationAreaOptions(areasList.map(option => ({ value: `${option}`, label: `${option}` })));
+      const areasListOptions = areasList.map(option => ({ value: `${option}`, label: `${option}` }));
+      
+      setFilteredOriginEducationAreaOptions([{ value: '', label: 'All Areas' }, ...areasListOptions]);
     }
 
     // Update subprovince options when the destination province changes
     if (formData.destinationProvince) {
       const subprovince = subprovinceData[formData.destinationProvince as string as keyof typeof subprovinceData] || [];
-      setFilteredDestinationSubprovinceOptions(subprovince.map(option => ({ value: option, label: option })));
+      const filteredSubProvince = subprovince.map(option => ({ value: option, label: option }));
+      setFilteredDestinationSubprovinceOptions(([{ value: '', label: 'All Subprovinces' }, ...filteredSubProvince]));
 
       const areaOffice = educationalArea[(formData.destinationAreaOffice || formData.originAreaOffice) as string as keyof typeof educationalArea];
       const educationArea = areaOffice[formData.destinationProvince as string as keyof typeof areaOffice];
       const areasList = Array.from({ length: educationArea }, (_, index) => index + 1);
-      setFilteredDestinationEducationAreaOptions(areasList.map(option => ({ value: `${option}`, label: `${option}` })));
+      const areasListOptions = areasList.map(option => ({ value: `${option}`, label: `${option}` }));
+      setFilteredDestinationEducationAreaOptions([{ value: '', label: 'All Areas' }, ...areasListOptions]);
     }
   }, [formData.originProvince, formData.destinationProvince]); // Reacts to changes in originProvince and destinationProvince
 
@@ -84,7 +89,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     id="originEducationArea"
                     type={AutoSelectType.Secondary}
                     name="originEducationArea"
-                    className='w-6/12'
+                    className='w-7/12'
                     value={formData.originEducationArea}
                     onChange={(e) => {
                       formData.originSubprovince = '';
@@ -138,7 +143,7 @@ export default function SetupFormStep3Component({ user, formData, handleInputCha
                     id="destinationEducationArea"
                     type={AutoSelectType.Secondary}
                     name="destinationEducationArea"
-                    className='w-6/12'
+                    className='w-7/12'
                     value={formData.destinationEducationArea}
                     onChange={(e) => {
                       formData.destinationSubprovince = '';
