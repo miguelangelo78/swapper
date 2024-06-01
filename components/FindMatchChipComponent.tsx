@@ -8,12 +8,15 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { useLayoutContext } from './layout/LayoutClient';
 import Separator from './SeparatorComponent';
 import { useRouter } from 'next/navigation';
+import { isUserOnline } from '@/lib/utils';
 
 export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser }) {
   const router = useRouter();
 
   const { matchContext } = useLayoutContext();
   const { otherSwapperUser, matchRequest } = match;
+
+  const isOnline = isUserOnline(otherSwapperUser);
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
@@ -80,12 +83,18 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
     <Card key={otherSwapperUser.id} className={cardStyle}>
       <CardHeader className='justify-between w-96'>
         <div className='flex gap-3 items-center w-full'>
-          <Avatar
-            size='lg'
-            as="button"
-            className={avatarStyle}
-            src={otherSwapperUser.picture}
-          />
+          <div>
+            <Avatar
+              size='lg'
+              as="button"
+              className={avatarStyle}
+              src={otherSwapperUser.picture}
+            />
+            {isOnline && (
+              <div className="absolute transform translate-x-9 -translate-y-4 bg-green-500 border border-green-600 rounded-full h-4 w-4 flex">
+              </div>
+            )}
+          </div>
           <div className='flex flex-col h-full'>
             {otherSwapperUser.nickname ? (
               <>

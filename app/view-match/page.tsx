@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import Separator from '@/components/SeparatorComponent';
 import { SwapperButton } from '@/components/SwapperButton';
 import { Avatar } from '@nextui-org/react';
+import { isUserOnline } from '@/lib/utils';
 
 export default async function ViewMatchPage({
   searchParams,
@@ -35,20 +36,40 @@ export default async function ViewMatchPage({
 
   const otherUser = (await getUserById(otherUserId))!;
 
+  const isOnline = isUserOnline(otherUser);
+
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-2 bg-primary">
-        <Avatar
-            size='lg'
-            as="button"
-            className="w-48 h-48 object-cover rounded-full border-4 border-tertiary shadow-2xl"
-            src={otherUser.picture}
-          />
+        <div>
+          <Avatar
+              size='lg'
+              as="button"
+              className="w-48 h-48 object-cover rounded-full border-4 border-tertiary shadow-2xl"
+              src={otherUser.picture}
+            />
+            {isOnline && (
+              <div className="absolute transform translate-x-36 -translate-y-8 bg-green-500 border border-green-600 rounded-full h-7 w-7 flex">
+              </div>
+            )}
+        </div>
         {otherUser.nickname && <p className="text-4xl text-center font-black text-tertiary">{otherUser.nickname}</p>}
         <h1 className={`text-center font-black ${otherUser.nickname ? 'text-xl font-semibold text-secondary' : 'text-4xl text-tertiary'}`}>{otherUser.firstName} {otherUser.lastName}</h1>
+        {isOnline &&
+          <h2 className="text-sm text-center bg-green-500 text-white p-1 px-3 text-thin rounded-lg shadow-md">
+            <span className="font-semibold">Online</span>
+          </h2>
+        }
         <h2 className="text-xl text-center text-secondary">{otherUser.email}</h2>
         {otherUser.schoolName && <p className="text-lg text-center text-secondary">{otherUser.schoolName}</p>}
-        <SwapperButton text='Send Message' styleType='tertiary' className='w-40' />
+
+        <section className='pt-4 text-center'>
+          {!isOnline &&
+            <h2 className="text-lg text-center text-secondary pb-2">Last online: {otherUser.lastLogin?.toDateString() ?? 'never'}</h2>
+          }
+          <SwapperButton text='Send Message' styleType='tertiary' className='w-40' />
+        </section>
+
         <div className='mt-8'>
           <div className="text-lg text-primary bg-white p-2 my-4 rounded-lg shadow-md w-90">
             <h3 className="font-black text-primary text-xl">Contact:</h3>
