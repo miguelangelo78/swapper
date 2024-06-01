@@ -16,6 +16,9 @@ export default {
         secondary: '#DFCCFB',
         tertiary: '#FFF3DA',
       },
+      blur: {
+        xs: '3px',
+      }
     },
   },
   future: {

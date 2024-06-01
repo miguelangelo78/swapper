@@ -14,6 +14,7 @@ const swapperUserBase = pgTable('swapper_user_base', {
   name: varchar('name', { length: 255 }),
   picture: text('picture'),
   setupComplete: boolean('setup_complete'),
+  isAdmin: boolean('is_admin'),
   lastLogin: timestamp('last_login'),
 });
 
@@ -65,6 +66,7 @@ export async function getUserBase(email: string): Promise<SwapperUserBase | unde
     name: result.name!,
     picture: result.picture!,
     setupComplete: result.setupComplete!,
+    isAdmin: result.isAdmin!,
     password: result.password!,
   };
 }
@@ -110,6 +112,7 @@ export async function getUser({
     name: user.swapper_user_base.name!,
     picture: user.swapper_user_base.picture!,
     setupComplete: user.swapper_user_base.setupComplete!,
+    isAdmin: user.swapper_user_base.isAdmin!,
     lastLogin: new Date(user.swapper_user_base.lastLogin!),
     firstName: user.swapper_user.firstName!,
     lastName: user.swapper_user.lastName!,
@@ -174,6 +177,7 @@ function mapRowToSwapperUser(row: any): SwapperUser {
     name: row.swapper_user_base.name!,
     picture: row.swapper_user_base.picture!,
     setupComplete: row.swapper_user_base.setupComplete!,
+    isAdmin: row.swapper_user_base.isAdmin!,
     lastLogin: new Date(row.swapper_user_base.lastLogin!),
     firstName: row.swapper_user.firstName!,
     lastName: row.swapper_user.lastName!,
@@ -221,6 +225,7 @@ export async function createUser(authUser: User, password: string): Promise<numb
     picture: authUser.image!,
     password: hash,
     setupComplete: false,
+    isAdmin: false,
   };
 
   const result = await db.insert(swapperUserBase).values(userBase).returning({ id: swapperUserBase.id });

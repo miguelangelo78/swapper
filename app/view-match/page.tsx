@@ -7,6 +7,7 @@ import Separator from '@/components/SeparatorComponent';
 import { SwapperButton } from '@/components/SwapperButton';
 import { Avatar } from '@nextui-org/react';
 import { isUserOnline } from '@/lib/utils';
+import InfoComponent from '@/components/InfoComponent';
 
 export default async function ViewMatchPage({
   searchParams,
@@ -19,6 +20,8 @@ export default async function ViewMatchPage({
 
   const user = await getSwapperUser();
 
+  const applyBlur = !user?.isAdmin ? 'blur-xs select-none' : '';
+  
   const otherUserId = +(searchParams['otherUserId']?.toString()! ?? 0);
 
   const requestsForMe = await getMatchRequestsForMe(user!.id!);
@@ -41,6 +44,9 @@ export default async function ViewMatchPage({
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-2 bg-primary">
+        {applyBlur && 
+          <InfoComponent header='NOTE:' message='personal information will be hidden during the early version' />
+        }
         <div>
           <Avatar
               size='lg'
@@ -54,14 +60,14 @@ export default async function ViewMatchPage({
             )}
         </div>
         {otherUser.nickname && <p className="text-4xl text-center font-black text-tertiary">{otherUser.nickname}</p>}
-        <h1 className={`text-center font-black ${otherUser.nickname ? 'text-xl font-semibold text-secondary' : 'text-4xl text-tertiary'}`}>{otherUser.firstName} {otherUser.lastName}</h1>
+        <h1 className={`text-center font-black ${applyBlur} ${otherUser.nickname ? 'text-xl font-semibold text-secondary' : 'text-4xl text-tertiary'}`}>{otherUser.firstName} {otherUser.lastName}</h1>
         {isOnline &&
           <h2 className="text-sm text-center bg-green-500 text-white p-1 px-3 text-thin rounded-lg shadow-md">
             <span className="font-semibold">Online</span>
           </h2>
         }
-        <h2 className="text-xl text-center text-secondary">{otherUser.email}</h2>
-        {otherUser.schoolName && <p className="text-lg text-center text-secondary">{otherUser.schoolName}</p>}
+        <h2 className={`text-xl text-center text-secondary ${applyBlur}`}>{otherUser.email}</h2>
+        {otherUser.schoolName && <p className={`text-lg text-center text-secondary ${applyBlur}`}>{otherUser.schoolName}</p>}
 
         <section className='pt-4 text-center'>
           {!isOnline &&
@@ -74,10 +80,10 @@ export default async function ViewMatchPage({
           <div className="text-lg text-primary bg-white p-2 my-4 rounded-lg shadow-md w-90">
             <h3 className="font-black text-primary text-xl">Contact:</h3>
             <Separator className='h-0.5' />
-            <p><span className='font-bold'>Email:</span> {otherUser.contact.email}</p>
-            {otherUser.contact.line && <p><span className='font-bold'>Line:</span> {otherUser.contact.line}</p>}
-            {otherUser.contact.facebook && <p><span className='font-bold'>Facebook:</span> {otherUser.contact.facebook}</p>}
-            {otherUser.contact.phone && <p><span className='font-bold'>Phone:</span> {otherUser.contact.phone}</p>}
+            <p><span className='font-bold'>Email:</span> <span className={`${applyBlur}`}>{otherUser.contact.email}</span></p>
+            {otherUser.contact.line && <p><span className='font-bold'>Line:</span> <span className={`${applyBlur}`}>{otherUser.contact.line}</span></p>}
+            {otherUser.contact.facebook && <p><span className='font-bold'>Facebook:</span> <span className={`${applyBlur}`}>{otherUser.contact.facebook}</span></p>}
+            {otherUser.contact.phone && <p><span className='font-bold'>Phone:</span> <span className={`${applyBlur}`}>{otherUser.contact.phone}</span></p>}
           </div>
           <div>
             <div className="text-lg text-primary bg-white p-2 rounded-lg shadow-md w-90">
@@ -88,7 +94,7 @@ export default async function ViewMatchPage({
               {otherUser.origin.subprovince && <p><span className='font-bold'>Subprovince:</span> <span>{otherUser.origin.subprovince}</span></p>}
               {otherUser.origin.educationArea && <p><span className='font-bold'>Education Area:</span> <span>{otherUser.origin.educationArea}</span></p>}
               <p><span className='font-bold'>Major:</span> <span>{otherUser.origin.major}</span></p>
-              {otherUser.schoolName && <p><span className='font-bold'>School:</span> <span>{otherUser.schoolName}</span></p>}
+              {otherUser.schoolName && <p><span className='font-bold'>School:</span> <span className={`${applyBlur}`}>{otherUser.schoolName}</span></p>}
             </div>
             <div className="flex justify-center mb-2">
               <span className="text-6xl font-black text-tertiary">↓</span>

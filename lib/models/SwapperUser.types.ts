@@ -9,6 +9,7 @@ export interface SwapperUserBase {
   name?: string,
   picture?: string,
   setupComplete: boolean,
+  isAdmin: boolean,
   lastLogin?: Date,
 }
 

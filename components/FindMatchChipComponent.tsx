@@ -17,6 +17,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const { otherSwapperUser, matchRequest } = match;
 
   const isOnline = isUserOnline(otherSwapperUser);
+  const applyBlur = !user?.isAdmin ? 'blur-xs select-none' : '';
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
@@ -99,12 +100,12 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
             {otherSwapperUser.nickname ? (
               <>
                 <div className="text-lg font-black">{otherSwapperUser.nickname}</div>
-                <div className="text-base font-semibold">{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
+                <div className={`text-base font-semibold ${applyBlur}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
               </>
             ) : (
-              <div className="text-lg font-black">{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
+              <div className={`text-lg font-black ${applyBlur}`}>{otherSwapperUser.firstName} {otherSwapperUser.lastName}</div>
             )}
-            <div className="text-base font-light">{otherSwapperUser.schoolName}</div>
+            <div className={`text-base font-light ${applyBlur}`}>{otherSwapperUser.schoolName}</div>
           </div>
         </div>
         <div className='mr-3 text-right'>
@@ -129,7 +130,13 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
       {requestForMe?.status === MatchRequestStatus.PENDING ? (
           <div className='text-center pb-4 px-0'>
             <Separator className='h-px bg-primary mb-4' />
-            <div className='text-white font-semibold mb-2'>{match.otherSwapperUser.nickname || match.otherSwapperUser.firstName} wants to swap with you!</div>
+            <div className='text-white font-semibold mb-2'>
+              {match.otherSwapperUser.nickname ? (
+                <span>{match.otherSwapperUser.nickname} </span>
+              ) : (
+                <span className={`${applyBlur}`}>{match.otherSwapperUser.firstName} </span>
+              )}
+              wants to swap with you!</div>
             <div>
               <SwapperButton text='Accept' styleType='tertiary' className={matchButtonStyle} useSpinner={true} onClick={() => sendAcceptRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />
               <SwapperButton text='Ignore' styleType='tertiary' className={'ml-5 text-yellow-700 border-yellow-700'} useSpinner={true} onClick={() => sendCancelRequestMatch(otherSwapperUser.id!)} setLoading$={matchLoadingState} />

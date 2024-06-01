@@ -1,5 +1,6 @@
 'use client';
 import FindMatchChip from '@/components/FindMatchChipComponent';
+import InfoComponent from '@/components/InfoComponent';
 import { MatchResult } from '@/lib/models/Match.types';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { findMatchesForUser } from '@/lib/services/client/matcher.service';
@@ -43,6 +44,9 @@ export default function MatcherPageClient(
           {/** Matches found **/}
           {matches && matches?.length > 0 && (
             <div className="w-96 mt-5">
+              {!user?.isAdmin &&
+                <InfoComponent header='NOTE:' message='personal information will be hidden during the early version' />
+              }
               {matches!.map((match) => (
                 <FindMatchChip key={match.otherSwapperUser.id} user={user} match={match} />
               ))}

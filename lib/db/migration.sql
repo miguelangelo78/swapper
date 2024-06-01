@@ -28,6 +28,7 @@ CREATE TABLE swapper_user_base (
   name VARCHAR(255) NOT NULL,
   picture TEXT,
   setup_complete BOOLEAN NOT NULL DEFAULT false,
+  is_admin BOOLEAN NOT NULL DEFAULT false,
   last_login TIMESTAMP WITH TIME ZONE,
 );
 
