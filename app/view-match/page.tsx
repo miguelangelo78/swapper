@@ -46,7 +46,7 @@ export default async function ViewMatchPage({
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-2 bg-primary">
         {applyBlur && 
-          <Info header='NOTE:' message='personal information will be blurred during early Swapper' />
+          <Info header='NOTE' message='personal information will be blurred during early Swapper' />
         }
         <div>
           <Avatar
