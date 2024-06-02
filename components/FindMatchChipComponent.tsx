@@ -16,7 +16,6 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const { matchContext } = useLayoutContext();
   const { otherSwapperUser, matchRequest } = match;
 
-  const isOnline = isUserOnline(otherSwapperUser);
   const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
   const applyBlurExtra = !user?.isAdmin ? 'blur select-none' : '';
 
@@ -25,6 +24,7 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
 
   const requestForMe = matchContext.received.matchRequests.find((mr) => mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id);
   const matchedWithMe = currentMatchRequest?.status === MatchRequestStatus.ACCEPTED || requestForMe?.status === MatchRequestStatus.ACCEPTED;
+  const isOnline = isUserOnline(otherSwapperUser) && matchedWithMe;
 
   let cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-primary shadow-primary';
   let avatarStyle = 'transition-transform border-1 border-primary hover:scale-110';
