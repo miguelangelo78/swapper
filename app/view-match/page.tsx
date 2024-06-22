@@ -5,7 +5,7 @@ import { getMatchRequestsForMe, getMatchRequestsFromMe } from '@/lib/db/match_re
 import { redirect } from 'next/navigation';
 import Separator from '@/components/SeparatorComponent';
 import { Avatar } from '@nextui-org/react';
-import { isUserOnline } from '@/lib/utils';
+import { checkApplyBlur, isUserOnline } from '@/lib/utils';
 import Info from '@/components/InfoComponent';
 import SendMessageButton from './SendMessageButtonComponent';
 
@@ -20,8 +20,8 @@ export default async function ViewMatchPage({
 
   const user = await getSwapperUser();
 
-  const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
-  const applyBlurExtra = !user?.isAdmin ? 'blur select-none' : '';
+  const applyBlur = checkApplyBlur(user) ? 'blur-sm select-none' : '';
+  const applyBlurExtra = applyBlur ? 'blur select-none' : '';
   
   const otherUserId = +(searchParams['otherUserId']?.toString()! ?? 0);
 

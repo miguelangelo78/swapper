@@ -8,7 +8,7 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import { useLayoutContext } from './layout/LayoutClient';
 import Separator from './SeparatorComponent';
 import { useRouter } from 'next/navigation';
-import { isUserOnline } from '@/lib/utils';
+import { checkApplyBlur, isUserOnline } from '@/lib/utils';
 
 export default function FindMatchChip({ match, user }: { match: MatchResult, user: SwapperUser }) {
   const router = useRouter();
@@ -16,8 +16,8 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const { matchContext } = useLayoutContext();
   const { otherSwapperUser, matchRequest } = match;
 
-  const applyBlur = !user?.isAdmin ? 'blur-sm select-none' : '';
-  const applyBlurExtra = !user?.isAdmin ? 'blur select-none' : '';
+  const applyBlur = checkApplyBlur(user) ? 'blur-sm select-none' : '';
+  const applyBlurExtra = applyBlur ? 'blur select-none' : '';
 
   const [currentMatchRequest, setCurrentMatchRequest] = useState<MatchRequest | undefined>(matchRequest);
   const [matchLoadingState] = useState(new Subject<boolean>());
