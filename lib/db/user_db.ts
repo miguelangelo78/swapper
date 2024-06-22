@@ -437,7 +437,7 @@ export async function findMatchesForUser(user: SwapperUser): Promise<SwapperUser
       filterSublocation(
         user.destination.subprovince, user.destination.educationArea,
         match.transition_origin.subprovince, match.transition_origin.educationArea,
-      )
+      ) && match.swapper_user_base.id !== user.id;
   });
 
   return filteredMatches.map(mapRowToSwapperUser);
