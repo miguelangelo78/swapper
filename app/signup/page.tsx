@@ -7,7 +7,11 @@ import Layout from '@/components/layout/LayoutServer';
 import SocialSign from '@/components/SocialSign';
 import { User } from 'next-auth';
 
-export default function Login() {
+const ERROR_EMAIL_EXISTS = 'That email already exists.';
+
+export default function Login({ searchParams }: { searchParams: any }) {
+  const { error } = searchParams;
+
   async function signup(formData: FormData) {
     'use server';
     let email = formData.get('email') as string;
@@ -23,7 +27,7 @@ export default function Login() {
     }
 
     if (user) {
-      return 'User already exists'; // TODO: Handle errors with useFormStatus
+      redirect(`/signup?error=${ERROR_EMAIL_EXISTS}`);
     } else {
       const newUser = {
         email,
@@ -48,13 +52,17 @@ export default function Login() {
             </p>
           </div>
           <Form action={signup}>
+            {error === ERROR_EMAIL_EXISTS && (
+              <p className="text-white bg-red-500 text-md text-center">{error}</p>
+            )}
+
             <div className='bg-primary text-white font-medium rounded-lg'>
               <SubmitButton className='h-10'>Sign Up</SubmitButton>
             </div>
             <p className="text-center text-sm text-gray-600">
               {'Already have an account? '}
               <Link href="/login" className="font-semibold text-gray-800">
-                Sign in
+                Login
               </Link>
               {' instead.'}
             </p>

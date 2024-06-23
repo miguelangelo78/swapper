@@ -5,6 +5,7 @@ import { compare } from 'bcrypt-ts';
 import { authConfig } from 'app/auth.config';
 import { createUser, getUserBase, updateUserBaseLastLogin } from '../lib/db/user_db';
 import { expireSessionUser } from '@/lib/services/session.service';
+import { AccountType } from '@/lib/models/SwapperUser.types';
 
 export const {
   handlers: { GET, POST },
@@ -33,7 +34,7 @@ export const {
       if (user.email) {
         const dbUser = await getUserBase(user.email);
         if (!dbUser) {
-          await createUser(user, '');
+          await createUser(user, undefined, AccountType.GOOGLE);
         } else {
           // Update lastLogin:
           await updateUserBaseLastLogin(dbUser);

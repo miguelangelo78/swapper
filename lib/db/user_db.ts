@@ -1,9 +1,11 @@
-import { pgTable, serial, varchar, boolean, text, integer, timestamp, alias } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, boolean, text, integer, timestamp, alias, pgEnum } from 'drizzle-orm/pg-core';
 import { genSaltSync, hashSync } from 'bcrypt-ts';
 import { and, eq } from 'drizzle-orm';
 import { User } from 'next-auth';
-import { Contact, SwapperUser, SwapperUserBase, Transition } from '@/lib/models/SwapperUser.types';
+import { AccountType, Contact, SwapperUser, SwapperUserBase, Transition } from '@/lib/models/SwapperUser.types';
 import { db } from './db_client';
+
+export const accountTypeEnum = pgEnum('account_type', ['DEFAULT', 'GOOGLE']);
 
 const swapperUserBase = pgTable('swapper_user_base', {
   id: serial('id').primaryKey(),
@@ -16,6 +18,7 @@ const swapperUserBase = pgTable('swapper_user_base', {
   setupComplete: boolean('setup_complete'),
   isAdmin: boolean('is_admin'),
   lastLogin: timestamp('last_login'),
+  accountType: accountTypeEnum('account_type'),
 });
 
 export const swapperUser = pgTable('swapper_user', {
@@ -68,6 +71,7 @@ export async function getUserBase(email: string): Promise<SwapperUserBase | unde
     setupComplete: result.setupComplete!,
     isAdmin: result.isAdmin!,
     password: result.password!,
+    accountType: result.accountType as AccountType,
   };
 }
 
@@ -114,6 +118,7 @@ export async function getUser({
     setupComplete: user.swapper_user_base.setupComplete!,
     isAdmin: user.swapper_user_base.isAdmin!,
     lastLogin: new Date(user.swapper_user_base.lastLogin!),
+    accountType: user.swapper_user_base.accountType as AccountType,
     firstName: user.swapper_user.firstName!,
     lastName: user.swapper_user.lastName!,
     nickname: user.swapper_user.nickname!,
@@ -179,6 +184,7 @@ function mapRowToSwapperUser(row: any): SwapperUser {
     setupComplete: row.swapper_user_base.setupComplete!,
     isAdmin: row.swapper_user_base.isAdmin!,
     lastLogin: new Date(row.swapper_user_base.lastLogin!),
+    accountType: row.swapper_user_base.accountType as AccountType,
     firstName: row.swapper_user.firstName!,
     lastName: row.swapper_user.lastName!,
     nickname: row.swapper_user.nickname!,
@@ -215,9 +221,9 @@ function mapRowToSwapperUser(row: any): SwapperUser {
   };
 }
 
-export async function createUser(authUser: User, password: string): Promise<number> {
+export async function createUser(authUser: User, password?: string, accountType?: AccountType): Promise<number> {
   let salt = genSaltSync(10);
-  let hash = hashSync(password, salt);
+  let hash = password ? hashSync(password, salt) : '';
 
   const userBase: SwapperUserBase = {
     email: authUser.email!,
@@ -226,6 +232,7 @@ export async function createUser(authUser: User, password: string): Promise<numb
     password: hash,
     setupComplete: false,
     isAdmin: false,
+    accountType,
   };
 
   const result = await db.insert(swapperUserBase).values(userBase).returning({ id: swapperUserBase.id });

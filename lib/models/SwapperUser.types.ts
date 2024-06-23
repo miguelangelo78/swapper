@@ -1,5 +1,10 @@
 import { SetupFormData } from "@/components/setup-wizard/SetupFormWizardComponent";
 
+export enum AccountType {
+  DEFAULT = 'DEFAULT',
+  GOOGLE = 'GOOGLE',
+}
+
 export interface SwapperUserBase {
   id?: number,
   updatedAt?: Date,
@@ -11,6 +16,7 @@ export interface SwapperUserBase {
   setupComplete: boolean,
   isAdmin: boolean,
   lastLogin?: Date,
+  accountType?: AccountType,
 }
 
 export interface SwapperUser extends SwapperUserBase {

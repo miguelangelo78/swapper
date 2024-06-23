@@ -19,6 +19,11 @@ CREATE TABLE contact (
   phone VARCHAR(20),
 );
 
+CREATE TYPE user_account_type AS ENUM (
+  'DEFAULT',
+  'GOOGLE'
+);
+
 CREATE TABLE swapper_user_base (
   id SERIAL PRIMARY KEY,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -30,6 +35,7 @@ CREATE TABLE swapper_user_base (
   setup_complete BOOLEAN NOT NULL DEFAULT false,
   is_admin BOOLEAN NOT NULL DEFAULT false,
   last_login TIMESTAMP WITH TIME ZONE,
+  account_type user_account_type,
 );
 
 CREATE TABLE swapper_user (
@@ -71,14 +77,14 @@ EXECUTE PROCEDURE update_modified_column();
 
 -- Match notifications:
 CREATE TYPE match_request_status AS ENUM (
-    'PENDING',
-    'ACCEPTED',
-    'ACCEPTED_ACK',
-    'REJECTED',
-    'IGNORED',
-    'EXPIRED',
-    'CANCELLED',
-    'SWAPPED',
+  'PENDING',
+  'ACCEPTED',
+  'ACCEPTED_ACK',
+  'REJECTED',
+  'IGNORED',
+  'EXPIRED',
+  'CANCELLED',
+  'SWAPPED',
 );
 
 -- Create the match_request table
