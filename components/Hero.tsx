@@ -10,14 +10,16 @@ export const Hero = ({ title, description, buttons, imageUrl }: { title: string,
   return (
     <div className='hero'>
       <section className="container mx-auto flex flex-col md:flex-row items-center justify-center min-h-screen p-4 sm:mt-20 md:mt-0">
-        <div className="hero-header flex-1 text-left md:text-center mb-8 md:mb-0">
-          <div className="hero-title text-4xl font-bold mb-4">{title}</div>
-          <p className="text-xl mb-4">{description}</p>
+        <div className="hero-header flex-1 text-left md:text-center space-x-10">
+          <div>
+            <div className="hero-title text-4xl font-bold mb-4">{title}</div>
+            <p className="text-xl mb-4">{description}</p>
+          </div>
           <div className='items-center'>
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center md:space-y-0 md:space-x-4">
               {buttons.map((button, index) => (
                 <a key={index}
-                  className={`${button.buttonStyle} sm:px-16`}
+                  className={`${button.buttonStyle} my-2 sm:px-16`}
                   href={button.buttonLink}
                 >
                   {button.buttonText}

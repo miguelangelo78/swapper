@@ -35,11 +35,6 @@ body {
   color: white;
 }
 
-.hero-image > img {
-  width: auto;
-  height: 600px;
-}
-
 .hero-title {
   text-shadow: 2px 2px 4px #6D3AFA;
 }
@@ -52,7 +47,6 @@ body {
   .hero-header {
     text-align: center;
     justify-content: center;
-    margin-bottom: 4rem;
   }
 }
 
