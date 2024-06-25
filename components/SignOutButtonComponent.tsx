@@ -3,7 +3,7 @@ import { signOut } from 'next-auth/react';
 
 export default function SignOutButton() {
   const handleLogout = async () => {
-    await signOut({ redirect: true, callbackUrl: '/' });
+    await signOut({ redirect: true, callbackUrl: '/login' });
   };
 
   return (

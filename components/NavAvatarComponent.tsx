@@ -74,7 +74,7 @@ export default function NavAvatar({ user }: { user: SwapperUser }) {
         router.push("/setup");
         break;
       case "logout":
-        await signOut({ redirect: true, callbackUrl: '/' });
+        await signOut({ redirect: true, callbackUrl: '/login' });
         break;
       default:
         break;
