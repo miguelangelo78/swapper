@@ -60,11 +60,18 @@ export default function Login({ searchParams }: { searchParams: any }) {
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-3 px-4 py-6 pt-8 text-center sm:px-16">
         <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-primary shadow-xl">
-          <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-tertiary px-4 py-6 pt-8 text-center sm:px-16">
+          <div className="flex flex-col items-center justify-center space-y-3 bg-tertiary px-4 py-6 pt-8 text-center sm:px-16">
             <h3 className="text-xl font-semibold">Login to Swapper</h3>
             <p className="text-sm text-gray-500">
               Use your email and password to login
             </p>
+          </div>
+          <div className="bg-tertiary">
+            <div className="flex items-center justify-center font-medium w-full">
+              <div className='w-2/4'>
+                <SocialSign isLogin={true} />
+              </div>
+            </div>
           </div>
           <Form action={handleSignIn}>
             {ERRORS.includes(error) && (
@@ -81,7 +88,6 @@ export default function Login({ searchParams }: { searchParams: any }) {
             </p>
           </Form>
 
-          <SocialSign isLogin={true} />
         </div>
       </div>
     </Layout>

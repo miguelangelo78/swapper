@@ -51,6 +51,13 @@ export default function Login({ searchParams }: { searchParams: any }) {
               Create an account with your email and password
             </p>
           </div>
+          <div className="bg-tertiary">
+            <div className="flex items-center justify-center font-medium w-full">
+              <div className='w-2/4'>
+                <SocialSign isLogin={true} />
+              </div>
+            </div>
+          </div>
           <Form action={signup}>
             {error === ERROR_EMAIL_EXISTS && (
               <p className="text-white bg-red-500 text-md text-center">{error}</p>
@@ -67,8 +74,6 @@ export default function Login({ searchParams }: { searchParams: any }) {
               {' instead.'}
             </p>
           </Form>
-
-          <SocialSign />
         </div>
       </div>
     </Layout>
