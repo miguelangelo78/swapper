@@ -68,7 +68,7 @@ export default function Login({ searchParams }: { searchParams: any }) {
           </div>
           <div className="bg-tertiary">
             <div className="flex items-center justify-center font-medium w-full">
-              <div className='w-2/4'>
+              <div className='w-3/5'>
                 <SocialSign isLogin={true} />
               </div>
             </div>
