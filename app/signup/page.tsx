@@ -45,7 +45,7 @@ export default function Login({ searchParams }: { searchParams: any }) {
     <Layout>
       <div className="flex flex-col items-center justify-center space-y-3 px-4 py-6 pt-8 text-center sm:px-16">
         <div className="z-10 w-full max-w-md overflow-hidden rounded-2xl border border-primary shadow-xl">
-          <div className="flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-tertiary px-4 py-6 pt-8 text-center sm:px-16">
+          <div className="flex flex-col items-center justify-center space-y-3 bg-tertiary px-4 py-6 pt-8 text-center sm:px-16">
             <h3 className="text-xl font-semibold">Sign Up to Swapper</h3>
             <p className="text-sm text-gray-500">
               Create an account with your email and password
