@@ -43,7 +43,7 @@ export default function MatcherPageClient(
       });
 
       const successfulMatches = matches.filter((match) => {
-        const requestFromMe = matchContext.sent.matchRequests.find((mr) => (mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id)
+        const requestFromMe = [...matchContext.sent.matchRequests, ...matchContext.received.matchRequests].find((mr) => (mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id)
           || (mr.otherUserId === match.otherSwapperUser.id && mr.myUserId === user.id));
         return requestFromMe?.status === MatchRequestStatus.ACCEPTED;
       });
