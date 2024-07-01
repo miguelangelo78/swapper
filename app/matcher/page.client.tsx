@@ -1,8 +1,10 @@
 'use client';
 import FindMatchChip from '@/components/FindMatchChipComponent';
 import Info from '@/components/InfoComponent';
-import { MatchResult } from '@/lib/models/Match.types';
+import { useLayoutContext } from '@/components/layout/LayoutClient';
+import { MatchRequestStatus, MatchResult } from '@/lib/models/Match.types';
 import { SwapperUser } from '@/lib/models/SwapperUser.types';
+import { ENABLE_BLUR_NOTICE } from '@/lib/models/globals';
 import { findMatchesForUser } from '@/lib/services/client/matcher.service';
 import { Spinner } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
@@ -14,6 +16,8 @@ export type MatcherPageClientProps = {
 export default function MatcherPageClient(
   { user }: MatcherPageClientProps,
 ) {
+  const { matchContext } = useLayoutContext();
+
   // Load matches from API using useState:
   const [matches, setMatches] = useState<MatchResult[] | undefined>(undefined);
 
@@ -21,7 +25,43 @@ export default function MatcherPageClient(
     : user.destination.subprovince ? user.destination.subprovince : user.destination.educationArea;
 
   useEffect(() => {
-    findMatchesForUser().then(setMatches);
+    findMatchesForUser().then((matches) => {
+      // Sort matches first. This is the sorting logic:
+      // 1: Match invitations for me
+      // 2: Match requests from me that are pending
+      // 3: Successful matches
+      // 4: Potential matches
+
+      const matchInvitationsForMe = matches.filter((match) => {
+        const requestForMe = matchContext.received.matchRequests.find((mr) => mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id);
+        return requestForMe?.status === MatchRequestStatus.PENDING;
+      });
+
+      const matchRequestsFromMe = matches.filter((match) => {
+        const requestFromMe = matchContext.sent.matchRequests.find((mr) => mr.otherUserId === match.otherSwapperUser.id && mr.myUserId === user.id);
+        return requestFromMe?.status === MatchRequestStatus.PENDING;
+      });
+
+      const successfulMatches = matches.filter((match) => {
+        const requestFromMe = matchContext.sent.matchRequests.find((mr) => (mr.otherUserId === user.id && mr.myUserId === match.otherSwapperUser.id)
+          || (mr.otherUserId === match.otherSwapperUser.id && mr.myUserId === user.id));
+        return requestFromMe?.status === MatchRequestStatus.ACCEPTED;
+      });
+      
+      // Everything else goes into potentialMatches:
+      const potentialMatches = matches.filter((match) => {
+        return !matchInvitationsForMe.includes(match) && !matchRequestsFromMe.includes(match) && !successfulMatches.includes(match);
+      });
+
+      const sortedMatches = [
+        ...matchInvitationsForMe,
+        ...matchRequestsFromMe,
+        ...successfulMatches,
+        ...potentialMatches,
+      ]
+
+      setMatches(sortedMatches);
+    });
   }, []);
 
   return (
@@ -44,7 +84,7 @@ export default function MatcherPageClient(
           {/** Matches found **/}
           {matches && matches?.length > 0 && (
             <div className="w-96 mt-5">
-              {!user?.isAdmin &&
+              {(!user?.isAdmin && ENABLE_BLUR_NOTICE) &&
                 <Info header='NOTE' message='personal information will be blurred during early Swapper' />
               }
               {matches!.map((match) => (

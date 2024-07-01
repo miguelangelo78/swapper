@@ -26,20 +26,20 @@ export default function FindMatchChip({ match, user }: { match: MatchResult, use
   const matchedWithMe = currentMatchRequest?.status === MatchRequestStatus.ACCEPTED || requestForMe?.status === MatchRequestStatus.ACCEPTED;
   const isOnline = isUserOnline(otherSwapperUser) && matchedWithMe;
 
-  let cardStyle = 'bg-secondary text-primary my-3 shadow-md border border-primary shadow-primary';
+  let cardStyle = 'rounded-md bg-secondary text-primary my-3 border border-primary';
   let avatarStyle = 'transition-transform border-1 border-primary hover:scale-110';
   let matchButtonStyle = '';
 
   if (requestForMe?.status === MatchRequestStatus.PENDING) {
     // This request is for me!
-    cardStyle = 'bg-indigo-100 text-primary my-3 shadow-md border border-indigo-600 shadow-indigo-500';
+    cardStyle = 'rounded-md bg-indigo-100 text-primary my-3 border border-indigo-600';
     avatarStyle = 'transition-transform border-1 border-indigo-600 hover:scale-110';
   } else if(matchedWithMe) {
-    cardStyle = 'bg-green-200 text-primary my-3 shadow-md border border-green-600 shadow-green-500';
+    cardStyle = 'rounded-md bg-green-200 text-primary my-3 border border-green-600';
     avatarStyle = 'transition-transform border-1 border-green-600 hover:scale-110';
   } else {
     if (currentMatchRequest?.status === MatchRequestStatus.PENDING) {
-      cardStyle = 'bg-tertiary text-primary my-3 shadow-md border border-yellow-600 shadow-yellow-500';
+      cardStyle = 'rounded-md bg-tertiary text-primary my-3 border border-yellow-600';
       avatarStyle = 'transition-transform border-1 border-yellow-600 hover:scale-110';
       matchButtonStyle = 'text-white bg-yellow-500 border-yellow-600';
     }
