@@ -20,11 +20,16 @@ export default function MatcherPageClient(
 
   // Load matches from API using useState:
   const [matches, setMatches] = useState<MatchResult[] | undefined>(undefined);
+  const [searchDone, setSearchDone] = useState(false);
 
   const subLocation = !user.destination.subprovince && !user.destination.educationArea ? 'All areas and subprovinces' 
     : user.destination.subprovince ? user.destination.subprovince : user.destination.educationArea;
 
   useEffect(() => {
+    if (searchDone) {
+      return;
+    }
+
     findMatchesForUser().then((matches) => {
       // Sort matches first. This is the sorting logic:
       // 1: Match invitations for me
@@ -61,6 +66,7 @@ export default function MatcherPageClient(
       ]
 
       setMatches(sortedMatches);
+      setSearchDone(true); // Mark the search as done
     });
   }, []);
 

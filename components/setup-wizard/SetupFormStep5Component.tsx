@@ -5,6 +5,7 @@ import { SwapperButton } from '../SwapperButton';
 import { completeSetup } from '@/lib/services/client/user.service';
 import { useRouter } from 'next/navigation';
 import imageCompression from 'browser-image-compression';
+import Image from 'next/image';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -60,7 +61,7 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
       </div>
       <div className="w-full flex justify-center">
         {profileImage ? (
-          <img src={profileImage} alt="Profile" className="w-40 h-40 rounded-full object-cover object-center cursor-pointer" onClick={triggerFileInput} />
+          <Image src={profileImage} alt="Profile" width={400} height={400} className="w-40 h-40 rounded-full object-cover object-center cursor-pointer" onClick={triggerFileInput} />
         ) : (
           <div className="text-lg text-gray-400">No image selected</div>
         )}
