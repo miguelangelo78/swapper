@@ -4,6 +4,7 @@ import { SelectOptionType } from './SetupFormWizardComponent';
 import { SwapperButton } from '../SwapperButton';
 import { completeSetup } from '@/lib/services/client/user.service';
 import { useRouter } from 'next/navigation';
+import imageCompression from 'browser-image-compression';
 
 export default function SetupFormStep5Component({ user, formData, handleInputChange, handleSubmit, handlePreviousStep }: {
   user: SwapperUser,
@@ -22,15 +23,23 @@ export default function SetupFormStep5Component({ user, formData, handleInputCha
     }
   }, [formData.profileImage]);
 
-  const handleImageChange = (event: any) => {
+  const handleImageChange = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
+      // Compress the image
+      const options = {
+        maxSizeMB: 1,          // Maximum file size in MB
+        maxWidthOrHeight: 500, // Maximum width or height
+        useWebWorker: true,    // Use web workers for better performance
+      };
+      const compressedFile = await imageCompression(file, options);
+
       const reader = new FileReader();
       reader.onload = (e) => {
         setProfileImage(e.target!.result as string);  // Update local state with new image
-        handleInputChange({ name: 'profileImage', value: e.target!.result as any});  // Update formData state in parent component
+        handleInputChange({ name: 'profileImage', value: e.target!.result as any }); // Update formData state in parent component
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(compressedFile);
     }
   };
 
