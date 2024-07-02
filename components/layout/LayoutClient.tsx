@@ -6,6 +6,7 @@ import { SwapperUser } from '@/lib/models/SwapperUser.types';
 import Nav from '../NavComponent';
 import { MatchContext } from '@/lib/models/Match.types';
 import React, { createContext, useContext } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const LayoutContext = createContext({ matchContext: {} as MatchContext });
 
@@ -27,6 +28,7 @@ export default function LayoutClient({ children, swapperUser, matchContext, igno
               <Footer />
             }
           </div>
+          <SpeedInsights/>
         </SessionProvider>
       </NextUIProvider>
     </LayoutContext.Provider>
