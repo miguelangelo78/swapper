@@ -23,7 +23,7 @@ export default function MatcherPageClient(
   const [searchDone, setSearchDone] = useState(false);
 
   const subLocation = !user.destination.subprovince && !user.destination.educationArea ? 'All areas and subprovinces' 
-    : user.destination.subprovince ? user.destination.subprovince : user.destination.educationArea;
+    : user.destination.subprovince ? user.destination.subprovince : `Education area ${user.destination.educationArea}`;
 
   useEffect(() => {
     if (searchDone) {
